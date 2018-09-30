@@ -1,0 +1,41 @@
+<div class="row pb-2">
+    <div class="col">
+        <input type="text" id="txtMoroso" class="form-control" placeholder="Nombre">
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <textarea title="Queja" name="queja" id="txtQueja" class="form-control" placeholder="Mensaje"></textarea>
+    </div>
+</div>
+<div class="row pb-3">
+    <div class="col offset-7">
+        <span onclick="publish()" class="btn btn-block btn-primary">Publicar</span>
+    </div>
+</div>
+<div class="container-fluid" id="quejas">
+
+</div>
+<script>
+    function publish() {
+        const data = {
+            mensaje: $("#txtQueja").val(),
+            usuario: '',
+            moroso: $("#txtMoroso").val()
+        };
+
+        if (!data.moroso) {
+            alert('Ingrese un nombre');
+            return;
+        }
+        if (!data.mensaje) {
+            alert('Ingrese un mensaje');
+            return;
+        }
+
+        $.get(`templates/queja.html`, function (template) {
+            var rendered = Mustache.render(template, data);
+            $("#quejas").prepend(rendered);
+        });
+    }
+</script>
