@@ -1,0 +1,3 @@
+$(function () {
+    navigate('dashboard.html');
+});
