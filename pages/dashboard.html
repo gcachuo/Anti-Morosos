@@ -1,15 +1,15 @@
 <div class="row pb-2">
-    <div class="col">
+    <div class="col col-lg-4 offset-lg-4">
         <input type="text" id="txtMoroso" class="form-control" placeholder="Nombre">
     </div>
 </div>
 <div class="row pb-2">
-    <div class="col">
+    <div class="col col-lg-4 offset-lg-4">
         <textarea title="Queja" name="queja" id="txtQueja" class="form-control" placeholder="Mensaje"></textarea>
     </div>
 </div>
 <div class="row pb-3">
-    <div class="col offset-7">
+    <div class="col offset-7 col-lg-2 offset-lg-6">
         <span onclick="publish()" class="btn btn-block btn-primary">Publicar</span>
     </div>
 </div>
@@ -36,6 +36,9 @@
         $.get(`templates/queja.html`, function (template) {
             var rendered = Mustache.render(template, data);
             $("#quejas").prepend(rendered);
+
+            $("#txtQueja").val('');
+            $("#txtMoroso").val('');
         });
     }
 </script>
