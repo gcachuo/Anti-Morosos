@@ -1,0 +1,8 @@
+body {
+    background: rgba(128, 128, 128, 0.2);
+}
+
+#container {
+    background: white;
+    height: calc(100vh - 56px);
+}
