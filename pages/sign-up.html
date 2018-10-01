@@ -1,0 +1,55 @@
+<h3>Registrarse</h3>
+<div class="row pb-2">
+    <div class="col">
+        <input type="text" id="txtNombre" class="form-control" placeholder="Nombre">
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <input type="text" id="txtUsuario" class="form-control" placeholder="Usuario">
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <input type="password" id="txtPassword" class="form-control" placeholder="Contraseña">
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <input type="password" id="txtVerifyPass" class="form-control" placeholder="Repetir Contraseña">
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-3">
+        <span onclick="sign_up()" class="btn btn-block btn-primary">Registrarse</span>
+    </div>
+</div>
+<script>
+    function sign_up() {
+        const data = {
+            nombre: $("#txtNombre").val(),
+            usuario: $("#txtUsuario").val(),
+            password: $("#txtPassword").val(),
+            verifyPass: $("#txtVerifyPass").val()
+        };
+
+        if (!data.nombre || !data.usuario || !data.password) {
+            alert('Llene todos los campos');
+            return;
+        }
+
+        if (data.password !== data.verifyPass) {
+            alert('Las contraseñas no coinciden');
+            return;
+        }
+
+        localStorage.setItem('user.id', 1);
+        localStorage.setItem('user.usuario', data.usuario);
+        localStorage.setItem('user.name', data.nombre);
+
+        $(".logged").show();
+        $(".noUser").hide();
+
+        navigate('dashboard.html');
+    }
+</script>

@@ -27,7 +27,11 @@
         }
 
         localStorage.setItem('user.id', 1);
-        localStorage.setItem('user.name', "Memo Cachú");
+        localStorage.setItem('user.usuario', data.usuario);
+        localStorage.setItem('user.name', null);
+
+        $(".logged").show();
+        $(".noUser").hide();
 
         navigate('dashboard.html');
     }

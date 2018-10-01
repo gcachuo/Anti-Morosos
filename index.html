@@ -11,7 +11,13 @@
 </head>
 <nav class="navbar navbar-light bg-light">
     <span onclick="navigate('dashboard.html')" title="Dashboard" class="navbar-brand btn btn-sm ">Anti-Morosos</span>
-    <span onclick="navigate('sign-in.html')" title="Sign in" class="btn btn-sm material-icons">person</span>
+    <span class="noUser">
+        <span onclick="navigate('sign-up.html')" title="Sign up" class="btn btn-sm material-icons">person_add</span>
+        <span onclick="navigate('sign-in.html')" title="Sign in" class="btn btn-sm material-icons">person</span>
+    </span>
+    <span class="logged">
+        <span onclick="sign_out()" title="Sign out" class="btn btn-sm material-icons">lock</span>
+    </span>
 </nav>
 <body>
 <div id="container" class="container-fluid pt-3 col-lg-6 offset-lg-3">
@@ -24,4 +30,29 @@
 <script src="assets/mustache/mustache.min.js"></script>
 
 <script src="js/main.js"></script>
+
+<script>
+    $(function () {
+        if (localStorage.getItem('user.id')) {
+            $(".logged").show();
+            $(".noUser").hide();
+        }
+        else {
+            $(".logged").hide();
+            $(".noUser").show();
+        }
+
+        navigate('dashboard.html');
+    });
+
+    function sign_out() {
+        if (confirm('¿Desea cerrar la sesión?')) {
+            localStorage.clear();
+            $(".logged").hide();
+            $(".noUser").show();
+            navigate('dashboard.html');
+        }
+    }
+</script>
+
 </html>
