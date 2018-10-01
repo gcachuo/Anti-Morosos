@@ -1,0 +1,34 @@
+<h3>Iniciar Sesión</h3>
+<div class="row pb-2">
+    <div class="col">
+        <input type="text" id="txtUsuario" class="form-control" placeholder="Usuario">
+    </div>
+</div>
+<div class="row pb-2">
+    <div class="col">
+        <input type="password" id="txtPassword" class="form-control" placeholder="Contraseña">
+    </div>
+</div>
+<div class="row">
+    <div class="col-6 offset-3">
+        <span onclick="sign_in()" class="btn btn-block btn-primary">Accesar</span>
+    </div>
+</div>
+<script>
+    function sign_in() {
+        const data = {
+            usuario: $("#txtUsuario").val(),
+            password: $("#txtPassword").val()
+        };
+
+        if (!data.usuario || !data.password) {
+            alert('Llene todos los datos');
+            return;
+        }
+
+        localStorage.setItem('user.id', 1);
+        localStorage.setItem('user.name', "Memo Cachú");
+
+        navigate('dashboard.html');
+    }
+</script>

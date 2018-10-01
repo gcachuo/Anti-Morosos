@@ -1,28 +1,45 @@
-<h3>Publicar una queja</h3>
-<div class="row pb-2">
-    <div class="col">
-        <input type="text" id="txtMoroso" class="form-control" placeholder="Nombre">
+<form>
+    <h3>Publicar una queja</h3>
+    <div class="row pb-2">
+        <div class="col">
+            <input type="text" id="txtMoroso" class="form-control" placeholder="Nombre">
+        </div>
     </div>
-</div>
-<div class="row pb-2">
-    <div class="col">
-        <textarea title="Queja" name="queja" id="txtQueja" class="form-control" placeholder="Mensaje"></textarea>
+    <div class="row pb-2">
+        <div class="col">
+            <textarea title="Queja" name="queja" id="txtQueja" class="form-control" placeholder="Mensaje"></textarea>
+        </div>
     </div>
-</div>
-<div class="row pb-3">
-    <div class="col offset-7">
-        <span onclick="publish()" class="btn btn-block btn-primary">Publicar</span>
+    <div class="row pb-3">
+        <div class="col offset-7">
+            <span onclick="publish()" class="btn btn-block btn-primary">Publicar</span>
+        </div>
     </div>
+</form>
+<div id="alertSignIn" style="display: none;" class="alert alert-danger" role="alert">
+    Inicie sesión para publicar una queja.
 </div>
 <div class="container-fluid" id="quejas">
-
+    <div id="alertNoPosts" class="alert alert-primary" role="alert">
+        No hay quejas publicadas.
+    </div>
 </div>
 <script>
+    $(function () {
+        if (!localStorage.getItem('user.id')) {
+            $("form").hide();
+            $("#alertSignIn").show();
+        }
+    });
+
     function publish() {
         const data = {
             mensaje: $("#txtQueja").val(),
-            usuario: '',
-            moroso: $("#txtMoroso").val()
+            moroso: $("#txtMoroso").val(),
+            usuario: {
+                id: localStorage.getItem('user.id'),
+                name: localStorage.getItem('user.name')
+            }
         };
 
         if (!data.moroso) {
@@ -40,6 +57,8 @@
 
             $("#txtQueja").val('');
             $("#txtMoroso").val('');
+
+            $("#alertNoPosts").hide();
         });
     }
 </script>
