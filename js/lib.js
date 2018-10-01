@@ -1,6 +1,0 @@
-function navigate(page, data) {
-    $.get(`pages/${page}`, function (template) {
-        var rendered = Mustache.render(template, data);
-        $('body').html(rendered);
-    });
-}
