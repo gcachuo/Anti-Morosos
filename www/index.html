@@ -33,24 +33,13 @@
 
 <script>
     $(function () {
-        if (localStorage.getItem('user.id')) {
-            $(".logged").show();
-            $(".noUser").hide();
-        }
-        else {
-            $(".logged").hide();
-            $(".noUser").show();
-        }
-
         navigate('dashboard.html');
     });
 
     function sign_out() {
         if (confirm('¿Desea cerrar la sesión?')) {
             localStorage.clear();
-            $(".logged").hide();
-            $(".noUser").show();
-            navigate('dashboard.html');
+            navigate('sign-in.html');
         }
     }
 </script>

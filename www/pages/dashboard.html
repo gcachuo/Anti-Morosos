@@ -26,9 +26,15 @@
 </div>
 <script>
     $(function () {
-        if (!localStorage.getItem('user.id')) {
-            $("form").hide();
-            $("#alertSignIn").show();
+        if (localStorage.getItem('user.id')) {
+            $(".logged").show();
+            $(".noUser").hide();
+            navigate('dashboard.html');
+        }
+        else {
+            $(".logged").hide();
+            $(".noUser").show();
+            navigate('sign-in.html');
         }
     });
 
