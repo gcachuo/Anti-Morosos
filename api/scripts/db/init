@@ -19,7 +19,8 @@ CREATE TABLE complaints
     payer_id bigint(20) NOT NULL,
     user_id bigint(20) NOT NULL,
     complaint_message varchar(255) NOT NULL,
-    complaint_status bit DEFAULT b'1' NOT NULL
+    complaint_date timestamp DEFAULT CURRENT_TIMESTAMP,
+    complaint_status bit(1) DEFAULT b'1' NOT NULL
 );
 sql;
 
@@ -30,7 +31,6 @@ CREATE TABLE payers
     payer_name varchar(100) NOT NULL,
     payer_status bit DEFAULT b'1' NOT NULL
 );
-CREATE UNIQUE INDEX payers_payer_name_uindex ON payers (payer_name);
 sql;
 
 

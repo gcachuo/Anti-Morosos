@@ -25,7 +25,7 @@ function request(controller, action, data) {
         error: response => {
             const error = response.responseJSON.error || '';
             if (response.responseJSON.code === 400) {
-                alert(error.errstr);
+                alert(error.message);
             }
             else if(response.responseJSON.code === 500){
                 alert('An error ocurred. Contact support.');
