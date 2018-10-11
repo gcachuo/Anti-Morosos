@@ -9,6 +9,7 @@
 $version = '181008';
 
 require "libs/system.php";
+require "libs/database.php";
 
 setcookie('XDEBUG_SESSION', 'PHPSTORM');
 ini_set('display_errors', 1);
