@@ -41,7 +41,7 @@ sql;
     function fetch()
     {
         $sql = <<<sql
-select payer_name payer, user_username username, complaint_message message
+select payer_name payer, user_username username, complaint_message message, complaint_date date
 from complaints c
        inner join payers p on p.payer_id = c.payer_id
        inner join users u on u.user_id = c.user_id
