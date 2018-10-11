@@ -12,5 +12,29 @@ CREATE TABLE users
 );
 sql;
 
+$complaints = <<<sql
+CREATE TABLE complaints
+(
+    complaint_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    payer_id bigint(20) NOT NULL,
+    user_id bigint(20) NOT NULL,
+    complaint_message varchar(255) NOT NULL,
+    complaint_status bit DEFAULT b'1' NOT NULL
+);
+sql;
+
+$payers = <<<sql
+CREATE TABLE payers
+(
+    payer_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    payer_name varchar(100) NOT NULL,
+    payer_status bit DEFAULT b'1' NOT NULL
+);
+CREATE UNIQUE INDEX payers_payer_name_uindex ON payers (payer_name);
+sql;
+
+
 require "libs/database.php";
 db_query($users);
+db_query($complaints);
+db_query($payers);

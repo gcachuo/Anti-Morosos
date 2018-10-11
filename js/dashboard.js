@@ -2,13 +2,25 @@ $(function () {
     if (localStorage.getItem('user.id')) {
         $(".logged").show();
         $(".noUser").hide();
-        navigate('dashboard.html');
     }
     else {
         $(".logged").hide();
         $(".noUser").show();
         navigate('sign-in.html');
     }
+    request('complaints', 'fetch').done(result => {
+        const complaints = result.response.complaints;
+        complaints.forEach(function (complaint) {
+            const data = {
+                mensaje: complaint.message,
+                moroso: complaint.payer,
+                usuario: {
+                    name: complaint.username
+                }
+            };
+            loadComplaint(data);
+        });
+    });
 });
 
 function publish() {
@@ -30,6 +42,12 @@ function publish() {
         return;
     }
 
+    request('complaints', 'publish', data).done(() => {
+        loadComplaint(data);
+    });
+}
+
+function loadComplaint(data){
     $.get(`templates/queja.html`, function (template) {
         var rendered = Mustache.render(template, data);
         $("#quejas").prepend(rendered);

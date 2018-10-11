@@ -28,14 +28,14 @@ function set_error($error, $code = 0)
 
 /**
  * @param int $errno
- * @param string $errstr
+ * @param string $message
  * @param string $errfile
  * @param int $errline
  */
-function error_handler($errno, $errstr, $errfile, $errline)
+function error_handler($errno, $message, $errfile, $errline)
 {
     http_response_code(500);
-    die(json_encode(['response' => 'System Error', 'code' => http_response_code(), 'error' => compact('errno', 'errstr', 'errfile', 'errline')]));
+    die(json_encode(['response' => 'System Error', 'code' => http_response_code(), 'error' => compact('errno', 'message', 'errfile', 'errline')]));
 }
 
 function shutdown_function()
@@ -44,7 +44,7 @@ function shutdown_function()
     if ($error !== NULL) {
         ob_clean();
         http_response_code(500);
-        die(json_encode(['response' => 'System Error', 'code' => http_response_code(), 'error' => $error]));
+        die(json_encode(['response' => 'Fatal Error', 'code' => http_response_code(), 'error' => $error]));
     }
 }
 

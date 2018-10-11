@@ -44,3 +44,16 @@ function db_last_id()
     global $mysqli;
     return $mysqli->insert_id;
 }
+
+function db_all_results($sql)
+{
+    global $mysqli;
+    $mysqli_result = db_query($sql);
+    $result = null;
+    if ($mysqli_result) {
+        $result = $mysqli_result->fetch_all(MYSQLI_ASSOC);
+    } else {
+        set_error($mysqli->error);
+    }
+    return $result;
+}

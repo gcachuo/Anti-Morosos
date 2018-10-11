@@ -23,7 +23,6 @@ function request(controller, action, data) {
         data: data,
         dataType: 'json',
         error: response => {
-            console.log(response);
             const error = response.responseJSON.error || '';
             if (response.responseJSON.code === 400) {
                 alert(error.errstr);

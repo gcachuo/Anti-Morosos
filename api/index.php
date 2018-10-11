@@ -31,13 +31,13 @@ try {
         $response = $controller->$action();
     }
 } catch (Exception $exception) {
-    http_response_code(400);
-    $errno = $exception->getCode();
-    $errstr = $exception->getMessage();
+    $errno = $exception->getCode() ?: 400;
+    $message = $exception->getMessage();
     $errfile = $exception->getFile();
     $errline = $exception->getLine();
+    http_response_code($errno);
 
-    die(json_encode(['response' => 'App Error', 'code' => http_response_code(), 'error' => compact('errno', 'errstr', 'errfile', 'errline')]));
+    die(json_encode(['response' => 'App Error', 'code' => http_response_code(), 'error' => compact('errno', 'message', 'errfile', 'errline')]));
 }
 
 echo json_encode(['response' => $response, 'code' => http_response_code(), 'version' => $version]);
