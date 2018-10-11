@@ -13,5 +13,4 @@ CREATE TABLE users
 sql;
 
 require "libs/database.php";
-db_connect();
 db_query($users);

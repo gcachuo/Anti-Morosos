@@ -41,3 +41,7 @@ function error_handler($errno, $errstr, $errfile, $errline)
 function shutdown_function()
 {
 }
+
+function auto_loader($clase) {
+    include 'controllers/' . $clase . '.php';
+}

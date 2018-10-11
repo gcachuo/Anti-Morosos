@@ -12,24 +12,28 @@ require "libs/system.php";
 require "libs/database.php";
 
 setcookie('XDEBUG_SESSION', 'PHPSTORM');
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
+spl_autoload_register('auto_loader');
 set_error_handler('error_handler');
 register_shutdown_function('shutdown_function');
 
 try {
 
+    $controller = isset_get($_REQUEST['controller']);
     $action = isset_get($_REQUEST['action']);
 
     /** @var array|string|null $response */
-    if (empty($action)) {
+    if (empty($controller) || empty($action)) {
         $response = null;
-    } elseif (function_exists($action)) {
-        $response = $action();
+    } elseif (method_exists($controller, $action)) {
+        $controller = new $controller();
+        $response = $controller->$action();
     } else {
         set_error("The function does not exists. ($action)");
     }
 } catch (Exception $exception) {
-    http_response_code(500);
+    http_response_code(501);
     $errno = $exception->getCode();
     $errstr = $exception->getMessage();
     $errfile = $exception->getFile();
