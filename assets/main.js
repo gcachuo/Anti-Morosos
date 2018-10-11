@@ -1,3 +1,14 @@
+$(function () {
+    navigate('dashboard.html');
+});
+
+function sign_out() {
+    if (confirm('¿Desea cerrar la sesión?')) {
+        localStorage.clear();
+        navigate('sign-in.html');
+    }
+}
+
 function navigate(page, data) {
     $.get(`pages/${page}`, function (template) {
         var rendered = Mustache.render(template, data);
