@@ -23,13 +23,13 @@ function db_connect()
 function db_query($sql)
 {
     global $mysqli;
-    $mysqli->query($sql);
+    return $mysqli->query($sql);
 }
 
 function db_result($sql)
 {
     global $mysqli;
-    $mysqli_result = $mysqli->query($sql);
+    $mysqli_result = db_query($sql);
     $result = null;
     if ($mysqli_result) {
         $result = $mysqli_result->fetch_assoc();
@@ -37,4 +37,10 @@ function db_result($sql)
         set_error($mysqli->error);
     }
     return $result;
+}
+
+function db_last_id()
+{
+    global $mysqli;
+    return $mysqli->insert_id;
 }

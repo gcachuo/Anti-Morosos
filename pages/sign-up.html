@@ -43,13 +43,16 @@
             return;
         }
 
-        localStorage.setItem('user.id', 1);
-        localStorage.setItem('user.usuario', data.usuario);
-        localStorage.setItem('user.name', data.nombre);
+        request('users', 'signup', data).done(function (result) {
+            const user = result.response.user;
+            localStorage.setItem('user.id', user.id);
+            localStorage.setItem('user.usuario', user.username);
+            localStorage.setItem('user.name', user.fullname);
 
-        $(".logged").show();
-        $(".noUser").hide();
+            $(".logged").show();
+            $(".noUser").hide();
 
-        navigate('dashboard.html');
+            navigate('dashboard.html');
+        });
     }
 </script>

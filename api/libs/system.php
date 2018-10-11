@@ -40,8 +40,15 @@ function error_handler($errno, $errstr, $errfile, $errline)
 
 function shutdown_function()
 {
+    $error = error_get_last();
+    if ($error !== NULL) {
+        ob_clean();
+        http_response_code(500);
+        die(json_encode(['response' => 'System Error', 'code' => http_response_code(), 'error' => $error]));
+    }
 }
 
-function auto_loader($clase) {
+function auto_loader($clase)
+{
     include 'controllers/' . $clase . '.php';
 }

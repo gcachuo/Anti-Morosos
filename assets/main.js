@@ -12,11 +12,15 @@ function request(controller, action, data) {
         data: data,
         dataType: 'json',
         error: response => {
-            const error = response.responseJSON.error;
-            if (response.responseJSON.code === 501) {
+            console.log(response);
+            const error = response.responseJSON.error || '';
+            if (response.responseJSON.code === 400) {
                 alert(error.errstr);
             }
-            console.log(error);
+            else if(response.responseJSON.code === 500){
+                alert('An error ocurred. Contact support.');
+                console.error(error.message);
+            }
         }
     });
 }

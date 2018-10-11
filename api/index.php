@@ -26,14 +26,12 @@ try {
     /** @var array|string|null $response */
     if (empty($controller) || empty($action)) {
         $response = null;
-    } elseif (method_exists($controller, $action)) {
+    } else {
         $controller = new $controller();
         $response = $controller->$action();
-    } else {
-        set_error("The function does not exists. ($action)");
     }
 } catch (Exception $exception) {
-    http_response_code(501);
+    http_response_code(400);
     $errno = $exception->getCode();
     $errstr = $exception->getMessage();
     $errfile = $exception->getFile();

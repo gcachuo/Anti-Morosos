@@ -35,6 +35,34 @@ sql;
         return compact('user');
     }
 
+    function signup()
+    {
+        $fullname = isset_get($_REQUEST['nombre']);
+        $username = isset_get($_REQUEST['usuario']);
+        $password = isset_get($_REQUEST['password']);
+        $verify = isset_get($_REQUEST['verifyPass']);
+
+        if (!$fullname || !$username || !$password) {
+            set_error('Llene todos los datos');
+        } else if ($password !== $verify) {
+            set_error('Las contraseñas no coinciden.');
+        }
+
+        $password = password_hash($password, CRYPT_BLOWFISH);
+
+        $sql = <<<sql
+insert into users(user_fullname, user_username, user_password) VALUES ('$fullname','$username','$password')
+sql;
+        db_query($sql);
+
+        $user = [
+            "id" => db_last_id(),
+            "username" => $fullname,
+            "fullname" => $username
+        ];
+        return compact('user');
+    }
+
     function changepassword()
     {
         $id = isset_get($_REQUEST['id']);
@@ -51,7 +79,5 @@ update users set user_password='$password' where user_id='$id';
 sql;
 
         db_query($sql);
-
-        return 1;
     }
 }
