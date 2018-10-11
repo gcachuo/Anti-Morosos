@@ -9,7 +9,12 @@
                 <p class="card-text">Mensaje: {{mensaje}}</p>
             </div>
             <div class="card-footer text-muted">
-                Hace: Ahora
+                {{#fecha}}
+                    Fecha: {{.}}
+                {{/fecha}}
+                {{^fecha}}
+                    Hace: Ahora
+                {{/fecha}}
             </div>
         </div>
     </div>

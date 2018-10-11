@@ -16,7 +16,8 @@ $(function () {
                 moroso: complaint.payer,
                 usuario: {
                     name: complaint.username
-                }
+                },
+                fecha: complaint.date
             };
             loadComplaint(data);
         });
@@ -47,7 +48,7 @@ function publish() {
     });
 }
 
-function loadComplaint(data){
+function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
         var rendered = Mustache.render(template, data);
         $("#quejas").prepend(rendered);
