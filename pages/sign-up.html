@@ -1,27 +1,42 @@
-<h3>Registrarse</h3>
-<div class="row pb-2">
-    <div class="col">
-        <input type="text" id="txtNombre" class="form-control" placeholder="Nombre">
+<div class="center-block w-xxl w-auto-xs p-y-md">
+    <div class="navbar">
+        <div class="pull-center">
+            <a class="navbar-brand">
+                <img style="max-height: 90px;" src="assets/images/logo.png" alt="."></a>
+        </div>
     </div>
-</div>
-<div class="row pb-2">
-    <div class="col">
-        <input type="text" id="txtUsuario" class="form-control" placeholder="Usuario">
+
+    <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
+        <div class="m-b text-sm">
+            Registra tu cuenta
+        </div>
+        <form name="form">
+            <div class="md-form-group">
+                <input type="text" class="md-input" required="" autocomplete="off"
+                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                <label>Nombre</label>
+            </div>
+            <div class="md-form-group">
+                <input type="email" class="md-input" required="" autocomplete="off"
+                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
+                <label>Correo</label>
+            </div>
+            <div class="md-form-group">
+                <input id="txtPassword" type="password" class="md-input" required="" autocomplete="off"
+                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: pointer;">
+                <label>Contraseña</label>
+            </div>
+            <div class="md-form-group">
+                <input id="txtVerifyPass" type="password" class="md-input" required="" autocomplete="off"
+                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: pointer;">
+                <label>Repita su contraseña</label>
+            </div>
+            <button onclick="sign_up()" type="button" class="btn primary btn-block p-x-md">Registrate</button>
+        </form>
     </div>
-</div>
-<div class="row pb-2">
-    <div class="col">
-        <input type="password" id="txtPassword" class="form-control" placeholder="Contraseña">
-    </div>
-</div>
-<div class="row pb-2">
-    <div class="col">
-        <input type="password" id="txtVerifyPass" class="form-control" placeholder="Repetir Contraseña">
-    </div>
-</div>
-<div class="row">
-    <div class="col-6 offset-3">
-        <span onclick="sign_up()" class="btn btn-block btn-primary">Registrarse</span>
+
+    <div class="p-v-lg text-center">
+        <div>¿Ya tienes una cuenta? <a ui-sref="access.signin" onclick="navigate('sign-in.html')" class="text-primary _600">Inicia Sesión</a></div>
     </div>
 </div>
 <script src="js/sign-up.js"></script>

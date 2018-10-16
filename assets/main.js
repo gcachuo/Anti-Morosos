@@ -12,7 +12,7 @@ function sign_out() {
 function navigate(page, data) {
     $.get(`pages/${page}`, function (template) {
         var rendered = Mustache.render(template, data);
-        $('#container').html(rendered);
+        $('.app-body').html(rendered);
     });
 }
 
@@ -23,6 +23,7 @@ function request(controller, action, data) {
         data: data,
         dataType: 'json',
         error: response => {
+            console.log(response)
             const error = response.responseJSON.error || '';
             if (response.responseJSON.code === 400) {
                 alert(error.message);

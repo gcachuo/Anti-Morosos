@@ -2,6 +2,8 @@ $(function () {
     if (localStorage.getItem('user.id')) {
         $(".logged").show();
         $(".noUser").hide();
+        $("#username").html(localStorage.getItem('user.name'));
+        $("#nick").html(localStorage.getItem('user.usuario'));
     }
     else {
         $(".logged").hide();
@@ -10,6 +12,7 @@ $(function () {
     }
     request('complaints', 'fetch').done(result => {
         const complaints = result.response.complaints;
+        let complaintsCount = 0;
         complaints.forEach(function (complaint) {
             const data = {
                 mensaje: complaint.message,
@@ -20,7 +23,9 @@ $(function () {
                 fecha: complaint.date
             };
             loadComplaint(data);
+            complaintsCount++;
         });
+        $("#count").html(complaintsCount);
     });
 });
 
@@ -30,14 +35,10 @@ function publish() {
         moroso: $("#txtMoroso").val(),
         usuario: {
             id: localStorage.getItem('user.id'),
-            name: localStorage.getItem('user.name')
+            name: localStorage.getItem('user.usuario')
         }
     };
 
-    if (!data.moroso) {
-        alert('Ingrese un nombre');
-        return;
-    }
     if (!data.mensaje) {
         alert('Ingrese un mensaje');
         return;
