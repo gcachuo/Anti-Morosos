@@ -6,3 +6,7 @@ body {
     background: white;
     height: calc(100vh - 58px);
 }
+
+.hashtag {
+    color: blue;
+}

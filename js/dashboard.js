@@ -10,11 +10,15 @@ $(function () {
         $(".noUser").show();
         navigate('sign-in.html');
     }
-    request('complaints', 'fetch').done(result => {
+    request('complaints', 'fetch', {
+        hashtag: window.location.hash.substr(1)
+    }).done(result => {
+        const hashtag = window.location.hash.substr(1);
         const complaints = result.response.complaints;
         let complaintsCount = 0;
         complaints.forEach(function (complaint) {
             const data = {
+                id: complaint.id,
                 mensaje: complaint.message,
                 moroso: complaint.payer,
                 usuario: {
@@ -26,6 +30,10 @@ $(function () {
             complaintsCount++;
         });
         $("#count").html(complaintsCount);
+        if (hashtag) {
+            $("#tema").html("#" + hashtag);
+            $("#tema").parent().show();
+        }
     });
 });
 
@@ -44,7 +52,8 @@ function publish() {
         return;
     }
 
-    request('complaints', 'publish', data).done(() => {
+    request('complaints', 'publish', data).done(result =>{
+        data.id = result.response.id;
         loadComplaint(data);
     });
 }
@@ -52,7 +61,11 @@ function publish() {
 function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
         var rendered = Mustache.render(template, data);
-        $("#quejas").prepend(rendered);
+
+        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
+
+        $("#quejas").prepend($(rendered).get(0));
+        $(`#quejas .mensaje[data-id=${data.id}]`).html(mensaje);
 
         $("#txtQueja").val('');
         $("#txtMoroso").val('');
