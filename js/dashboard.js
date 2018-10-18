@@ -31,10 +31,12 @@ $(function () {
         });
         $("#count").html(complaintsCount);
         if (hashtag) {
-            $("#tema").html("#" + hashtag);
-            $("#tema").parent().show();
+            const $hashtag = $("#hashtag");
+            $hashtag.html("#" + hashtag);
+            $hashtag.parent().show();
         }
     });
+    $("#selectRamo").select2();
 });
 
 function publish() {

@@ -3,6 +3,10 @@
         <div class="col-sm-12 push-md-3 col-md-6">
             <div class="box">
                 <form>
+                    <select title="Seleccione un ramo" id="selectRamo" class="form-control">
+                        <option disabled>Seleccione un ramo</option>
+                        <option selected value="">Calzado</option>
+                    </select>
                     <textarea name="queja" id="txtQueja" class="form-control no-border" rows="3" placeholder="Escribe un mensaje..."></textarea>
                 </form>
                 <div class="box-footer clearfix">
@@ -17,13 +21,9 @@
                 <div class="box-header">
                     <div class="row" style="display: none">
                         <a href="#" onclick="navigate('dashboard.html')" class="col-xs-1  alert alert-success">
-                            <i class="material-icons" style="
-                           vertical-align: middle;
-                           align-items: center;
-                           line-height: 0.3;
-                           ">arrow_back</i>
+                            <i class="material-icons" style="vertical-align: middle; align-items: center; line-height: 0.3;">arrow_back</i>
                         </a>
-                        <div class="col-xs-11 alert alert-success" role="alert" id="tema">
+                        <div class="col-xs-11 alert alert-success" role="alert" id="hashtag">
                         </div>
                     </div>
                     <br>
