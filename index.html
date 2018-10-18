@@ -3,24 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Anti-Morosos</title>
+    <title>AntiMorosos</title>
 
-    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/flatkit/libs/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="assets/flatkit/css/app.min.css">
+    <link rel="stylesheet" href="assets/flatkit/libs/jquery/select2/dist/css/select2.min.css">
+    <link rel="stylesheet" href="assets/flatkit/libs/jquery/select2/dist/css/select2-bootstrap.min.css">
+    <link rel="stylesheet" href="assets/flatkit/libs/jquery/select2/dist/css/select2-bootstrap.4.css">
     <link rel="stylesheet" href="assets/main.css">
 </head>
-<nav class="navbar navbar-light bg-light">
-    <span onclick="navigate('dashboard.html')" title="Dashboard" class="navbar-brand btn btn-sm ">Anti-Morosos</span>
-    <span class="noUser">
-        <span onclick="navigate('sign-up.html')" title="Sign up" class="btn btn-sm material-icons">person_add</span>
-        <span onclick="navigate('sign-in.html')" title="Sign in" class="btn btn-sm material-icons">person</span>
-    </span>
-    <span class="logged">
-        <span onclick="sign_out()" title="Sign out" class="btn btn-sm material-icons">lock</span>
-    </span>
-</nav>
 <body>
-<div id="container" class="container-fluid pt-3 col-lg-6 offset-lg-3">
+<div class="app" id="app">
+
+    <!-- ############ LAYOUT START-->
+
+    <!-- content -->
+    <div id="content" class="app-content box-shadow-z0" role="main">
+        <div class="app-header navbar-md white box-shadow">
+            <div class="navbar">
+                <a data-toggle="collapse" data-target="#navbar-4"
+                   class="navbar-item pull-right hidden-md-up m-a-0 m-l"><i class="material-icons"></i></a>
+                <a onclick="navigate('dashboard.html')"
+                   class="navbar-brand">
+                    <img  src="assets/images/logo-small.png" alt="."> <span style="color:#b34747"
+                        class="hidden-folded inline">AntiMorosos</span></a>
+                <div class="noUser">
+                    <ul class="nav navbar-nav pull-right">
+                        <li class="nav-item">
+                            <a onclick="navigate('sign-up.html')" title="Sign up" class="nav-link">
+                                <span class="avatar w-56 btn btn-sm"><span
+                                        class="material-icons">person_add</span></span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a onclick="navigate('sign-in.html')" title="Sign in" class="nav-link">
+                                <span class="avatar w-56 btn btn-sm"><span class="material-icons">person</span></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="logged">
+                    <ul class="nav navbar-nav pull-right">
+                        <li class="nav-item">
+                            <a onclick="sign_out()" title="Sign out" class="nav-link">
+                                <span class="avatar w-56 btn btn-sm"><span
+                                        class="material-icons">lock</span></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div ui-view="" class="app-body" id="view">
+
+        </div>
+    </div>
+    <!-- / -->
+
+    <!-- ############ LAYOUT END-->
 
 </div>
 </body>
@@ -28,6 +69,9 @@
 <script src="assets/popper/popper.js"></script>
 <script src="assets/bootstrap/js/bootstrap.min.js"></script>
 <script src="assets/mustache/mustache.min.js"></script>
+<script src="assets/flatkit/js/app.html.js"></script>
+<script src="assets/flatkit/libs/jquery/screenfull/dist/screenfull.min.js"></script>
+<script src="assets/flatkit/libs/jquery/select2/dist/js/select2.min.js"></script>
 
 <script src="assets/main.js"></script>
 </html>
