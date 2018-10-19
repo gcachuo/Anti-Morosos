@@ -26,10 +26,21 @@ $(function () {
             width: '155px'
         });
         $("#filterTopic").select2({
-            placeholder: "Filtrar por tema",
+            placeholder: "Filtrar por tema ",
             width: '155px'
         }).on('change', function () {
             fetch_complaints({topics: $(this).val()});
+        });
+    });
+    request('complaints','trending').done(result=>{
+        const trending = result.response.trending;
+        $.each(trending,function(hashtag,count){
+            $("#trending").append(`
+                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item text-ellipsis">
+                        <span class="w-8 rounded m-r-sm success"></span>
+                        <span>${hashtag}</span>
+                    </a>
+        `);
         });
     });
 });
@@ -68,7 +79,7 @@ function fetch_complaints(filters) {
 function publish() {
     const data = {
         mensaje: $("#txtQueja").val(),
-        tema: {id: $("#selectTopic").val(), name: $("#selectTopic").text()},
+        tema: {id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text()},
         usuario: {
             id: localStorage.getItem('user.id'),
             name: localStorage.getItem('user.usuario')

@@ -47,16 +47,17 @@ function db_last_id()
 
 /**
  * @param string $sql
+ * @param int $type
  * @return array|null
  * @throws Exception
  */
-function db_all_results($sql)
+function db_all_results($sql, $type = MYSQLI_ASSOC)
 {
     global $mysqli;
     $mysqli_result = db_query($sql);
     $result = null;
     if ($mysqli_result) {
-        $result = $mysqli_result->fetch_all(MYSQLI_ASSOC);
+        $result = $mysqli_result->fetch_all($type);
     } else {
         set_error($mysqli->error);
     }

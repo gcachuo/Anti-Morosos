@@ -39,7 +39,7 @@ from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
 where 
-complaint_message like '%$hashtag%'
+complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
 order by date asc;
@@ -47,5 +47,21 @@ sql;
 
         $complaints = db_all_results($sql);
         return compact('complaints');
+    }
+
+    function trending()
+    {
+        $sql = <<<sql
+select complaint_message from complaints where complaint_message like '%#%';
+sql;
+
+        $results = join(' ', array_merge(...db_all_results($sql, MYSQLI_NUM)));
+
+        preg_match_all('/#.+?\b/m', $results, $matches, PREG_SET_ORDER, 0);
+        $trending = array_merge(...$matches);
+        $trending = array_count_values($trending);
+        arsort($trending);
+        $trending = array_splice($trending, 0, 5);
+        return compact('trending');
     }
 }
