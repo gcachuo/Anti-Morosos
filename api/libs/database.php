@@ -45,6 +45,11 @@ function db_last_id()
     return $mysqli->insert_id;
 }
 
+/**
+ * @param string $sql
+ * @return array|null
+ * @throws Exception
+ */
 function db_all_results($sql)
 {
     global $mysqli;

@@ -20,7 +20,7 @@ $(function () {
             const data = {
                 id: complaint.id,
                 mensaje: complaint.message,
-                moroso: complaint.payer,
+                tema: {name: complaint.topic},
                 usuario: {
                     name: complaint.username
                 },
@@ -36,13 +36,31 @@ $(function () {
             $hashtag.parent().show();
         }
     });
-    $("#selectRamo").select2();
+    request('topics', 'fetch').done(result => {
+        const topics = result.response.topics;
+        $.each(topics, function (i, topic) {
+            $("#selectTopic").append(`
+            <option value="${topic.id}">${topic.name}</option>
+            `);
+            $("#filterTopic").append(`
+            <option value="${topic.id}">${topic.name}</option>
+            `);
+        });
+        $("#selectTopic").select2({
+            placeholder: "Seleccione un tema",
+            width: '155px'
+        });
+        $("#filterTopic").select2({
+            placeholder: "Temas",
+            width: '155px'
+        });
+    });
 });
 
 function publish() {
     const data = {
         mensaje: $("#txtQueja").val(),
-        moroso: $("#txtMoroso").val(),
+        tema: {id: $("#selectTopic").val(), name: $("#selectTopic").text()},
         usuario: {
             id: localStorage.getItem('user.id'),
             name: localStorage.getItem('user.usuario')
@@ -51,6 +69,10 @@ function publish() {
 
     if (!data.mensaje) {
         alert('Ingrese un mensaje');
+        return;
+    }
+    if (!data.tema.id) {
+        alert('Elija un tema');
         return;
     }
 
