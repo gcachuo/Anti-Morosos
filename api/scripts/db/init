@@ -16,8 +16,8 @@ $complaints = <<<sql
 CREATE TABLE complaints
 (
     complaint_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    payer_id bigint(20) NOT NULL,
     user_id bigint(20) NOT NULL,
+    topic_id bigint(20),
     complaint_message varchar(255) NOT NULL,
     complaint_date timestamp DEFAULT CURRENT_TIMESTAMP,
     complaint_status bit(1) DEFAULT b'1' NOT NULL
@@ -33,8 +33,18 @@ CREATE TABLE payers
 );
 sql;
 
+$topics=<<<sql
+CREATE TABLE topics
+(
+    topic_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    topic_name varchar(100) NOT NULL,
+    topic_status bit(1) DEFAULT b'1'
+);
+sql;
+
 
 require "libs/database.php";
 db_query($users);
 db_query($complaints);
 db_query($payers);
+db_query($topics);

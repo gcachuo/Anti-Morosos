@@ -11,24 +11,11 @@ class complaints
     function publish()
     {
         $message = isset_get($_REQUEST['mensaje']);
-        $payer = isset_get($_REQUEST['moroso']);
+        $topic_id = isset_get($_REQUEST['tema']['id']);
         $user_id = isset_get($_REQUEST['usuario']['id']);
 
         $sql = <<<sql
-select payer_id from payers where payer_name='$payer';
-sql;
-        $payer_id = db_result($sql)['payer_id'];
-
-        if (!$payer_id) {
-            $sql = <<<sql
-insert into payers(payer_name) value ('$payer');
-sql;
-            db_query($sql);
-            $payer_id = db_last_id();
-        }
-
-        $sql = <<<sql
-insert into complaints(payer_id, user_id, complaint_message) VALUES ('$payer_id','$user_id','$message');
+insert into complaints(topic_id, user_id, complaint_message) VALUES ('$topic_id','$user_id','$message');
 sql;
 
         db_query($sql);
@@ -43,19 +30,38 @@ sql;
     function fetch()
     {
         $hashtag = isset_get($_REQUEST['hashtag']);
+        $filters = isset_get($_REQUEST['filters']);
+        $topics = join(',', isset_get($filters['topics'], array()));
 
         $sql = <<<sql
-select complaint_id id, payer_name payer, user_username username, complaint_message message, complaint_date date
+select complaint_id id, topic_name topic, user_username username, complaint_message message, complaint_date date
 from complaints c
-       inner join payers p on p.payer_id = c.payer_id
+       left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
 where 
-complaint_message like '%$hashtag%'
+complaint_message like '%#$hashtag%'
+and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
 order by date asc;
 sql;
 
         $complaints = db_all_results($sql);
         return compact('complaints');
+    }
+
+    function trending()
+    {
+        $sql = <<<sql
+select complaint_message from complaints where complaint_message like '%#%';
+sql;
+
+        $results = join(' ', array_merge(...db_all_results($sql, MYSQLI_NUM)));
+
+        preg_match_all('/#.+?\b/m', $results, $matches, PREG_SET_ORDER, 0);
+        $trending = array_merge(...$matches);
+        $trending = array_count_values($trending);
+        arsort($trending);
+        $trending = array_splice($trending, 0, 5);
+        return compact('trending');
     }
 }

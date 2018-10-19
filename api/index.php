@@ -18,6 +18,8 @@ spl_autoload_register('auto_loader');
 set_error_handler('error_handler');
 register_shutdown_function('shutdown_function');
 
+header('Content-type: application/json');
+
 try {
 
     $controller = isset_get($_REQUEST['controller']);
