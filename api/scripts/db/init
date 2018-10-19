@@ -33,8 +33,18 @@ CREATE TABLE payers
 );
 sql;
 
+$topics=<<<sql
+CREATE TABLE topics
+(
+    topic_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    topic_name varchar(100) NOT NULL,
+    topic_status bit(1) DEFAULT b'1'
+);
+sql;
+
 
 require "libs/database.php";
 db_query($users);
 db_query($complaints);
 db_query($payers);
+db_query($topics);
