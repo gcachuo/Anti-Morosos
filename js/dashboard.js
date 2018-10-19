@@ -10,8 +10,35 @@ $(function () {
         $(".noUser").show();
         navigate('sign-in.html');
     }
+    fetch_complaints();
+    request('topics', 'fetch').done(result => {
+        const topics = result.response.topics;
+        $.each(topics, function (i, topic) {
+            $("#selectTopic").append(`
+            <option value="${topic.id}">${topic.name}</option>
+            `);
+            $("#filterTopic").append(`
+            <option value="${topic.id}">${topic.name}</option>
+            `);
+        });
+        $("#selectTopic").select2({
+            placeholder: "Seleccione un tema",
+            width: '155px'
+        });
+        $("#filterTopic").select2({
+            placeholder: "Filtrar por tema",
+            width: '155px'
+        }).on('change', function () {
+            fetch_complaints({topics: $(this).val()});
+        });
+    });
+});
+
+function fetch_complaints(filters) {
+    $("#quejas").html('');
     request('complaints', 'fetch', {
-        hashtag: window.location.hash.substr(1)
+        hashtag: window.location.hash.substr(1),
+        filters: filters
     }).done(result => {
         const hashtag = window.location.hash.substr(1);
         const complaints = result.response.complaints;
@@ -36,26 +63,7 @@ $(function () {
             $hashtag.parent().show();
         }
     });
-    request('topics', 'fetch').done(result => {
-        const topics = result.response.topics;
-        $.each(topics, function (i, topic) {
-            $("#selectTopic").append(`
-            <option value="${topic.id}">${topic.name}</option>
-            `);
-            $("#filterTopic").append(`
-            <option value="${topic.id}">${topic.name}</option>
-            `);
-        });
-        $("#selectTopic").select2({
-            placeholder: "Seleccione un tema",
-            width: '155px'
-        });
-        $("#filterTopic").select2({
-            placeholder: "Temas",
-            width: '155px'
-        });
-    });
-});
+}
 
 function publish() {
     const data = {

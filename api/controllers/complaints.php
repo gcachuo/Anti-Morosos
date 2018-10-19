@@ -30,6 +30,8 @@ sql;
     function fetch()
     {
         $hashtag = isset_get($_REQUEST['hashtag']);
+        $filters = isset_get($_REQUEST['filters']);
+        $topics = join(',', isset_get($filters['topics'], array()));
 
         $sql = <<<sql
 select complaint_id id, topic_name topic, user_username username, complaint_message message, complaint_date date
@@ -38,6 +40,7 @@ from complaints c
        inner join users u on u.user_id = c.user_id
 where 
 complaint_message like '%$hashtag%'
+and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
 order by date asc;
 sql;

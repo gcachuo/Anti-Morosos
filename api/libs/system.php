@@ -8,12 +8,15 @@
 
 /**
  * @param $variable
- * @return string
+ * @param null $return
+ * @return null
  */
-function isset_get(&$variable)
+function isset_get(&$variable, $return = null)
 {
-    $variable = isset($variable) ? $variable : '';
-    return $variable;
+    if (isset($variable) and !empty($variable)) {
+        return $variable;
+    }
+    return $return;
 }
 
 /**
