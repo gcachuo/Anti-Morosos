@@ -42,7 +42,7 @@ where
 complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
-order by date asc;
+order by complaint_date asc;
 sql;
 
         $complaints = db_all_results($sql);

@@ -12,6 +12,12 @@ $db_config = [
     "password" => "sqlserver",
     "database" => "antimorosos"
 ];
+/*$db_config = [
+    "host" => "localhost",
+    "user" => "antimoro_sos",
+    "password" => "antimorosos",
+    "database" => "antimoro_antimorosos"
+];*/
 $mysqli = db_connect();
 
 function db_connect()
