@@ -5,11 +5,21 @@ $users = <<<sql
 CREATE TABLE users
 (
     user_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_fullname varchar(100) NOT NULL,
+    user_email varchar(100) NOT NULL,
     user_username varchar(100) NOT NULL,
     user_password varchar(100) NOT NULL,
-    user_status bit DEFAULT b'1' NOT NULL
+    user_name varchar(100) NOT NULL,
+    user_lastname_1 varchar(100),
+    user_lastname_2 varchar(100),
+    user_company varchar(100),
+    user_business_name varchar(100),
+    user_business_position varchar(100),
+    user_business_phone varchar(100),
+    user_whatsapp varchar(100),
+    user_status bit(1) DEFAULT b'1' NOT NULL
 );
+CREATE UNIQUE INDEX users_user_email_uindex ON users (user_email);
+CREATE UNIQUE INDEX users_user_username_uindex ON users (user_username);
 sql;
 
 $complaints = <<<sql

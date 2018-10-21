@@ -1,14 +1,28 @@
 function sign_up() {
     const data = {
         nombre: $("#txtNombre").val(),
+        ap_paterno: $("#txtApPaterno").val(),
+        ap_materno: $("#txtApMaterno").val(),
+        correo: $("#txtCorreo").val(),
         usuario: $("#txtUsuario").val(),
         password: $("#txtPassword").val(),
-        verifyPass: $("#txtVerifyPass").val()
+        verifyPass: $("#txtVerifyPass").val(),
+        empresa: $("#txtEmpresa").val(),
+        razon_social: $("#txtRazon").val(),
+        puesto: $("#txtPuesto").val(),
+        telefono: $("#txtTelefono").val(),
+        whatsapp: $("#txtWhatsapp").val()
     };
 
-    if (!data.nombre || !data.usuario || !data.password) {
-        alert('Llene todos los campos');
-        return;
+    switch (false) {
+        case data.nombre:
+        case data.ap_paterno:
+        case data.ap_materno:
+        case data.correo:
+        case data.usuario:
+        case data.password:
+            alert('Llene todos los campos requeridos');
+            return;
     }
 
     if (data.password !== data.verifyPass) {
