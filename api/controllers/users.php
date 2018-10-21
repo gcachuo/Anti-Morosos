@@ -83,15 +83,19 @@ sql;
             set_error('El usuario ya existe.');
         }
 
-        $sql = <<<sql
+        $user_validation = 0;
+        if ($user_referrer !== 'null') {
+            $sql = <<<sql
 select user_id referrer from users where user_referral='$user_referrer';
 sql;
 
-        if (!db_result($sql)['referrer']) {
-            set_error('La referencia es inválida.');
-        }
+            if (!db_result($sql)['referrer']) {
+                set_error('La referencia es inválida.');
+            }
 
-        $user_referrer = db_result($sql)['referrer'];
+            $user_referrer = db_result($sql)['referrer'];
+            $user_validation = 1;
+        }
 
         $sql = <<<sql
 insert into users (user_email,
@@ -106,7 +110,8 @@ insert into users (user_email,
                    user_business_phone,
                    user_whatsapp,
                    user_referrer,
-                   user_referral)
+                   user_referral,
+                   user_validation)
 VALUES ('$user_email',
         '$user_username',
         '$user_password',
@@ -119,7 +124,8 @@ VALUES ('$user_email',
         '$user_business_phone',
         '$user_whatsapp',
         $user_referrer,
-        '$user_referral')
+        '$user_referral',
+        $user_validation)
 sql;
         db_query($sql);
 

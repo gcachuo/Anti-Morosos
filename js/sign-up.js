@@ -50,7 +50,7 @@ function sign_up() {
         return;
     }
 
-    if (!$.isNumeric(data.referencia)) {
+    if (!$.isNumeric(data.referencia) && data.referencia) {
         alert('La referencia es inválida.');
         return;
     }
