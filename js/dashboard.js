@@ -1,15 +1,22 @@
 $(function () {
+
     if (localStorage.getItem('user.id')) {
-        $(".logged").show();
-        $(".noUser").hide();
-        $("#username").html(localStorage.getItem('user.name'));
-        $("#nick").html(localStorage.getItem('user.usuario'));
+        if (localStorage.getItem('user.validation') === '1') {
+            $(".logged").show();
+            $(".noUser").hide();
+            $("#username").html(localStorage.getItem('user.name'));
+            $("#nick").html(localStorage.getItem('user.usuario'));
+        }
+        else {
+            navigate('pending-validation.html');
+        }
     }
     else {
         $(".logged").hide();
         $(".noUser").show();
         navigate('sign-in.html');
     }
+
     fetch_complaints();
     request('topics', 'fetch').done(result => {
         const topics = result.response.topics;

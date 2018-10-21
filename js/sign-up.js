@@ -8,7 +8,8 @@ $(function () {
 
         $("#selectProductos").select2({
             placeholder: "Productos y Servicios",
-            width: '100%'
+            width: '100%',
+            tags: true
         });
     });
 });
@@ -57,13 +58,19 @@ function sign_up() {
 
     request('users', 'signup', data).done(function (result) {
         const user = result.response.user;
+        const user_validation = result.response.user_validation;
         localStorage.setItem('user.id', user.id);
         localStorage.setItem('user.usuario', user.username);
         localStorage.setItem('user.name', user.fullname);
+        localStorage.setItem('user.validation', user_validation);
 
         $(".logged").show();
         $(".noUser").hide();
-
-        navigate('dashboard.html');
+        if (user_validation) {
+            navigate('dashboard.html');
+        }
+        else {
+            navigate('sign-in.html');
+        }
     });
 }

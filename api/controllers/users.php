@@ -27,7 +27,7 @@ sql;
         }
 
         $sql = <<<sql
-select user_id id, user_name fullname, user_username username, user_status status
+select user_id id, user_name fullname, user_username username, user_status status,user_validation validation
 from users
 where user_username = '$username'
 sql;
@@ -37,7 +37,7 @@ sql;
 
     function signup()
     {
-        $productos = isset_get($_REQUEST['productos']);
+        $products = isset_get($_REQUEST['productos']);
         $user_name = isset_get($_REQUEST['nombre']);
         $user_lastname_1 = isset_get($_REQUEST['ap_paterno']);
         $user_lastname_2 = isset_get($_REQUEST['ap_materno']);
@@ -135,9 +135,18 @@ sql;
             db_error();
         }
 
-        foreach ($productos as $producto) {
+
+        foreach ($products as $product) {
+            if (!is_numeric($product)) {
+                $sql = <<<sql
+replace into products(product_name) values ('$product');
+sql;
+                db_query($sql);
+
+                $product = db_last_id();
+            }
             $sql = <<<sql
-replace into users_products(id_product, id_user) VALUES ('$producto','$id');
+replace into users_products(product_id, user_id) VALUES ('$product','$id');
 sql;
             db_query($sql);
         }
@@ -147,7 +156,7 @@ sql;
             "fullname" => trim("$user_name $user_lastname_1 $user_lastname_2")
         ];
 
-        return compact('user');
+        return compact('user', 'user_validation');
     }
 
     function changepassword()

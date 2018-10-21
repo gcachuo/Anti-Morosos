@@ -83,11 +83,14 @@ sql;
 $users_products = <<<sql
 CREATE TABLE users_products
 (
-    is_user_product bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    id_user bigint(20) NOT NULL,
-    id_product bigint(20) NOT NULL
+    user_product_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    user_id bigint(20) NOT NULL,
+    product_id bigint(20) NOT NULL,
+    CONSTRAINT users_products_users_user_id_fk FOREIGN KEY (user_id) REFERENCES users (user_id),
+    CONSTRAINT users_products_products_product_id_fk FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
-CREATE UNIQUE INDEX products_users_pk ON users_products (id_product, id_user);
+CREATE UNIQUE INDEX products_users_pk ON users_products (product_id, user_id);
+CREATE INDEX users_products_users_user_id_fk ON users_products (user_id);
 sql;
 
 
