@@ -50,6 +50,11 @@ function sign_up() {
         return;
     }
 
+    if (!$.isNumeric(data.referencia)) {
+        alert('La referencia es inválida.');
+        return;
+    }
+
     request('users', 'signup', data).done(function (result) {
         const user = result.response.user;
         localStorage.setItem('user.id', user.id);

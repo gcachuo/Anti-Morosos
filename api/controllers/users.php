@@ -84,6 +84,16 @@ sql;
         }
 
         $sql = <<<sql
+select user_id referrer from users where user_referral='$user_referrer';
+sql;
+
+        if (!db_result($sql)['referrer']) {
+            set_error('La referencia es inválida.');
+        }
+
+        $user_referrer = db_result($sql)['referrer'];
+
+        $sql = <<<sql
 insert into users (user_email,
                    user_username,
                    user_password,

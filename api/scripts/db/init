@@ -17,13 +17,15 @@ CREATE TABLE users
     user_business_phone varchar(100),
     user_whatsapp varchar(100),
     user_referrer bigint(20),
-    user_referral int,
+    user_referral int(11),
     user_validation bit(1) DEFAULT b'0',
-    user_status bit(1) DEFAULT b'1' NOT NULL
+    user_status bit(1) DEFAULT b'1' NOT NULL,
+    CONSTRAINT users_users_user_id_fk FOREIGN KEY (user_referrer) REFERENCES users (user_id)
 );
 CREATE UNIQUE INDEX users_user_email_uindex ON users (user_email);
 CREATE UNIQUE INDEX users_user_username_uindex ON users (user_username);
 CREATE UNIQUE INDEX users_user_referral_uindex ON users (user_referral);
+CREATE INDEX users_users_user_id_fk ON users (user_referrer);
 sql;
 
 $complaints = <<<sql
