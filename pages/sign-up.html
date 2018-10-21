@@ -1,42 +1,88 @@
-<div class="center-block w-xxl w-auto-xs p-y-md">
-    <div class="navbar">
-        <div class="pull-center">
-            <a class="navbar-brand">
-                <img style="max-height: 90px;" src="assets/images/logo.png" alt="."></a>
-        </div>
-    </div>
-
+<div class="center-block">
     <div class="p-a-md box-color r box-shadow-z1 text-color m-a">
         <div class="m-b text-sm">
             Registra tu cuenta
         </div>
         <form name="form">
-            <div class="md-form-group">
-                <input type="text" class="md-input" required="" autocomplete="off"
-                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
-                <label>Nombre</label>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="md-form-group">
+                        <select class="md-input" id="selectProductos" multiple required>
+                            <option></option>
+                        </select>
+                        <label>Productos y Servicios</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" placeholder="Requerido" id="txtNombre" type="text" class="md-input" required
+                               autocomplete="off">
+                        <label>Nombre</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" placeholder="Requerido" id="txtApPaterno" type="text" class="md-input" required
+                               autocomplete="off">
+                        <label>Apellido Paterno</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" placeholder="Requerido" id="txtApMaterno" type="text" class="md-input" required
+                               autocomplete="off">
+                        <label>Apellido Materno</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input placeholder="Requerido" id="txtCorreo" type="email" class="md-input" required
+                               autocomplete="off">
+                        <label>Correo</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" placeholder="Requerido" id="txtUsuario" type="text" class="md-input" required
+                               autocomplete="off">
+                        <label>Usuario</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input placeholder="Requerido" id="txtPassword" type="password" class="md-input" required
+                               autocomplete="off">
+                        <label>Contraseña</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input placeholder="Requerido" id="txtVerifyPass" type="password" class="md-input" required
+                               autocomplete="off">
+                        <label>Repita su contraseña</label>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="md-form-group">
+                        <input maxlength="100" id="txtEmpresa" type="text" class="md-input" autocomplete="off">
+                        <label>Empresa</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" id="txtRazon" type="text" class="md-input" autocomplete="off">
+                        <label>Razon Social</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" id="txtPuesto" type="text" class="md-input" autocomplete="off">
+                        <label>Puesto</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" id="txtTelefono" type="text" class="md-input" autocomplete="off">
+                        <label>Teléfono de la Empresa</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input maxlength="100" id="txtWhatsapp" type="text" class="md-input" autocomplete="off">
+                        <label>Teléfono de contacto (Whatsapp)</label>
+                    </div>
+                    <div class="md-form-group">
+                        <input pattern="[0-9]{4}" id="txtReferencia" type="text" class="md-input" autocomplete="off">
+                        <label>Referencia</label>
+                    </div>
+                </div>
+                <div class="col-md-6 offset-md-3 col-lg-4 offset-lg-4">
+                    <button onclick="sign_up()" type="submit" class="btn primary btn-block p-x-md">Registrate</button>
+                </div>
             </div>
-            <div class="md-form-group">
-                <input type="email" class="md-input" required="" autocomplete="off"
-                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%;">
-                <label>Correo</label>
-            </div>
-            <div class="md-form-group">
-                <input id="txtPassword" type="password" class="md-input" required="" autocomplete="off"
-                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: pointer;">
-                <label>Contraseña</label>
-            </div>
-            <div class="md-form-group">
-                <input id="txtVerifyPass" type="password" class="md-input" required="" autocomplete="off"
-                       style="background-image: url(&quot;data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAASCAYAAABSO15qAAAAAXNSR0IArs4c6QAAAPhJREFUOBHlU70KgzAQPlMhEvoQTg6OPoOjT+JWOnRqkUKHgqWP4OQbOPokTk6OTkVULNSLVc62oJmbIdzd95NcuGjX2/3YVI/Ts+t0WLE2ut5xsQ0O+90F6UxFjAI8qNcEGONia08e6MNONYwCS7EQAizLmtGUDEzTBNd1fxsYhjEBnHPQNG3KKTYV34F8ec/zwHEciOMYyrIE3/ehKAqIoggo9inGXKmFXwbyBkmSQJqmUNe15IRhCG3byphitm1/eUzDM4qR0TTNjEixGdAnSi3keS5vSk2UDKqqgizLqB4YzvassiKhGtZ/jDMtLOnHz7TE+yf8BaDZXA509yeBAAAAAElFTkSuQmCC&quot;); background-repeat: no-repeat; background-attachment: scroll; background-size: 16px 18px; background-position: 98% 50%; cursor: pointer;">
-                <label>Repita su contraseña</label>
-            </div>
-            <button onclick="sign_up()" type="button" class="btn primary btn-block p-x-md">Registrate</button>
         </form>
     </div>
 
     <div class="p-v-lg text-center">
-        <div>¿Ya tienes una cuenta? <a ui-sref="access.signin" onclick="navigate('sign-in.html')" class="text-primary _600">Inicia Sesión</a></div>
+        <div>¿Ya tienes una cuenta? <a onclick="navigate('sign-in.html')" class="text-primary _600">Inicia Sesión</a></div>
     </div>
 </div>
 <script src="js/sign-up.js"></script>

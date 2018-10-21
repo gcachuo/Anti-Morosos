@@ -38,11 +38,11 @@ select complaint_id id, topic_name topic, user_username username, complaint_mess
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
-where 
+where BINARY
 complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
-order by complaint_date asc;
+order by complaint_date desc;
 sql;
 
         $complaints = db_all_results($sql);
@@ -51,17 +51,20 @@ sql;
 
     function trending()
     {
+        $trending = [];
         $sql = <<<sql
 select complaint_message from complaints where complaint_message like '%#%';
 sql;
 
-        $results = join(' ', array_merge(...db_all_results($sql, MYSQLI_NUM)));
-
-        preg_match_all('/#.+?\b/m', $results, $matches, PREG_SET_ORDER, 0);
-        $trending = array_merge(...$matches);
-        $trending = array_count_values($trending);
-        arsort($trending);
-        $trending = array_splice($trending, 0, 5);
+        $results = db_all_results($sql, MYSQLI_NUM);
+        if ($results) {
+            $results = join(' ', array_merge(...$results));
+            preg_match_all('/#.+?\b/m', $results, $matches, PREG_SET_ORDER, 0);
+            $trending = array_merge(...$matches);
+            $trending = array_count_values($trending);
+            arsort($trending);
+            $trending = array_splice($trending, 0, 5);
+        }
         return compact('trending');
     }
 }

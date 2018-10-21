@@ -1,42 +1,16 @@
-<div class="sl-item">
-    <div class="sl-left">
-        <img src="../assets/images/a0.jpg" class="img-circle">
-    </div>
-    <div class="sl-content">
-        <div>
-            <b>
-                [{{#tema.name}}{{.}}{{/tema.name}}{{^tema.name}}Sin Tema{{/tema.name}}]
-            </b>
-        </div>
-        <div>
-            <p data-id="{{id}}" class="mensaje">{{mensaje}}</p>
-        </div>
-        <div class="sl-date text-muted">
+<li class="list-item" style=" border-top: solid 1px rgba(0,0,0,0.1);">
+    <div class="clear">
+        <h5 data-id="{{id}}" class="m-a-0 m-b-sm mensaje">{{mensaje}}</h5>
+        <p class="text-muted"><a href="">{{usuario.name}}</a><br>
             {{#fecha}}
-                Fecha: {{.}}
+                {{.}}
             {{/fecha}}
             {{^fecha}}
-                Fecha: Ahora
-            {{/fecha}}
-            <br>Por: <a href="">{{usuario.name}}</a>
-        </div>
-        <div class="sl-footer" style="display: none">
-            <a class="btn btn-sm btn-info" href="#">
-                <i class="fa fa-fw fa-mail-reply text-muted"></i> Responder
-            </a>
-        </div>
-        <div class="box collapse m-a-0 b-a" id="reply-1">
-            <form>
-                <textarea class="form-control no-border" rows="3" placeholder="Escribe un mensaje..."></textarea>
-            </form>
-            <div class="box-footer clearfix">
-                <button class="btn btn-info pull-right btn-sm">Post</button>
-                <ul class="nav nav-pills nav-sm">
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-camera text-muted"></i></a></li>
-                    <li class="nav-item"><a class="nav-link" href=""><i class="fa fa-video-camera text-muted"></i></a>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                Ahora
+            {{/fecha}}</p>
+        <p><span class="label m-r">{{#tema.name}}{{.}}{{/tema.name}}{{^tema.name}}
+            Sin Tema{{/tema.name}}</span> <a href=""
+                                                    class="m-r-sm"></a>
+        </p>
     </div>
-</div>
+</li>

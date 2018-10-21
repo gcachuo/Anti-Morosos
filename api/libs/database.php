@@ -69,3 +69,9 @@ function db_all_results($sql, $type = MYSQLI_ASSOC)
     }
     return $result;
 }
+
+function db_error()
+{
+    global $mysqli;
+    set_error("(" . $mysqli->errno . ") " . $mysqli->error, 500);
+}

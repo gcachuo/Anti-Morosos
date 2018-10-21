@@ -5,7 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>AntiMorosos</title>
 
+    <link rel="icon" href="assets/images/logo-small.png">
+
     <link rel="stylesheet" href="assets/flatkit/libs/bootstrap/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="assets/flatkit/css/app.min.css">
     <link rel="stylesheet" href="assets/flatkit/libs/jquery/select2/dist/css/select2.min.css">
@@ -21,39 +24,40 @@
     <!-- content -->
     <div id="content" class="app-content box-shadow-z0" role="main">
         <div class="app-header navbar-md white box-shadow">
-            <div class="navbar">
-                <a data-toggle="collapse" data-target="#navbar-4"
-                   class="navbar-item pull-right hidden-md-up m-a-0 m-l"><i class="material-icons"></i></a>
-                <a onclick="navigate('dashboard.html')"
-                   class="navbar-brand">
-                    <img  src="assets/images/logo-small.png" alt="."> <span style="color:#b34747"
-                        class="hidden-folded inline">AntiMorosos</span></a>
-                <div class="noUser">
-                    <ul class="nav navbar-nav pull-right">
-                        <li class="nav-item">
-                            <a onclick="navigate('sign-up.html')" title="Sign up" class="nav-link">
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <span class="navbar-brand">
+                    <a onclick="navigate('dashboard.html')">
+                        <img src="assets/images/logo-small.png" alt=".">
+                        <span style="color:#b34747" class="hidden-folded inline">AntiMorosos</span>
+                    </a>
+                </span>
+                <ul class="navbar-nav mr-auto mt-2 mt-lg-0"></ul>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#nav-user" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="material-icons">menu</span>
+                </button>
+                <div class="collapse navbar-collapse" id="nav-user">
+                    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+                    </ul>
+                    <form class="noUser form-inline my-2 my-lg-0">
+                        <a onclick="navigate('sign-up.html')" title="Sign up" class="my-2 my-sm-0">
                                 <span class="avatar w-56 btn btn-sm"><span
                                         class="material-icons">person_add</span></span>
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a onclick="navigate('sign-in.html')" title="Sign in" class="nav-link">
-                                <span class="avatar w-56 btn btn-sm"><span class="material-icons">person</span></span>
-                            </a>
-                        </li>
-                    </ul>
+                            <span class="hidden-lg-up">Registrarse</span>
+                        </a>
+                        <a onclick="navigate('sign-in.html')" title="Sign in" class="my-2 my-sm-0">
+                            <span class="avatar w-56 btn btn-sm"><span class="material-icons">person</span></span>
+                            <span class="hidden-lg-up">Iniciar Sesión</span>
+                        </a>
+                    </form>
+                    <form class="logged form-inline my-2 my-lg-0">
+                        <a onclick="sign_out()" title="Sign out" class="nav-link">
+                            <span class="avatar w-56 btn btn-sm">
+                                <span class="material-icons">lock</span></span>
+                            <span class="hidden-lg-up">Cerrar Sesión</span>
+                        </a>
+                    </form>
                 </div>
-                <div class="logged">
-                    <ul class="nav navbar-nav pull-right">
-                        <li class="nav-item">
-                            <a onclick="sign_out()" title="Sign out" class="nav-link">
-                                <span class="avatar w-56 btn btn-sm"><span
-                                        class="material-icons">lock</span></span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+            </nav>
         </div>
         <div ui-view="" class="app-body" id="view">
 
