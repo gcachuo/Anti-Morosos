@@ -53,7 +53,6 @@ sql;
         switch (false) {
             case $user_name:
             case $user_lastname_1:
-            case $user_lastname_2:
             case $user_email:
             case $user_username:
             case $user_password:

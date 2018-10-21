@@ -14,14 +14,13 @@ function sign_up() {
         whatsapp: $("#txtWhatsapp").val()
     };
 
-    switch (false) {
+    switch ('') {
         case data.nombre:
         case data.ap_paterno:
-        case data.ap_materno:
         case data.correo:
         case data.usuario:
         case data.password:
-            alert('Llene todos los campos requeridos');
+            // alert('Llene todos los campos requeridos');
             return;
     }
 

@@ -6,6 +6,8 @@ function sign_out() {
     if (confirm('¿Desea cerrar la sesión?')) {
         localStorage.clear();
         navigate('sign-in.html');
+        $(".logged").hide();
+        $(".noUser").show();
     }
 }
 

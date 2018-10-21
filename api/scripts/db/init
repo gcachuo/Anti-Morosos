@@ -43,7 +43,7 @@ CREATE TABLE payers
 );
 sql;
 
-$topics=<<<sql
+$topics = <<<sql
 CREATE TABLE topics
 (
     topic_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
@@ -52,9 +52,32 @@ CREATE TABLE topics
 );
 sql;
 
+$products = <<<sql
+CREATE TABLE products
+(
+    product_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    product_name varchar(100) NOT NULL,
+    product_status bit(1) DEFAULT b'1'
+);
+CREATE UNIQUE INDEX products_product_name_uindex ON products (product_name);
+
+INSERT INTO products (product_id, product_name, product_status) VALUES (1, 'Suela', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (2, 'Caja', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (3, 'Planta', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (4, 'Forro', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (5, 'Piel', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (6, 'Sintetico', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (7, 'Horma', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (8, 'Tacon', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (9, 'Herrajes', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (10, 'Peletero', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (11, 'Adhesivos', true);
+sql;
+
 
 require "libs/database.php";
 db_query($users);
 db_query($complaints);
 db_query($payers);
 db_query($topics);
+db_query($products);
