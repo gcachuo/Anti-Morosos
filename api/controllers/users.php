@@ -50,7 +50,7 @@ sql;
         $user_business_position = isset_get($_REQUEST['puesto']);
         $user_business_phone = isset_get($_REQUEST['telefono']);
         $user_whatsapp = isset_get($_REQUEST['whatsapp']);
-        $user_referrer = isset_get($_REQUEST['referencia']);
+        $user_referrer = isset_get($_REQUEST['referencia'], 'null');
 
         switch (false) {
             case $user_name:
@@ -68,7 +68,20 @@ sql;
 
         $user_password = password_hash($user_password, CRYPT_BLOWFISH);
 
-        $user_referral = str_pad(rand(0, 9999), 4, '0');
+        do {
+            $user_referral = str_pad(rand(0, 9999), 4, '0');
+            $sql = <<<sql
+select count(1) count from users where user_referral='$user_referral';
+sql;
+        } while (db_result($sql)['count']);
+
+        $sql = <<<sql
+select count(1) count from users where user_username='$user_username';
+sql;
+
+        if (db_result($sql)['count']) {
+            set_error('El usuario ya existe.');
+        }
 
         $sql = <<<sql
 insert into users (user_email,
@@ -95,12 +108,16 @@ VALUES ('$user_email',
         '$user_business_position',
         '$user_business_phone',
         '$user_whatsapp',
-        '$user_referrer',
+        $user_referrer,
         '$user_referral')
 sql;
         db_query($sql);
 
         $id = db_last_id();
+
+        if (!$id) {
+            db_error();
+        }
 
         foreach ($productos as $producto) {
             $sql = <<<sql
@@ -108,12 +125,12 @@ replace into users_products(id_product, id_user) VALUES ('$producto','$id');
 sql;
             db_query($sql);
         }
-
         $user = [
             "id" => $id,
             "username" => $user_username,
             "fullname" => trim("$user_name $user_lastname_1 $user_lastname_2")
         ];
+
         return compact('user');
     }
 
