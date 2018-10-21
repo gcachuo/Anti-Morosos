@@ -18,7 +18,7 @@ class users
         }
 
         $sql = <<<sql
-select user_password password from users where user_username='$username'
+select user_password password from users where user_username='$username' or user_email='$username'
 sql;
 
         $hash = db_result($sql)['password'];
@@ -29,7 +29,7 @@ sql;
         $sql = <<<sql
 select user_id id, user_name fullname, user_username username, user_status status,user_validation validation
 from users
-where user_username = '$username'
+where user_username = '$username' or user_email='$username'
 sql;
         $user = db_result($sql);
         return compact('user');

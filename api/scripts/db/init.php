@@ -1,8 +1,11 @@
 #!/usr/bin/php
 <?php
+mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 
 $users = <<<sql
-CREATE TABLE users
+CREATE TABLE IF NOT EXISTS users
 (
     user_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     user_email varchar(100) NOT NULL,
@@ -22,14 +25,16 @@ CREATE TABLE users
     user_status bit(1) DEFAULT b'1' NOT NULL,
     CONSTRAINT users_users_user_id_fk FOREIGN KEY (user_referrer) REFERENCES users (user_id)
 );
+
 CREATE UNIQUE INDEX users_user_email_uindex ON users (user_email);
 CREATE UNIQUE INDEX users_user_username_uindex ON users (user_username);
 CREATE UNIQUE INDEX users_user_referral_uindex ON users (user_referral);
 CREATE INDEX users_users_user_id_fk ON users (user_referrer);
+
 sql;
 
 $complaints = <<<sql
-CREATE TABLE complaints
+CREATE TABLE IF NOT EXISTS complaints
 (
     complaint_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     user_id bigint(20) NOT NULL,
@@ -41,7 +46,7 @@ CREATE TABLE complaints
 sql;
 
 $payers = <<<sql
-CREATE TABLE payers
+CREATE TABLE IF NOT EXISTS payers
 (
     payer_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     payer_name varchar(100) NOT NULL,
@@ -50,16 +55,17 @@ CREATE TABLE payers
 sql;
 
 $topics = <<<sql
-CREATE TABLE topics
+CREATE TABLE IF NOT EXISTS topics
 (
     topic_id int(11) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     topic_name varchar(100) NOT NULL,
     topic_status bit(1) DEFAULT b'1'
 );
+INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (1, 'Calzado', true);
 sql;
 
 $products = <<<sql
-CREATE TABLE products
+CREATE TABLE IF NOT EXISTS products
 (
     product_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     product_name varchar(100) NOT NULL,
@@ -81,7 +87,7 @@ INSERT INTO products (product_id, product_name, product_status) VALUES (11, 'Adh
 sql;
 
 $users_products = <<<sql
-CREATE TABLE users_products
+CREATE TABLE IF NOT EXISTS users_products
 (
     user_product_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     user_id bigint(20) NOT NULL,
@@ -93,11 +99,19 @@ CREATE UNIQUE INDEX products_users_pk ON users_products (product_id, user_id);
 CREATE INDEX users_products_users_user_id_fk ON users_products (user_id);
 sql;
 
+try {
+    require "../../libs/database.php";
+    $query =
+        $users .
+        $complaints .
+        $payers .
+        $topics .
+        $products .
+        $users_products;
 
-require "libs/database.php";
-db_query($users);
-db_query($complaints);
-db_query($payers);
-db_query($topics);
-db_query($products);
-db_query($users_products);
+    db_query($query);
+    echo "Correct.";
+} catch (Exception $ex) {
+    echo $ex->getMessage();
+    echo "<br><br><br> $query";
+}
