@@ -27,11 +27,11 @@ function sign_up() {
         razon_social: $("#txtRazon").val(),
         puesto: $("#txtPuesto").val(),
         telefono: $("#txtTelefono").val(),
-        whatsapp: $("#txtWhatsapp").val()
+        whatsapp: $("#txtWhatsapp").val(),
+        referencia: $("#txtReferencia").val()
     };
 
     switch ('') {
-        case data.sector:
         case data.nombre:
         case data.ap_paterno:
         case data.correo:
@@ -39,6 +39,10 @@ function sign_up() {
         case data.password:
             // alert('Llene todos los campos requeridos');
             return;
+    }
+
+    if (!data.productos) {
+        return;
     }
 
     if (data.password !== data.verifyPass) {

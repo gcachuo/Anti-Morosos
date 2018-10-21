@@ -50,6 +50,7 @@ sql;
         $user_business_position = isset_get($_REQUEST['puesto']);
         $user_business_phone = isset_get($_REQUEST['telefono']);
         $user_whatsapp = isset_get($_REQUEST['whatsapp']);
+        $user_referrer = isset_get($_REQUEST['referencia']);
 
         switch (false) {
             case $user_name:
@@ -67,6 +68,8 @@ sql;
 
         $user_password = password_hash($user_password, CRYPT_BLOWFISH);
 
+        $user_referral = str_pad(rand(0, 9999), 4, '0');
+
         $sql = <<<sql
 insert into users (user_email,
                    user_username,
@@ -78,7 +81,9 @@ insert into users (user_email,
                    user_business_name,
                    user_business_position,
                    user_business_phone,
-                   user_whatsapp)
+                   user_whatsapp,
+                   user_referrer,
+                   user_referral)
 VALUES ('$user_email',
         '$user_username',
         '$user_password',
@@ -89,7 +94,9 @@ VALUES ('$user_email',
         '$user_business_name',
         '$user_business_position',
         '$user_business_phone',
-        '$user_whatsapp')
+        '$user_whatsapp',
+        '$user_referrer',
+        '$user_referral')
 sql;
         db_query($sql);
 

@@ -16,10 +16,14 @@ CREATE TABLE users
     user_business_position varchar(100),
     user_business_phone varchar(100),
     user_whatsapp varchar(100),
+    user_referrer bigint(20),
+    user_referral int,
+    user_validation bit(1) DEFAULT b'0',
     user_status bit(1) DEFAULT b'1' NOT NULL
 );
 CREATE UNIQUE INDEX users_user_email_uindex ON users (user_email);
 CREATE UNIQUE INDEX users_user_username_uindex ON users (user_username);
+CREATE UNIQUE INDEX users_user_referral_uindex ON users (user_referral);
 sql;
 
 $complaints = <<<sql
