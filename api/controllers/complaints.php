@@ -38,7 +38,7 @@ select complaint_id id, topic_name topic, user_username username, complaint_mess
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
-where 
+where BINARY
 complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
