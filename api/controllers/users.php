@@ -37,6 +37,7 @@ sql;
 
     function signup()
     {
+        $productos = isset_get($_REQUEST['productos']);
         $user_name = isset_get($_REQUEST['nombre']);
         $user_lastname_1 = isset_get($_REQUEST['ap_paterno']);
         $user_lastname_2 = isset_get($_REQUEST['ap_materno']);
@@ -92,8 +93,17 @@ VALUES ('$user_email',
 sql;
         db_query($sql);
 
+        $id = db_last_id();
+
+        foreach ($productos as $producto) {
+            $sql = <<<sql
+replace into users_products(id_product, id_user) VALUES ('$producto','$id');
+sql;
+            db_query($sql);
+        }
+
         $user = [
-            "id" => db_last_id(),
+            "id" => $id,
             "username" => $user_username,
             "fullname" => trim("$user_name $user_lastname_1 $user_lastname_2")
         ];

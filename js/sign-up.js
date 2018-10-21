@@ -1,5 +1,21 @@
+$(function () {
+    request('products', 'fetch').done(result => {
+        const products = result.response.products;
+
+        $.each(products, function (i, product) {
+            $("#selectProductos").append(`<option value="${product.id}">${product.name}</option>`);
+        });
+
+        $("#selectProductos").select2({
+            placeholder: "Productos y Servicios",
+            width: '100%'
+        });
+    });
+});
+
 function sign_up() {
     const data = {
+        productos: $("#selectProductos").val(),
         nombre: $("#txtNombre").val(),
         ap_paterno: $("#txtApPaterno").val(),
         ap_materno: $("#txtApMaterno").val(),
@@ -15,6 +31,7 @@ function sign_up() {
     };
 
     switch ('') {
+        case data.sector:
         case data.nombre:
         case data.ap_paterno:
         case data.correo:

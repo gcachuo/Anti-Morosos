@@ -74,6 +74,16 @@ INSERT INTO products (product_id, product_name, product_status) VALUES (10, 'Pel
 INSERT INTO products (product_id, product_name, product_status) VALUES (11, 'Adhesivos', true);
 sql;
 
+$users_products = <<<sql
+CREATE TABLE users_products
+(
+    is_user_product bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    id_user bigint(20) NOT NULL,
+    id_product bigint(20) NOT NULL
+);
+CREATE UNIQUE INDEX products_users_pk ON users_products (id_product, id_user);
+sql;
+
 
 require "libs/database.php";
 db_query($users);
@@ -81,3 +91,4 @@ db_query($complaints);
 db_query($payers);
 db_query($topics);
 db_query($products);
+db_query($users_products);
