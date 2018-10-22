@@ -34,15 +34,18 @@ sql;
         $topics = join(',', isset_get($filters['topics'], array()));
 
         $sql = <<<sql
-select complaint_id id, topic_name topic, user_username username, complaint_message message, complaint_date date
+select complaint_id id, topic_name topic, user_username username, group_concat(product_name) products ,complaint_message message, complaint_date date
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
+       left join users_products up on up.user_id=u.user_id
+       left join products p on p.product_id = up.product_id
 where BINARY
 complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
-order by complaint_date desc;
+group by complaint_id
+order by complaint_date asc;
 sql;
 
         $complaints = db_all_results($sql);
@@ -53,7 +56,7 @@ sql;
     {
         $trending = [];
         $sql = <<<sql
-select complaint_message from complaints where complaint_message like '%#%';
+select lower(complaint_message) from complaints where complaint_message like '%#%';
 sql;
 
         $results = db_all_results($sql, MYSQLI_NUM);

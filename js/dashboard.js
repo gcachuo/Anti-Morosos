@@ -61,14 +61,15 @@ function fetch_complaints(filters) {
         const hashtag = window.location.hash.substr(1);
         const complaints = result.response.complaints;
         let complaintsCount = 0;
-        complaints.forEach(function (complaint) {
+        complaints.forEach(complaint => {
             const data = {
                 id: complaint.id,
-                mensaje: complaint.message,
                 tema: {name: complaint.topic},
                 usuario: {
                     name: complaint.username
                 },
+                productos: complaint.products,
+                mensaje: complaint.message,
                 fecha: complaint.date
             };
             loadComplaint(data);
