@@ -1,16 +1,29 @@
 <li class="list-item" style=" border-top: solid 1px rgba(0,0,0,0.1);">
     <div class="clear">
+        <div class="dropdown">
+            <a class="pull-right dropdown-toggle menu" data-toggle="dropdown"><i
+                    class="material-icons">more_horiz</i></a>
+            <div class="dropdown-menu">
+                <a onclick="$('#modal-edit-complaint').fadeIn().modal('show').find('.modal-footer .submit').attr('data-id','{{id}}');"
+                   style="align-items: center; display: flex;" class="dropdown-item">
+                    <i class="material-icons">edit</i> Editar
+                </a>
+                <a onclick="$('#modal-delete-complaint').fadeIn().modal('show').find('.modal-footer .submit').attr('data-id','{{id}}');"
+                   style="align-items: center; display: flex;" class="dropdown-item">
+                    <i class="material-icons">delete</i> Eliminar
+                </a>
+            </div>
+        </div>
         <h5 data-id="{{id}}" class="m-a-0 m-b-sm mensaje">{{mensaje}}</h5>
         <p class="text-muted"><a href="">{{usuario.name}}</a> ({{productos}})<br>
-            {{#fecha}}
-                {{.}}
-            {{/fecha}}
-            {{^fecha}}
-                Ahora
-            {{/fecha}}</p>
-        <p><span class="label m-r">{{#tema.name}}{{.}}{{/tema.name}}{{^tema.name}}
-            Sin Tema{{/tema.name}}</span> <a href=""
-                                                    class="m-r-sm"></a>
+            {{#fecha}}{{.}}{{/fecha}}
+            {{^fecha}}Ahora{{/fecha}}
+        </p>
+        <p>
+            <span class="label m-r">
+                {{#tema.name}}{{.}}{{/tema.name}}
+                {{^tema.name}}Sin Tema{{/tema.name}}
+            </span>
         </p>
     </div>
 </li>

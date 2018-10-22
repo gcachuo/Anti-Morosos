@@ -111,7 +111,7 @@ function publish() {
 
 function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
-        var rendered = Mustache.render(template, data);
+        const rendered = Mustache.render(template, data);
 
         const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
 
@@ -123,4 +123,12 @@ function loadComplaint(data) {
 
         $("#alertNoPosts").hide();
     });
+}
+
+function editComplaint(id) {
+    $("#modal-edit-complaint").fadeIn().modal('show');
+}
+
+function deleteComplaint(id) {
+
 }

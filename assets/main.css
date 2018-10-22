@@ -10,3 +10,7 @@ body {
 .hashtag {
     color: blue;
 }
+
+.dropdown-toggle::after {
+    display:none;
+}
