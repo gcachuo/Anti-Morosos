@@ -55,21 +55,24 @@ $(function () {
 function fetch_complaints(filters) {
     $("#quejas").html('');
     request('complaints', 'fetch', {
+        usuario: {id: localStorage.getItem('user.id')},
         hashtag: window.location.hash.substr(1),
         filters: filters
     }).done(result => {
         const hashtag = window.location.hash.substr(1);
         const complaints = result.response.complaints;
         let complaintsCount = 0;
-        complaints.forEach(function (complaint) {
+        complaints.forEach(complaint => {
             const data = {
                 id: complaint.id,
-                mensaje: complaint.message,
                 tema: {name: complaint.topic},
                 usuario: {
                     name: complaint.username
                 },
-                fecha: complaint.date
+                productos: complaint.products,
+                mensaje: complaint.message,
+                fecha: complaint.date,
+                acciones: complaint.actions === '1'
             };
             loadComplaint(data);
             complaintsCount++;
@@ -104,13 +107,14 @@ function publish() {
 
     request('complaints', 'publish', data).done(result =>{
         data.id = result.response.id;
-        loadComplaint(data);
+        navigate('dashboard.html');
+        //loadComplaint(data);
     });
 }
 
 function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
-        var rendered = Mustache.render(template, data);
+        const rendered = Mustache.render(template, data);
 
         const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
 
@@ -122,4 +126,46 @@ function loadComplaint(data) {
 
         $("#alertNoPosts").hide();
     });
+}
+
+function editComplaint() {
+    const data = {
+        id: $('#modal-edit-complaint').find('.modal-footer .submit').data('id'),
+        mensaje: $("#txtMensajeEditado").val(),
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
+
+    if (!data.mensaje) {
+        return;
+    }
+
+    if (confirm('¿Esta seguro?')) {
+        request('complaints', 'edit', data).done(() => {
+            $('#modal-edit-complaint').modal('hide');
+            navigate('dashboard.html');
+        });
+    }
+}
+
+function deleteComplaint() {
+    const data = {
+        id: $('#modal-delete-complaint').find('.modal-footer .submit').data('id'),
+        razon: $("#txtRazonEliminar").val(),
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
+
+    if (!data.razon) {
+        return;
+    }
+
+    if (confirm('¿Esta seguro?')) {
+        request('complaints', 'delete', data).done(() => {
+            $('#modal-delete-complaint').modal('hide');
+            navigate('dashboard.html');
+        });
+    }
 }
