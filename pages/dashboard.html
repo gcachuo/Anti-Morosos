@@ -58,15 +58,12 @@
 <form id="modal-edit-complaint" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Editar</h5>
-            </div>
             <div class="modal-body">
-                <p>Modal body text goes here.</p>
+                <textarea required placeholder="Escribe un mensaje..." class="form-control" id="txtMensajeEditado"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="submit" class="btn btn-primary submit">Guardar Cambios</button>
+                <button onclick="editComplaint()" type="submit" class="btn btn-primary submit">Guardar Cambios</button>
             </div>
         </div>
     </div>

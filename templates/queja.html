@@ -5,7 +5,7 @@
                 <a class="pull-right dropdown-toggle menu" data-toggle="dropdown"><i
                         class="material-icons">more_horiz</i></a>
                 <div class="dropdown-menu">
-                    <a onclick="$('#modal-edit-complaint').fadeIn().modal('show').find('.modal-footer .submit').attr('data-id','{{id}}');"
+                    <a onclick="$('#modal-edit-complaint').fadeIn().modal('show').find('.modal-footer .submit').attr('data-id','{{id}}');$('#txtMensajeEditado').val('{{mensaje}}')"
                        style="align-items: center; display: flex;" class="dropdown-item">
                         <i class="material-icons">edit</i> Editar
                     </a>

@@ -128,8 +128,25 @@ function loadComplaint(data) {
     });
 }
 
-function editComplaint(id) {
+function editComplaint() {
+    const data = {
+        id: $('#modal-edit-complaint').find('.modal-footer .submit').data('id'),
+        mensaje: $("#txtMensajeEditado").val(),
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
 
+    if (!data.mensaje) {
+        return;
+    }
+
+    if (confirm('¿Esta seguro?')) {
+        request('complaints', 'edit', data).done(() => {
+            $('#modal-edit-complaint').modal('hide');
+            navigate('dashboard.html');
+        });
+    }
 }
 
 function deleteComplaint() {

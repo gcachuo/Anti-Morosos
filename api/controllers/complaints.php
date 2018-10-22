@@ -91,18 +91,19 @@ sql;
 
     function edit()
     {
-        $complaint_id = isset_get($_REQUEST['']);
-        $complaint_message = isset_get($_REQUEST['']);
+        $complaint_id = isset_get($_REQUEST['id']);
+        $complaint_message = isset_get($_REQUEST['mensaje']);
+        $user_id = isset_get($_REQUEST['usuario']['id']);
 
         $sql = <<<sql
 insert into complaints_history(complaint_id, complaint_history_message)
 select complaint_id,complaint_message from complaints
-where complaint_id='$complaint_id';
+where complaint_id='$complaint_id' and user_id='$user_id';
 sql;
         db_query($sql);
 
         $sql = <<<sql
-update complaints set complaint_message='$complaint_message' where complaint_id='$complaint_id';
+update complaints set complaint_message='$complaint_message' where complaint_id='$complaint_id' and user_id='$user_id';
 sql;
         db_query($sql);
     }

@@ -100,6 +100,19 @@ CREATE UNIQUE INDEX products_users_pk ON users_products (product_id, user_id);
 CREATE INDEX users_products_users_user_id_fk ON users_products (user_id);
 sql;
 
+$complaints_history = <<<sql
+CREATE TABLE complaints_history
+(
+    complaint_history_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    complaint_id bigint(20) NOT NULL,
+    complaint_history_change_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    complaint_history_message varchar(255) NOT NULL,
+    CONSTRAINT complaints_history_complaints_complaint_id_fk FOREIGN KEY (complaint_id) REFERENCES complaints (complaint_id)
+);
+CREATE INDEX complaints_history_complaints_complaint_id_fk ON complaints_history (complaint_id);
+sql;
+
+
 try {
     require "../../libs/database.php";
     $query =
@@ -108,7 +121,8 @@ try {
         $payers .
         $topics .
         $products .
-        $users_products;
+        $users_products .
+        $complaints_history;
 
     db_query($query);
     echo "Correct.";
