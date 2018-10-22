@@ -41,6 +41,7 @@ CREATE TABLE IF NOT EXISTS complaints
     topic_id bigint(20),
     complaint_message varchar(255) NOT NULL,
     complaint_date timestamp DEFAULT CURRENT_TIMESTAMP,
+    complaint_deleted varchar(255),
     complaint_status bit(1) DEFAULT b'1' NOT NULL
 );
 sql;

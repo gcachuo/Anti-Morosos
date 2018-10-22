@@ -29,21 +29,27 @@ sql;
 
     function fetch()
     {
+        $user_id = isset_get($_REQUEST['usuario']['id']);
         $hashtag = isset_get($_REQUEST['hashtag']);
         $filters = isset_get($_REQUEST['filters']);
         $topics = join(',', isset_get($filters['topics'], array()));
 
         $sql = <<<sql
-select complaint_id id, topic_name topic, user_username username, group_concat(product_name) products ,complaint_message message, complaint_date date
+select complaint_id                                                    id,
+       topic_name                                                      topic,
+       user_username                                                   username,
+       group_concat(product_name order by p.product_id SEPARATOR ', ') products,
+       complaint_message                                               message,
+       complaint_date                                                  date,
+       ('$user_id' = c.user_id)                                     actions
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
-       left join users_products up on up.user_id=u.user_id
+       left join users_products up on up.user_id = u.user_id
        left join products p on p.product_id = up.product_id
-where 
-complaint_message like '%#$hashtag%'
-and if('$topics'='',true, c.topic_id IN ('$topics'))
-AND complaint_status = true
+where if('$hashtag' = '', true, complaint_message like '%#$hashtag%')
+  and if('$topics' = '', true, c.topic_id IN ('$topics'))
+  AND complaint_status = true
 group by complaint_id
 order by complaint_date asc;
 sql;
@@ -69,5 +75,35 @@ sql;
             $trending = array_splice($trending, 0, 5);
         }
         return compact('trending');
+    }
+
+    function delete()
+    {
+        $complaint_id = isset_get($_REQUEST['id']);
+        $complaint_deleted = isset_get($_REQUEST['razon'], 'null');
+        $user_id = isset_get($_REQUEST['usuario']['id']);
+
+        $sql = <<<sql
+update complaints set complaint_status=false, complaint_deleted='$complaint_deleted' where complaint_id='$complaint_id' and user_id='$user_id';
+sql;
+        db_query($sql);
+    }
+
+    function edit()
+    {
+        $complaint_id = isset_get($_REQUEST['']);
+        $complaint_message = isset_get($_REQUEST['']);
+
+        $sql = <<<sql
+insert into complaints_history(complaint_id, complaint_history_message)
+select complaint_id,complaint_message from complaints
+where complaint_id='$complaint_id';
+sql;
+        db_query($sql);
+
+        $sql = <<<sql
+update complaints set complaint_message='$complaint_message' where complaint_id='$complaint_id';
+sql;
+        db_query($sql);
     }
 }

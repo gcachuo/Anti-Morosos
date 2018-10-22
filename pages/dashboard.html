@@ -55,7 +55,7 @@
         </div>
     </div>
 </div>
-<div id="modal-edit-complaint" class="modal" role="dialog">
+<form id="modal-edit-complaint" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -66,23 +66,23 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary submit">Guardar Cambios</button>
+                <button type="submit" class="btn btn-primary submit">Guardar Cambios</button>
             </div>
         </div>
     </div>
-</div>
-<div id="modal-delete-complaint" class="modal" role="dialog">
+</form>
+<form id="modal-delete-complaint" class="modal">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-body">
                 <label>Escribe una razón por la que quieres eliminar esta publicación.</label>
-                <textarea class="form-control" id="txtRazonEliminar"></textarea>
+                <textarea placeholder="Razón de eliminación" required class="form-control" id="txtRazonEliminar"></textarea>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary submit">Confirmar</button>
+                <button onclick="deleteComplaint()" type="submit" class="btn btn-primary submit">Confirmar</button>
             </div>
         </div>
     </div>
-</div>
+</form>
 <script src="js/dashboard.js"></script>

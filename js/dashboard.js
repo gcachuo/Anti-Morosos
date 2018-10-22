@@ -55,6 +55,7 @@ $(function () {
 function fetch_complaints(filters) {
     $("#quejas").html('');
     request('complaints', 'fetch', {
+        usuario: {id: localStorage.getItem('user.id')},
         hashtag: window.location.hash.substr(1),
         filters: filters
     }).done(result => {
@@ -70,7 +71,8 @@ function fetch_complaints(filters) {
                 },
                 productos: complaint.products,
                 mensaje: complaint.message,
-                fecha: complaint.date
+                fecha: complaint.date,
+                acciones: complaint.actions === '1'
             };
             loadComplaint(data);
             complaintsCount++;
@@ -105,7 +107,8 @@ function publish() {
 
     request('complaints', 'publish', data).done(result =>{
         data.id = result.response.id;
-        loadComplaint(data);
+        navigate('dashboard.html');
+        //loadComplaint(data);
     });
 }
 
@@ -126,9 +129,26 @@ function loadComplaint(data) {
 }
 
 function editComplaint(id) {
-    $("#modal-edit-complaint").fadeIn().modal('show');
+
 }
 
-function deleteComplaint(id) {
+function deleteComplaint() {
+    const data = {
+        id: $('#modal-delete-complaint').find('.modal-footer .submit').data('id'),
+        razon: $("#txtRazonEliminar").val(),
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
 
+    if (!data.razon) {
+        return;
+    }
+
+    if (confirm('¿Esta seguro?')) {
+        request('complaints', 'delete', data).done(() => {
+            $('#modal-delete-complaint').modal('hide');
+            navigate('dashboard.html');
+        });
+    }
 }
