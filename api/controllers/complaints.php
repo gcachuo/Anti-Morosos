@@ -40,7 +40,7 @@ from complaints c
        inner join users u on u.user_id = c.user_id
        left join users_products up on up.user_id=u.user_id
        left join products p on p.product_id = up.product_id
-where BINARY
+where 
 complaint_message like '%#$hashtag%'
 and if('$topics'='',true, c.topic_id IN ('$topics'))
 AND complaint_status = true
