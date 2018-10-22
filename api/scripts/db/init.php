@@ -101,7 +101,7 @@ CREATE INDEX users_products_users_user_id_fk ON users_products (user_id);
 sql;
 
 $complaints_history = <<<sql
-CREATE TABLE complaints_history
+CREATE TABLE IF NOT EXISTS complaints_history
 (
     complaint_history_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
     complaint_id bigint(20) NOT NULL,
