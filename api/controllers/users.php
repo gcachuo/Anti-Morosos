@@ -176,4 +176,13 @@ sql;
 
         db_query($sql);
     }
+
+    function fetch()
+    {
+        $sql = <<<sql
+select user_username username from users where user_status=true;
+sql;
+        $users = db_all_results($sql);
+        return compact('users');
+    }
 }
