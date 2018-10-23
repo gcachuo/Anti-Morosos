@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     if (localStorage.getItem('user.id')) {
         if (localStorage.getItem('user.validation') === '1') {
@@ -18,17 +18,11 @@ $(function() {
     fetch_complaints();
     request('topics', 'fetch').done(result => {
         const topics = result.response.topics;
-        $.each(topics, function(i, topic) {
-
-            if(topic.id == 1){
+        $.each(topics, function (i, topic) {
+            const selected = topic.id == 1 ? 'selected' : '';
                 $("#selectTopic").append(`
-            <option selected value="${topic.id}">${topic.name}</option>
+            <option ${selected} value="${topic.id}">${topic.name}</option>
             `);
-            }else{
-                $("#selectTopic").append(`
-            <option value="${topic.id}">${topic.name}</option>
-            `);
-            }
             $("#filterTopic").append(`
             <option value="${topic.id}">${topic.name}</option>
             `);
@@ -38,18 +32,18 @@ $(function() {
             width: '155px'
         });
         $("#filterTopic").select2({
-            placeholder: "Todos los temas ",
+            placeholder: "Todos los temas",
             width: '155px',
             outline: 'none',
-            color : '#dc3545',
-            boder : 'border'
-        }).on('change', function() {
-            fetch_complaints({ topics: $(this).val() });
+            color: '#dc3545',
+            border: 'border'
+        }).on('change', function () {
+            fetch_complaints({topics: $(this).val()});
         });
     });
     request('complaints', 'trending').done(result => {
         const trending = result.response.trending;
-        $.each(trending, function(hashtag, count) {
+        $.each(trending, function (hashtag, count) {
             $("#trending").append(`
                     <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item text-ellipsis">
                         <span style="color:#dc3545">${hashtag}</span>
@@ -60,7 +54,7 @@ $(function() {
     request('users', 'fetch').done(result => {
         const users = result.response.users;
         let usersCount = 0;
-        $.each(users, function(i, user) {
+        $.each(users, function (i, user) {
             $("#users").append(`
                     <a class="list-group-item text-ellipsis">
                         <span>${user.username}</span>
@@ -75,7 +69,7 @@ $(function() {
 function fetch_complaints(filters) {
     $("#quejas").html('');
     request('complaints', 'fetch', {
-        usuario: { id: localStorage.getItem('user.id') },
+        usuario: {id: localStorage.getItem('user.id')},
         hashtag: window.location.hash.substr(1),
         filters: filters
     }).done(result => {
@@ -85,7 +79,7 @@ function fetch_complaints(filters) {
         complaints.forEach(complaint => {
             const data = {
                 id: complaint.id,
-                tema: { name: complaint.topic },
+                tema: {name: complaint.topic},
                 usuario: {
                     name: complaint.username
                 },
@@ -109,7 +103,7 @@ function fetch_complaints(filters) {
 function publish() {
     const data = {
         mensaje: $("#txtQueja").val(),
-        tema: { id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text() },
+        tema: {id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text()},
         usuario: {
             id: localStorage.getItem('user.id'),
             name: localStorage.getItem('user.usuario')
@@ -133,7 +127,7 @@ function publish() {
 }
 
 function loadComplaint(data) {
-    $.get(`templates/queja.html`, function(template) {
+    $.get(`templates/queja.html`, function (template) {
         const rendered = Mustache.render(template, data);
 
         const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
