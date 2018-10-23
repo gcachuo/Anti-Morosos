@@ -62,7 +62,7 @@ sql;
     {
         $trending = [];
         $sql = <<<sql
-select lower(complaint_message) from complaints where complaint_message like '%#%';
+select lower(complaint_message) from complaints where complaint_message like '%#%' and complaint_status=true;
 sql;
 
         $results = db_all_results($sql, MYSQLI_NUM);

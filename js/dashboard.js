@@ -50,6 +50,20 @@ $(function () {
         `);
         });
     });
+    request('users', 'fetch').done(result => {
+        const users = result.response.users;
+        let usersCount = 0;
+        $.each(users, function (i, user) {
+            $("#users").append(`
+                    <a class="list-group-item text-ellipsis">
+                        <span class="w-8 rounded m-r-sm success"></span>
+                        <span>${user.username}</span>
+                    </a>
+            `);
+            usersCount++;
+        });
+        $("#countUsers").html(usersCount);
+    });
 });
 
 function fetch_complaints(filters) {
