@@ -8,9 +8,9 @@ body {
 }
 
 .hashtag {
-    color: blue;
+    color: #dc3545;
 }
 
 .dropdown-toggle::after {
-    display:none;
+    display: none;
 }
