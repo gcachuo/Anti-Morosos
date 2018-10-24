@@ -76,7 +76,7 @@ sql;
             $trending = array_merge(...$matches);
             $trending = array_count_values($trending);
             arsort($trending);
-            $trending = array_splice($trending, 0, 5);
+            $trending = array_splice($trending, 0/*, 5*/);
         }
         return compact('trending');
     }

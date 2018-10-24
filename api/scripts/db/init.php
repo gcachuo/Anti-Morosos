@@ -115,6 +115,18 @@ CREATE TABLE IF NOT EXISTS complaints_history
 CREATE INDEX complaints_history_complaints_complaint_id_fk ON complaints_history (complaint_id);
 sql;
 
+$complaints_users=<<<sql
+CREATE TABLE complaints_users
+(
+    complaint_user_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    complaint_user_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    complaint_id bigint(20) NOT NULL,
+    user_id bigint(20) NOT NULL,
+    complaint_user_read bit(1) DEFAULT b'0' NOT NULL
+);
+CREATE UNIQUE INDEX complaints_users_pk ON complaints_users (complaint_id, user_id);
+sql;
+
 
 try {
     require getcwd(). "/libs/database.php";
@@ -125,7 +137,8 @@ try {
         $topics .
         $products .
         $users_products .
-        $complaints_history;
+        $complaints_history.
+        $complaints_users;
 
     db_query($query);
     echo "Correct.";
