@@ -186,7 +186,8 @@ count(c.complaint_id) count
 from users u
 left join complaints c on c.user_id=u.user_id and complaint_status=true
 where user_status=true 
-group by u.user_id;
+group by u.user_id
+order by count desc ;
 sql;
         $users = db_all_results($sql);
         return compact('users');
