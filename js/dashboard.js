@@ -1,4 +1,4 @@
-$(function() {
+$(function () {
 
     if (localStorage.getItem('user.id')) {
         if (localStorage.getItem('user.validation') === '1') {
@@ -15,20 +15,16 @@ $(function() {
         navigate('sign-in.html');
     }
 
-    fetch_complaints();
+    var url = new URL(window.location.href);
+    var u = url.searchParams.get("u");
+    fetch_complaints({u: u});
     request('topics', 'fetch').done(result => {
         const topics = result.response.topics;
-        $.each(topics, function(i, topic) {
-
-            if(topic.id == 1){
+        $.each(topics, function (i, topic) {
+            const selected = topic.id == 1 ? 'selected' : '';
                 $("#selectTopic").append(`
-            <option selected value="${topic.id}">${topic.name}</option>
+            <option ${selected} value="${topic.id}">${topic.name}</option>
             `);
-            }else{
-                $("#selectTopic").append(`
-            <option value="${topic.id}">${topic.name}</option>
-            `);
-            }
             $("#filterTopic").append(`
             <option value="${topic.id}">${topic.name}</option>
             `);
@@ -38,32 +34,37 @@ $(function() {
             width: '155px'
         });
         $("#filterTopic").select2({
-            placeholder: "Todos los temas ",
+            placeholder: "Todos los temas",
             width: '155px',
             outline: 'none',
-            color : '#dc3545',
-            boder : 'border'
-        }).on('change', function() {
-            fetch_complaints({ topics: $(this).val() });
+            color: '#dc3545',
+            border: 'border'
+        }).on('change', function () {
+            fetch_complaints({topics: $(this).val()});
         });
     });
     request('complaints', 'trending').done(result => {
         const trending = result.response.trending;
-        $.each(trending, function(hashtag, count) {
+        let index = 1;
+        $.each(trending, function (hashtag, count) {
             $("#trending").append(`
-                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item text-ellipsis">
+                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${index}.</span>
                         <span style="color:#dc3545">${hashtag}</span>
+                        <span class="badge badge-dark badge-pill">${count}</span>
                     </a>
         `);
+            index++;
         });
     });
     request('users', 'fetch').done(result => {
         const users = result.response.users;
         let usersCount = 0;
-        $.each(users, function(i, user) {
+        $.each(users, function (i, user) {
             $("#users").append(`
-                    <a class="list-group-item text-ellipsis">
+                    <a href="?u=${user.username}" class="list-group-item d-flex justify-content-between align-items-center">
                         <span>${user.username}</span>
+                        <span class="badge badge-dark badge-pill">${user.count}</span>
                     </a>
             `);
             usersCount++;
@@ -75,7 +76,7 @@ $(function() {
 function fetch_complaints(filters) {
     $("#quejas").html('');
     request('complaints', 'fetch', {
-        usuario: { id: localStorage.getItem('user.id') },
+        usuario: {id: localStorage.getItem('user.id')},
         hashtag: window.location.hash.substr(1),
         filters: filters
     }).done(result => {
@@ -85,13 +86,16 @@ function fetch_complaints(filters) {
         complaints.forEach(complaint => {
             const data = {
                 id: complaint.id,
-                tema: { name: complaint.topic },
+                tema: {
+                    name: complaint.topic
+                },
                 usuario: {
                     name: complaint.username
                 },
                 productos: complaint.products,
                 mensaje: complaint.message,
                 fecha: complaint.date,
+                leido: complaint.messageRead === '1',
                 acciones: complaint.actions === '1'
             };
             loadComplaint(data);
@@ -100,8 +104,13 @@ function fetch_complaints(filters) {
         $("#count").html(complaintsCount);
         if (hashtag) {
             const $hashtag = $("#hashtag");
-            $hashtag.html("#" + hashtag);
+            $hashtag.find('span').html("#" + hashtag);
             $hashtag.parent().show();
+        }
+        if (filters.u) {
+            const $users = $("#user");
+            $users.find('span').html(filters.u);
+            $users.parent().show();
         }
     });
 }
@@ -109,7 +118,7 @@ function fetch_complaints(filters) {
 function publish() {
     const data = {
         mensaje: $("#txtQueja").val(),
-        tema: { id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text() },
+        tema: {id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text()},
         usuario: {
             id: localStorage.getItem('user.id'),
             name: localStorage.getItem('user.usuario')
@@ -133,7 +142,7 @@ function publish() {
 }
 
 function loadComplaint(data) {
-    $.get(`templates/queja.html`, function(template) {
+    $.get(`templates/queja.html`, function (template) {
         const rendered = Mustache.render(template, data);
 
         const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
@@ -188,4 +197,16 @@ function deleteComplaint() {
             navigate('dashboard.html');
         });
     }
+}
+
+function markAsRead(id) {
+    const data = {
+        id: id,
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
+    request('complaints', 'markasread', data).done(() => {
+        $(`.leido[data-id=${id}]`).hide().parents('.card').slideUp();
+    });
 }

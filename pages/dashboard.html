@@ -35,37 +35,45 @@
                     </ul>
                 </div>
             </div>
-            <div class="box">
-                <div class="box-header">
-                    <div class="row" style="display: none">
-                        <div style="font-size: 22px; " class="col-xs-11 alert alert-success" role="alert" id="hashtag">
-                        </div>
-                        <a href="#" onclick="navigate('dashboard.html')" class="col-xs-1  alert alert-success">
-                            <i class="material-icons" style="padding-top:10px; vertical-align: middle; align-items: center; line-height: 0.3;">close</i>
-                        </a>
-                    </div>
-                    <br>
+            <div class="row" style="display: none">
+                <div style="font-size: 22px; " class="alert alert-dark" role="alert" id="hashtag">
                     <div class="row">
-                        <div class="col-md-12">
-                            <h3 style="display: inline-block"><span class="label success" id="count">0</span> Publicaciones en </h3>
-                            <select multiple title="Temas" id="filterTopic" style="float:left;color:#dc3545;border:none">
-                                <option></option>
-                            </select>
-                        </div>
-
+                        <a href="#" onclick="navigate('dashboard.html')" class="col">
+                            <i class="material-icons"
+                               style="vertical-align: middle; align-items: center; line-height: 0.3;">close</i>
+                        </a>
+                        <span class="col"></span>
                     </div>
                 </div>
-                <div class="box-body">
-                    <div class="">
-
+            </div>
+            <div class="row" style="display: none">
+                <div style="font-size: 22px; " class="alert alert-dark" role="alert" id="user">
+                    <div class="row">
+                        <a href="/" onclick="navigate('dashboard.html')" class="col">
+                            <i class="material-icons"
+                               style="vertical-align: middle; align-items: center; line-height: 0.3;">close</i>
+                        </a>
+                        <span class="col"></span>
                     </div>
-                    <ul class="list" id="quejas">
-                        <li class="list-item">
-                            <div id="alertNoPosts" class="alert alert-primary" role="alert">
-                                No hay publicaciones que mostrar.
-                            </div>
-                        </li>
-                    </ul>
+                </div>
+            </div>
+            <br>
+            <div class="row">
+                <div class="col-md-12">
+                    <h3 style="display: inline-block"><span class="label success" id="count">0</span> Publicaciones en
+                    </h3>
+                    <select multiple title="Temas" id="filterTopic" style="float:left;color:#dc3545;border:none">
+                        <option></option>
+                    </select>
+                </div>
+
+            </div>
+            <hr>
+            <div id="quejas">
+                <div class="col">
+                    <div id="alertNoPosts" class="alert alert-primary" role="alert">
+                        No hay publicaciones que mostrar.
+                    </div>
                 </div>
             </div>
         </div>

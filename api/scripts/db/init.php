@@ -7,30 +7,28 @@ ini_set('display_errors', 1);
 $users = <<<sql
 CREATE TABLE IF NOT EXISTS users
 (
-    user_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    user_email varchar(100) NOT NULL,
-    user_username varchar(100) NOT NULL,
-    user_password varchar(100) NOT NULL,
-    user_name varchar(100) NOT NULL,
-    user_lastname_1 varchar(100),
-    user_lastname_2 varchar(100),
-    user_company varchar(100),
-    user_business_name varchar(100),
-    user_business_position varchar(100),
-    user_business_phone varchar(100),
-    user_whatsapp varchar(100),
-    user_referrer bigint(20),
-    user_referral int(11),
-    user_validation bit(1) DEFAULT b'0',
-    user_status bit(1) DEFAULT b'1' NOT NULL,
-    CONSTRAINT users_users_user_id_fk FOREIGN KEY (user_referrer) REFERENCES users (user_id)
+  user_id                bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+  user_email             varchar(100)           NOT NULL,
+  user_username          varchar(100)           NOT NULL,
+  user_password          varchar(100)           NOT NULL,
+  user_name              varchar(100)           NOT NULL,
+  user_lastname_1        varchar(100),
+  user_lastname_2        varchar(100),
+  user_company           varchar(100),
+  user_business_name     varchar(100),
+  user_business_position varchar(100),
+  user_business_phone    varchar(100),
+  user_whatsapp          varchar(100),
+  user_referrer          bigint(20),
+  user_referral          int(11),
+  user_validation        bit(1)                          DEFAULT b'0',
+  user_status            bit(1) DEFAULT b'1'    NOT NULL,
+  CONSTRAINT users_users_user_id_fk FOREIGN KEY (user_referrer) REFERENCES users (user_id),
+  unique key users_user_email_uindex(user_email),
+  unique key users_user_username_uindex(user_username),
+  unique key users_user_referral_uindex(user_referral),
+  index users_user_referrer_fk(user_referrer)
 );
-
-CREATE UNIQUE INDEX users_user_email_uindex ON users (user_email);
-CREATE UNIQUE INDEX users_user_username_uindex ON users (user_username);
-CREATE UNIQUE INDEX users_user_referral_uindex ON users (user_referral);
-CREATE INDEX users_users_user_id_fk ON users (user_referrer);
-
 sql;
 
 $complaints = <<<sql
@@ -62,7 +60,10 @@ CREATE TABLE IF NOT EXISTS topics
     topic_name varchar(100) NOT NULL,
     topic_status bit(1) DEFAULT b'1'
 );
-INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (1, 'Calzado', true);
+INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (1, 'Morosos', true);
+INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (2, 'Empleados', true);
+INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (3, 'Recomendaciones', true);
+INSERT INTO topics (topic_id, topic_name, topic_status) VALUES (4, 'Ventas', true);
 sql;
 
 $products = <<<sql
@@ -73,7 +74,6 @@ CREATE TABLE IF NOT EXISTS products
     product_status bit(1) DEFAULT b'1'
 );
 CREATE UNIQUE INDEX products_product_name_uindex ON products (product_name);
-
 INSERT INTO products (product_id, product_name, product_status) VALUES (1, 'Suela', true);
 INSERT INTO products (product_id, product_name, product_status) VALUES (2, 'Caja', true);
 INSERT INTO products (product_id, product_name, product_status) VALUES (3, 'Planta', true);
@@ -85,6 +85,9 @@ INSERT INTO products (product_id, product_name, product_status) VALUES (8, 'Taco
 INSERT INTO products (product_id, product_name, product_status) VALUES (9, 'Herrajes', true);
 INSERT INTO products (product_id, product_name, product_status) VALUES (10, 'Peletero', true);
 INSERT INTO products (product_id, product_name, product_status) VALUES (11, 'Adhesivos', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (12, 'Bondeado', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (13, 'Moldes', true);
+INSERT INTO products (product_id, product_name, product_status) VALUES (14, 'Textiles', true);
 sql;
 
 $users_products = <<<sql
@@ -112,9 +115,21 @@ CREATE TABLE IF NOT EXISTS complaints_history
 CREATE INDEX complaints_history_complaints_complaint_id_fk ON complaints_history (complaint_id);
 sql;
 
+$complaints_users=<<<sql
+CREATE TABLE complaints_users
+(
+    complaint_user_id bigint(20) PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    complaint_user_date timestamp DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    complaint_id bigint(20) NOT NULL,
+    user_id bigint(20) NOT NULL,
+    complaint_user_read bit(1) DEFAULT b'0' NOT NULL
+);
+CREATE UNIQUE INDEX complaints_users_pk ON complaints_users (complaint_id, user_id);
+sql;
+
 
 try {
-    require "../../libs/database.php";
+    require getcwd(). "/libs/database.php";
     $query =
         $users .
         $complaints .
@@ -122,7 +137,8 @@ try {
         $topics .
         $products .
         $users_products .
-        $complaints_history;
+        $complaints_history.
+        $complaints_users;
 
     db_query($query);
     echo "Correct.";

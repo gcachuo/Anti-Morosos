@@ -33,25 +33,29 @@ sql;
         $hashtag = isset_get($_REQUEST['hashtag']);
         $filters = isset_get($_REQUEST['filters']);
         $topics = join(',', isset_get($filters['topics'], array()));
+        $filters['user'] = isset_get($filters['u']);
 
         $sql = <<<sql
-select complaint_id                                                    id,
+select c.complaint_id                                                  id,
        topic_name                                                      topic,
        user_username                                                   username,
        group_concat(product_name order by p.product_id SEPARATOR ', ') products,
        complaint_message                                               message,
        complaint_date                                                  date,
+       coalesce(complaint_user_read, 0)                                messageRead,
        ('$user_id' = c.user_id)                                     actions
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
        left join users_products up on up.user_id = u.user_id
        left join products p on p.product_id = up.product_id
+       left join complaints_users cu on cu.complaint_id = c.complaint_id and cu.user_id='$user_id'
 where if('$hashtag' = '', true, complaint_message like '%#$hashtag%')
   and if('$topics' = '', true, c.topic_id IN ('$topics'))
+  and if('$filters[user]' = '', true, u.user_username = '$filters[user]')
   AND complaint_status = true
-group by complaint_id
-order by complaint_date asc;
+group by c.complaint_id
+order by messageRead desc , complaint_date asc;
 sql;
 
         $complaints = db_all_results($sql);
@@ -72,7 +76,7 @@ sql;
             $trending = array_merge(...$matches);
             $trending = array_count_values($trending);
             arsort($trending);
-            $trending = array_splice($trending, 0, 5);
+            $trending = array_splice($trending, 0/*, 5*/);
         }
         return compact('trending');
     }
@@ -104,6 +108,17 @@ sql;
 
         $sql = <<<sql
 update complaints set complaint_message='$complaint_message' where complaint_id='$complaint_id' and user_id='$user_id';
+sql;
+        db_query($sql);
+    }
+
+    function markasread()
+    {
+        $complaint_id = isset_get($_REQUEST['id']);
+        $user_id = isset_get($_REQUEST['usuario']['id']);
+
+        $sql = <<<sql
+replace into complaints_users(complaint_id, user_id, complaint_user_read) VALUES ('$complaint_id','$user_id',true);
 sql;
         db_query($sql);
     }

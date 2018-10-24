@@ -6,23 +6,27 @@
  * Time: 12:25 AM
  */
 
-$db_config = [
-    "host" => "localhost",
-    "user" => "root",
-    "password" => "sqlserver",
-    "database" => "antimorosos"
-];
-/*$db_config = [
-    "host" => "localhost",
-    "user" => "antimoro_sos",
-    "password" => "antimorosos",
-    "database" => "antimoro_antimorosos"
-];*/
+$env = 'developer';
 $mysqli = db_connect();
 
 function db_connect()
 {
-    global $db_config;
+    global $env;
+    $config = [
+        'developer' => [
+            "host" => "localhost",
+            "user" => "root",
+            "password" => "sqlserver",
+            "database" => "antimorosos"
+        ],
+        'production' => [
+            "host" => "localhost",
+            "user" => "antimoro_sos",
+            "password" => "antimorosos",
+            "database" => "antimoro_antimorosos"
+        ]
+    ];
+    $db_config = $config[$env];
     return mysqli_connect($db_config['host'], $db_config['user'], $db_config['password'], $db_config['database']);
 }
 
