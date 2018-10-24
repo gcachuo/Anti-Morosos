@@ -33,6 +33,7 @@ sql;
         $hashtag = isset_get($_REQUEST['hashtag']);
         $filters = isset_get($_REQUEST['filters']);
         $topics = join(',', isset_get($filters['topics'], array()));
+        $filters['user'] = isset_get($filters['u']);
 
         $sql = <<<sql
 select c.complaint_id                                                  id,
@@ -51,6 +52,7 @@ from complaints c
        left join complaints_users cu on cu.complaint_id = c.complaint_id and cu.user_id='$user_id'
 where if('$hashtag' = '', true, complaint_message like '%#$hashtag%')
   and if('$topics' = '', true, c.topic_id IN ('$topics'))
+  and if('$filters[user]' = '', true, u.user_username = '$filters[user]')
   AND complaint_status = true
 group by c.complaint_id
 order by messageRead desc , complaint_date asc;

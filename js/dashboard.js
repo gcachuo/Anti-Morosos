@@ -15,7 +15,9 @@ $(function () {
         navigate('sign-in.html');
     }
 
-    fetch_complaints();
+    var url = new URL(window.location.href);
+    var u = url.searchParams.get("u");
+    fetch_complaints({u: u});
     request('topics', 'fetch').done(result => {
         const topics = result.response.topics;
         $.each(topics, function (i, topic) {
@@ -60,7 +62,7 @@ $(function () {
         let usersCount = 0;
         $.each(users, function (i, user) {
             $("#users").append(`
-                    <a class="list-group-item text-ellipsis">
+                    <a href="?u=${user.username}" class="list-group-item text-ellipsis">
                         <span>${user.username}</span>
                     </a>
             `);
@@ -103,6 +105,11 @@ function fetch_complaints(filters) {
             const $hashtag = $("#hashtag");
             $hashtag.find('span').html("#" + hashtag);
             $hashtag.parent().show();
+        }
+        if (filters.u) {
+            const $users = $("#user");
+            $users.find('span').html(filters.u);
+            $users.parent().show();
         }
     });
 }
