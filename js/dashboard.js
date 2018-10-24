@@ -83,7 +83,9 @@ function fetch_complaints(filters) {
         complaints.forEach(complaint => {
             const data = {
                 id: complaint.id,
-                tema: {name: complaint.topic},
+                tema: {
+                    name: complaint.topic
+                },
                 usuario: {
                     name: complaint.username
                 },
