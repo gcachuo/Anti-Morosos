@@ -1,3 +1,4 @@
+
 <div class="card col-12 row">
     <div class="card-body">
         {{#acciones}}
@@ -21,11 +22,18 @@
             {{#fecha}}{{.}}{{/fecha}}
             {{^fecha}}Ahora{{/fecha}}
         </p>
-        <p>
-            <span class="label m-r">
+        <span class="label m-r">
                 {{#tema.name}}{{.}}{{/tema.name}}
-                {{^tema.name}}Sin Tema{{/tema.name}}
+            {{^tema.name}}Sin Tema{{/tema.name}}
             </span>
-        </p>
+        {{^leido}}
+            <a data-id="{{id}}" onclick="markAsRead('{{id}}')" tabindex
+               class="pull-right text-sm label btn-outline-dark leido">
+                <i class="material-icons text-sm">done</i> Leer
+            </a>
+        {{/leido}}
+        {{#leido}}
+            <span class="pull-right"><i class="material-icons text-sm">done</i> Leido</span>
+        {{/leido}}
     </div>
 </div>

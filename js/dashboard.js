@@ -92,6 +92,7 @@ function fetch_complaints(filters) {
                 productos: complaint.products,
                 mensaje: complaint.message,
                 fecha: complaint.date,
+                leido: complaint.messageRead === '1',
                 acciones: complaint.actions === '1'
             };
             loadComplaint(data);
@@ -188,4 +189,16 @@ function deleteComplaint() {
             navigate('dashboard.html');
         });
     }
+}
+
+function markAsRead(id) {
+    const data = {
+        id: id,
+        usuario: {
+            id: localStorage.getItem('user.id')
+        }
+    };
+    request('complaints', 'markasread', data).done(() => {
+        $(`.leido[data-id=${id}]`).hide().parents('.card').slideUp();
+    });
 }
