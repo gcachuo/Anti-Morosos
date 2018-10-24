@@ -62,8 +62,9 @@ $(function () {
         let usersCount = 0;
         $.each(users, function (i, user) {
             $("#users").append(`
-                    <a href="?u=${user.username}" class="list-group-item text-ellipsis">
+                    <a href="?u=${user.username}" class="list-group-item d-flex justify-content-between align-items-center">
                         <span>${user.username}</span>
+                        <span class="badge badge-dark badge-pill">${user.count}</span>
                     </a>
             `);
             usersCount++;
