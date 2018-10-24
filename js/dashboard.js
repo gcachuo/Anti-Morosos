@@ -43,12 +43,16 @@ $(function () {
     });
     request('complaints', 'trending').done(result => {
         const trending = result.response.trending;
+        let index = 1;
         $.each(trending, function (hashtag, count) {
             $("#trending").append(`
-                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item text-ellipsis">
+                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item d-flex justify-content-between align-items-center">
+                        <span>${index}.</span>
                         <span style="color:#dc3545">${hashtag}</span>
+                        <span class="badge badge-dark badge-pill">${count}</span>
                     </a>
         `);
+            index++;
         });
     });
     request('users', 'fetch').done(result => {
@@ -94,7 +98,7 @@ function fetch_complaints(filters) {
         $("#count").html(complaintsCount);
         if (hashtag) {
             const $hashtag = $("#hashtag");
-            $hashtag.html("#" + hashtag);
+            $hashtag.find('span').html("#" + hashtag);
             $hashtag.parent().show();
         }
     });
