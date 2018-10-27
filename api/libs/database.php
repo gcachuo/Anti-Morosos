@@ -6,7 +6,7 @@
  * Time: 12:25 AM
  */
 
-$env = 'developer';
+$env = 'production';
 $mysqli = db_connect();
 
 function db_connect()
