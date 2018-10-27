@@ -161,17 +161,25 @@ sql;
 
     function changepassword()
     {
-        $id = isset_get($_REQUEST['id']);
+        $user_id = isset_get($_REQUEST['id']);
         $password = isset_get($_REQUEST['password']);
+        $new_pass = password_hash(isset_get($_REQUEST['newpass']), CRYPT_BLOWFISH);
 
-        $password = password_hash($password, CRYPT_BLOWFISH);
-
-        if (!$id || !$password) {
+        if (!$password || !$new_pass) {
             set_error("Llene todos los datos");
         }
 
         $sql = <<<sql
-update users set user_password='$password' where user_id='$id';
+select user_password password from users where user_id='$user_id'
+sql;
+
+        $hash = db_result($sql)['password'];
+        if (!password_verify($password, $hash)) {
+            set_error("El usuario o la contraseña son incorrectos.");
+        }
+
+        $sql = <<<sql
+update users set user_password='$new_pass' where user_id='$user_id';
 sql;
 
         db_query($sql);
