@@ -1,19 +1,19 @@
 $(function () {
-
-    if (localStorage.getItem('user.id')) {
-        if (localStorage.getItem('user.validation') === '1') {
-            $(".logged").show();
-            $(".noUser").hide();
-            $("#username").html(localStorage.getItem('user.name'));
-            $("#nick").html(localStorage.getItem('user.usuario'));
+    session_valid().then(sessionValid => {
+        if (localStorage.getItem('user.id') && sessionValid) {
+            if (localStorage.getItem('user.validation') === '1') {
+                $(".logged").show();
+                $(".noUser").hide();
+                $("#username").html(localStorage.getItem('user.name'));
+                $("#nick").html(localStorage.getItem('user.usuario'));
+            } else {
+                navigate('pending-validation.html');
+            }
         } else {
-            navigate('pending-validation.html');
+            $(".logged").hide();
+            $(".noUser").show();
+            navigate('sign-in.html');
         }
-    } else {
-        $(".logged").hide();
-        $(".noUser").show();
-        navigate('sign-in.html');
-    }
 
     var url = new URL(window.location.href);
     var u = url.searchParams.get("u");
@@ -71,7 +71,19 @@ $(function () {
         });
         $("#countUsers").html(usersCount);
     });
+    });
 });
+
+async function session_valid() {
+    if (!localStorage.getItem('session.time')) {
+        return false;
+    }
+    const result = await request('users', 'validatesession', {
+        id: localStorage.getItem('user.id'),
+        time: localStorage.getItem('session.time')
+    });
+    return result.response;
+}
 
 function fetch_complaints(filters) {
     $("#quejas").html('');

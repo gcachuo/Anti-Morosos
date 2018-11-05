@@ -18,6 +18,12 @@ function navigate(page, data) {
     });
 }
 
+/**
+ * @param controller
+ * @param action
+ * @param data
+ * @returns {*|{readyState, getResponseHeader, getAllResponseHeaders, setRequestHeader, overrideMimeType, statusCode, abort}}
+ */
 function request(controller, action, data) {
     return $.ajax({
         url: `api/index.php?controller=${controller}&action=${action}`,
@@ -25,7 +31,7 @@ function request(controller, action, data) {
         data: data,
         dataType: 'json',
         error: response => {
-            console.log(response)
+            console.log(response);
             const error = response.responseJSON.error || '';
             if (response.responseJSON.code === 400) {
                 alert(error.message);
