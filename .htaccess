@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteRule ^(\w+)$ ?p=$1 [NC,L]
+
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^(.*)$ $1.php
+
+RewriteRule api\/(.[^\/]*)\/(.[^\/?]*)[?]?(.[^\/]*)?$ api/index?controller=$1&action=$2&%{QUERY_STRING} [NC,L]

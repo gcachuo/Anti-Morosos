@@ -26,7 +26,7 @@ function navigate(page, data) {
  */
 function request(controller, action, data) {
     return $.ajax({
-        url: `api/index.php?controller=${controller}&action=${action}`,
+        url: `api/${controller}/${action}`,
         method: 'GET',
         data: data,
         dataType: 'json',
