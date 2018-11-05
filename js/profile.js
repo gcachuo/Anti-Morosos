@@ -10,7 +10,7 @@ function update_password() {
             password: $("#txtPassword").val(),
             newpass: $("#txtVerifyPass").val()
         }
-    ).done(reult => {
+    ).done(() => {
         alert('Contraseña cambiada correctamente');
         navigate('profile.html');
     }).always(() => {
