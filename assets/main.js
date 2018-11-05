@@ -1,6 +1,33 @@
 $(function () {
-    navigate('dashboard.html');
+    session_valid().then(sessionValid => {
+        if (localStorage.getItem('user.id') && sessionValid) {
+            if (localStorage.getItem('user.validation') === '1') {
+                $(".logged").show();
+                $(".noUser").hide();
+                $("#username").html(localStorage.getItem('user.name'));
+                $("#nick").html(localStorage.getItem('user.usuario'));
+                navigate('dashboard.html');
+            } else {
+                navigate('pending-validation.html');
+            }
+        } else {
+            $(".logged").hide();
+            $(".noUser").show();
+            navigate('sign-in.html');
+        }
+    });
 });
+
+async function session_valid() {
+    if (!localStorage.getItem('session.time')) {
+        return false;
+    }
+    const result = await request('users', 'validatesession', {
+        id: localStorage.getItem('user.id'),
+        time: localStorage.getItem('session.time')
+    });
+    return result.response;
+}
 
 function sign_out() {
     if (confirm('¿Desea cerrar la sesión?')) {
