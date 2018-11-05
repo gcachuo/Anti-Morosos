@@ -23,6 +23,6 @@ function sign_in() {
         $(".logged").show();
         $(".noUser").hide();
 
-        navigate('dashboard.html');
+        navigate('dashboard');
     });
 }

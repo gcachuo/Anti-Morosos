@@ -67,10 +67,10 @@ function sign_up() {
         $(".logged").show();
         $(".noUser").hide();
         if (user_validation) {
-            navigate('dashboard.html');
+            navigate('dashboard');
         }
         else {
-            navigate('sign-in.html');
+            navigate('sign-in');
         }
     });
 }

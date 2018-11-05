@@ -32,7 +32,7 @@ $(function () {
         let index = 1;
         $.each(trending, function (hashtag, count) {
             $("#trending").append(`
-                    <a href="${hashtag}" onclick="navigate('dashboard.html');" class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="${hashtag}" onclick="navigate('dashboard');" class="list-group-item d-flex justify-content-between align-items-center">
                         <span>${index}.</span>
                         <span style="color:#dc3545">${hashtag}</span>
                         <span class="badge badge-dark badge-pill">${count}</span>
@@ -120,7 +120,7 @@ function publish() {
 
     request('complaints', 'publish', data).done(result => {
         data.id = result.response.id;
-        navigate('dashboard.html');
+        navigate('dashboard');
         //loadComplaint(data);
     });
 }
@@ -129,7 +129,7 @@ function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
         const rendered = Mustache.render(template, data);
 
-        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard.html');">$1</a>`);
+        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard');">$1</a>`);
 
         $("#quejas").prepend($(rendered).get(0));
         $(`#quejas .mensaje[data-id=${data.id}]`).html(mensaje);
@@ -157,7 +157,7 @@ function editComplaint() {
     if (confirm('¿Esta seguro?')) {
         request('complaints', 'edit', data).done(() => {
             $('#modal-edit-complaint').modal('hide');
-            navigate('dashboard.html');
+            navigate('dashboard');
         });
     }
 }
@@ -178,7 +178,7 @@ function deleteComplaint() {
     if (confirm('¿Esta seguro?')) {
         request('complaints', 'delete', data).done(() => {
             $('#modal-delete-complaint').modal('hide');
-            navigate('dashboard.html');
+            navigate('dashboard');
         });
     }
 }

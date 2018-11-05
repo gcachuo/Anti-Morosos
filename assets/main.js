@@ -6,14 +6,18 @@ $(function () {
                 $(".noUser").hide();
                 $("#username").html(localStorage.getItem('user.name'));
                 $("#nick").html(localStorage.getItem('user.usuario'));
-                navigate('dashboard.html');
+
+                var params = window.location.pathname.split('/').slice(1);
+                var p = params[0];
+
+                navigate(p || 'dashboard');
             } else {
-                navigate('pending-validation.html');
+                navigate('pending-validation');
             }
         } else {
             $(".logged").hide();
             $(".noUser").show();
-            navigate('sign-in.html');
+            navigate('sign-in');
         }
     });
 });
@@ -32,14 +36,15 @@ async function session_valid() {
 function sign_out() {
     if (confirm('¿Desea cerrar la sesión?')) {
         localStorage.clear();
-        navigate('sign-in.html');
+        navigate('sign-in');
         $(".logged").hide();
         $(".noUser").show();
     }
 }
 
 function navigate(page, data) {
-    $.get(`pages/${page}`, function (template) {
+    history.pushState({}, null, '/');
+    $.get(`pages/${page}.html`, function (template) {
         var rendered = Mustache.render(template, data);
         $('.app-body').html(rendered);
     });

@@ -12,7 +12,7 @@ function update_password() {
         }
     ).done(() => {
         alert('Contraseña cambiada correctamente');
-        navigate('profile.html');
+        navigate('profile');
     }).always(() => {
         $("#btnUpdatePass").prop('disabled', false).find('i').removeClass('fa-spinner');
     });
