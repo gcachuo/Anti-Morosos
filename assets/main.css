@@ -14,3 +14,7 @@ body {
 .dropdown-toggle::after {
     display: none;
 }
+
+li.disabled {
+    color: rgba(125, 125, 125, 0.5);
+}
