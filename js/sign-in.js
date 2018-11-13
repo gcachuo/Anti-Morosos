@@ -18,6 +18,7 @@ function sign_in() {
         localStorage.setItem('user.usuario', user.username);
         localStorage.setItem('user.name', user.fullname);
         localStorage.setItem('user.validation', user.validation);
+        localStorage.setItem('user.type', user.type);
         localStorage.setItem('session.time', user.time);
 
         $(".logged").show();

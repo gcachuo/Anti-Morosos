@@ -27,7 +27,7 @@ sql;
         }
 
         $sql = <<<sql
-select user_id id, user_name fullname, user_username username, user_status status,user_validation validation
+select user_id id, user_name fullname, user_username username, user_status status,user_validation validation,user_type type
 from users
 where user_username = '$username' or user_email='$username'
 sql;

@@ -36,6 +36,11 @@ sql;
         $filters['user'] = isset_get($filters['u']);
 
         $sql = <<<sql
+select user_type type from users where user_id='$user_id';
+sql;
+        $type = db_result($sql)['type'];
+
+        $sql = <<<sql
 select c.complaint_id                                                  id,
        topic_name                                                      topic,
        user_username                                                   username,
@@ -43,7 +48,7 @@ select c.complaint_id                                                  id,
        complaint_message                                               message,
        complaint_date                                                  date,
        coalesce(complaint_user_read, 0)                                messageRead,
-       ('$user_id' = c.user_id)                                     actions
+       ('$user_id' = c.user_id or '$type'=0)                                     actions
 from complaints c
        left join topics t on t.topic_id = c.topic_id
        inner join users u on u.user_id = c.user_id
@@ -88,7 +93,10 @@ sql;
         $user_id = isset_get($_REQUEST['usuario']['id']);
 
         $sql = <<<sql
-update complaints set complaint_status=false, complaint_deleted='$complaint_deleted' where complaint_id='$complaint_id' and user_id='$user_id';
+update complaints c
+inner join users u on u.user_id='$user_id'
+ set complaint_status=false, complaint_deleted='$complaint_deleted'
+where complaint_id='$complaint_id' and (c.user_id='$user_id' or u.user_type=0);
 sql;
         db_query($sql);
     }
@@ -100,14 +108,17 @@ sql;
         $user_id = isset_get($_REQUEST['usuario']['id']);
 
         $sql = <<<sql
-insert into complaints_history(complaint_id, complaint_history_message)
-select complaint_id,complaint_message from complaints
-where complaint_id='$complaint_id' and user_id='$user_id';
+insert into complaints_history(complaint_id, complaint_history_message,user_id)
+select complaint_id,complaint_message,'$user_id' from complaints
+where complaint_id='$complaint_id';
 sql;
         db_query($sql);
 
         $sql = <<<sql
-update complaints set complaint_message='$complaint_message' where complaint_id='$complaint_id' and user_id='$user_id';
+update complaints c
+inner join users u on u.user_id='$user_id'
+ set complaint_message='$complaint_message' 
+where complaint_id='$complaint_id' and (c.user_id='$user_id' or u.user_type=0);
 sql;
         db_query($sql);
     }
