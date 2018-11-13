@@ -27,11 +27,18 @@ sql;
         }
 
         $sql = <<<sql
-select user_id id, user_name fullname, user_username username, user_status status,user_validation validation
+select user_id id, user_name fullname, user_username username, user_status status,user_validation validation,user_type type
 from users
 where user_username = '$username' or user_email='$username'
 sql;
         $user = db_result($sql);
+        $user['time'] = date('Y-m-d H:i:s');
+        $session = password_hash(SEED . $user['id'] . $user['time'], CRYPT_BLOWFISH);
+        $sql = <<<sql
+update users set user_session='$session' where user_id='$user[id]';
+sql;
+        db_query($sql);
+
         return compact('user');
     }
 
@@ -199,5 +206,22 @@ order by count desc ;
 sql;
         $users = db_all_results($sql);
         return compact('users');
+    }
+
+    function validatesession()
+    {
+        $user_id = isset_get($_REQUEST['id']);
+        $token = isset_get($_REQUEST['time']);
+
+        $sql = <<<sql
+select user_session token from users where user_id='$user_id'
+sql;
+
+        $hash = db_result($sql)['token'];
+        if (!password_verify(SEED . $user_id . $token, $hash)) {
+            return false;
+        }
+
+        return true;
     }
 }

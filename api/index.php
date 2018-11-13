@@ -7,6 +7,7 @@
  */
 
 $version = '181008';
+define('SEED', '11313v3n11');
 
 require "libs/system.php";
 require "libs/database.php";

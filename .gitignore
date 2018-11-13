@@ -3,3 +3,4 @@
 /www/.idea/
 /api/.idea/
 error_log
+/webpack/node_modules/

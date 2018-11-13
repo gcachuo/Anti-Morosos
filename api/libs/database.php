@@ -6,36 +6,44 @@
  * Time: 12:25 AM
  */
 
-$env = 'production';
 $mysqli = db_connect();
 
+/**
+ * @return mysqli
+ */
 function db_connect()
 {
-    global $env;
     $config = [
         'developer' => [
-            "host" => "localhost",
             "user" => "root",
             "password" => "sqlserver",
             "database" => "antimorosos"
         ],
         'production' => [
-            "host" => "localhost",
             "user" => "antimoro_sos",
             "password" => "antimorosos",
             "database" => "antimoro_antimorosos"
         ]
     ];
-    $db_config = $config[$env];
-    return mysqli_connect($db_config['host'], $db_config['user'], $db_config['password'], $db_config['database']);
+    $db_config = $config[getenv('CONFIG_DB') ?: 'production'];
+    return mysqli_connect("localhost", $db_config['user'], $db_config['password'], $db_config['database']);
 }
 
+/**
+ * @param $sql
+ * @return bool|mysqli_result
+ */
 function db_query($sql)
 {
     global $mysqli;
     return $mysqli->query($sql);
 }
 
+/**
+ * @param $sql
+ * @return array|null
+ * @throws Exception
+ */
 function db_result($sql)
 {
     global $mysqli;
@@ -49,6 +57,9 @@ function db_result($sql)
     return $result;
 }
 
+/**
+ * @return int
+ */
 function db_last_id()
 {
     global $mysqli;
@@ -74,6 +85,9 @@ function db_all_results($sql, $type = MYSQLI_ASSOC)
     return $result;
 }
 
+/**
+ * @throws Exception
+ */
 function db_error()
 {
     global $mysqli;
