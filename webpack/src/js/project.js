@@ -4,7 +4,7 @@ require('./_products');
 require('./_users');
 
 Project.navigate = function (page, data) {
-    history.pushState({}, null, '/');
+   //history.pushState({}, null, '/');
     $.get(`pages/${page}.html`, function (template) {
         const rendered = Mustache.render(template, data);
         $('.app-body').html(rendered);

@@ -1,12 +1,16 @@
 RewriteEngine on
+
+RewriteBase /www
+RewriteCond %{REQUEST_URI} !^/api/
+RewriteCond %{REQUEST_URI} !^/www/
+# Rewrite all those to insert /folder
+RewriteRule ^(.*)$ www/$1 [L]
+
 RewriteBase /
+
 RewriteRule ^(\w+)$ ?p=$1 [NC,L]
 
 RewriteCond %{REQUEST_FILENAME}.php -f
-RewriteRule ^(.*)$ $1.php
+RewriteRule ^(.*)$ $1.php [L]
 
 RewriteRule api\/(.[^\/]*)\/(.[^\/?]*)[?]?(.[^\/]*)?$ api/index?controller=$1&action=$2&%{QUERY_STRING} [NC,L]
-
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteCond %{REQUEST_URI} !^/www/
-RewriteRule ^(.*)$ /www/$1
