@@ -1,7 +1,7 @@
-System.Products = {};
+Project.Products = {};
 
-System.Products.fetch=function () {
-    System.request('products', 'fetch').done(result => {
+Project.Products.fetch=function () {
+    Project.request('products', 'fetch').done(result => {
         const products = result.response.products;
 
         $.each(products, function (i, product) {

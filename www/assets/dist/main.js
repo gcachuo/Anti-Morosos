@@ -268,9 +268,9 @@ eval("/* WEBPACK VAR INJECTION */(function(System) {Project.Complaints = {};\n\n
   !*** ./src/js/_products.js ***!
   \*****************************/
 /*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
+/***/ (function(module, exports) {
 
-eval("/* WEBPACK VAR INJECTION */(function(System) {System.Products = {};\n\nSystem.Products.fetch=function () {\n    System.request('products', 'fetch').done(result => {\n        const products = result.response.products;\n\n        $.each(products, function (i, product) {\n            $(\"#selectProductos\").append(`<option value=\"${product.id}\">${product.name}</option>`);\n        });\n\n        $(\"#selectProductos\").select2({\n            placeholder: \"Productos y Servicios\",\n            width: '100%',\n            tags: true\n        });\n    });\n};\n/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./../../node_modules/webpack/buildin/system.js */ \"./node_modules/webpack/buildin/system.js\")))\n\n//# sourceURL=webpack:///./src/js/_products.js?");
+eval("Project.Products = {};\n\nProject.Products.fetch=function () {\n    Project.request('products', 'fetch').done(result => {\n        const products = result.response.products;\n\n        $.each(products, function (i, product) {\n            $(\"#selectProductos\").append(`<option value=\"${product.id}\">${product.name}</option>`);\n        });\n\n        $(\"#selectProductos\").select2({\n            placeholder: \"Productos y Servicios\",\n            width: '100%',\n            tags: true\n        });\n    });\n};\n\n//# sourceURL=webpack:///./src/js/_products.js?");
 
 /***/ }),
 
