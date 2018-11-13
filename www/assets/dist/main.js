@@ -86,6 +86,17 @@
 /************************************************************************/
 /******/ ({
 
+/***/ "./node_modules/@fortawesome/fontawesome-pro/scss/brands.scss":
+/*!********************************************************************!*\
+  !*** ./node_modules/@fortawesome/fontawesome-pro/scss/brands.scss ***!
+  \********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/@fortawesome/fontawesome-pro/scss/brands.scss?");
+
+/***/ }),
+
 /***/ "./node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss":
 /*!*************************************************************************!*\
   !*** ./node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss ***!
@@ -94,6 +105,39 @@
 /***/ (function(module, exports) {
 
 eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss?");
+
+/***/ }),
+
+/***/ "./node_modules/@fortawesome/fontawesome-pro/scss/light.scss":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fortawesome/fontawesome-pro/scss/light.scss ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/@fortawesome/fontawesome-pro/scss/light.scss?");
+
+/***/ }),
+
+/***/ "./node_modules/@fortawesome/fontawesome-pro/scss/regular.scss":
+/*!*********************************************************************!*\
+  !*** ./node_modules/@fortawesome/fontawesome-pro/scss/regular.scss ***!
+  \*********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/@fortawesome/fontawesome-pro/scss/regular.scss?");
+
+/***/ }),
+
+/***/ "./node_modules/@fortawesome/fontawesome-pro/scss/solid.scss":
+/*!*******************************************************************!*\
+  !*** ./node_modules/@fortawesome/fontawesome-pro/scss/solid.scss ***!
+  \*******************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./node_modules/@fortawesome/fontawesome-pro/scss/solid.scss?");
 
 /***/ }),
 
@@ -204,7 +248,7 @@ eval("// removed by extract-text-webpack-plugin\n\n//# sourceURL=webpack:///./sr
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-eval("__webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js?fe57\");\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\nMustache = __webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.js\");\n\nProject = __webpack_require__(/*! ./js/project */ \"./src/js/project.js\");\n\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/fontawesome.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss\");\n__webpack_require__(/*! ./css/project.scss */ \"./src/css/project.scss\");\n\n//# sourceURL=webpack:///./src/index.js?");
+eval("__webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js?fe57\");\n__webpack_require__(/*! bootstrap */ \"./node_modules/bootstrap/dist/js/bootstrap.js\");\nMustache = __webpack_require__(/*! mustache */ \"./node_modules/mustache/mustache.js\");\n\nProject = __webpack_require__(/*! ./js/project */ \"./src/js/project.js\");\n\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/fontawesome.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/fontawesome.scss\");\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/solid.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/solid.scss\");\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/brands.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/brands.scss\");\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/light.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/light.scss\");\n__webpack_require__(/*! @fortawesome/fontawesome-pro/scss/regular.scss */ \"./node_modules/@fortawesome/fontawesome-pro/scss/regular.scss\");\n__webpack_require__(/*! ./css/project.scss */ \"./src/css/project.scss\");\n\n//# sourceURL=webpack:///./src/index.js?");
 
 /***/ }),
 
