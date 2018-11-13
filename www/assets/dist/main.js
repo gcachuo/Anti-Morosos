@@ -248,7 +248,7 @@ eval("__webpack_require__(/*! jquery */ \"./node_modules/jquery/dist/jquery.js-e
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("Project.Admin = {};\n\nProject.Admin.validateUser = function (id) {\n    Project.request('admin', 'validateuser', {\n        id: localStorage.getItem('user.id'),\n        user_id: id\n    }).then(() => {\n        Project.navigate('admin');\n    });\n};\n\n//# sourceURL=webpack:///./src/js/_admin.js?");
+eval("Project.Admin = {};\n\nProject.Admin.validateUser = function (id, validate) {\n    Project.request('admin', 'validateuser', {\n        id: localStorage.getItem('user.id'),\n        user_id: id,\n        validate: validate\n    }).then(() => {\n        Project.navigate('admin');\n    });\n};\n\n//# sourceURL=webpack:///./src/js/_admin.js?");
 
 /***/ }),
 

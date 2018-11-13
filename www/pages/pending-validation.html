@@ -9,12 +9,10 @@
     </div>
 </div>
 <script>
-    $(function () {
-        function go_back() {
-            localStorage.clear();
-            $(".logged").hide();
-            $(".noUser").show();
-            Project.navigate('sign-in');
-        }
-    })
+    function go_back() {
+        localStorage.clear();
+        $(".logged").hide();
+        $(".noUser").show();
+        Project.navigate('sign-in');
+    }
 </script>

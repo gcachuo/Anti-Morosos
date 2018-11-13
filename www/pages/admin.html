@@ -27,8 +27,13 @@
                             <tr>
                                 <td>{{name}}</td>
                                 <td>{{#validation}}Si{{/validation}}{{^validation}}No{{/validation}}</td>
-                                <td>{{^validation}}
-                                    <button onclick="Project.Admin.validateUser({{id}})" type="button"
+                                <td>{{#validation}}
+                                    <button onclick="Project.Admin.validateUser({{id}},false)" type="button"
+                                            class="btn btn-outline-danger"><i class="fa fa-times"></i>
+                                    </button>
+                                {{/validation}}
+                                {{^validation}}
+                                    <button onclick="Project.Admin.validateUser({{id}},true)" type="button"
                                             class="btn btn-outline-primary"><i class="fa fa-check"></i>
                                     </button>{{/validation}}</td>
                             </tr>

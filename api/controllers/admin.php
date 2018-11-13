@@ -25,7 +25,7 @@ sql;
         $this->validate($user_id);
 
         $sql = <<<sql
-select user_id id,user_name name, user_validation validation from users;
+select user_id id,user_name name, user_validation validation from users where user_status=true and user_id<>'$user_id';
 sql;
         $users = db_all_results($sql);
 
@@ -44,10 +44,11 @@ sql;
     {
         $user_id = isset_get($_GET['id']);
         $validate_user_id = isset_get($_GET['user_id']);
+        $validate = isset_get($_GET['validate']);
         $this->validate($user_id);
 
         $sql = <<<sql
-update users set user_validation=true where user_id='$validate_user_id'
+update users set user_validation=$validate where user_id='$validate_user_id'
 sql;
         db_query($sql);
     }
