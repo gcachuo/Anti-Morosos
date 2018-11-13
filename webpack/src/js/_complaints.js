@@ -162,9 +162,9 @@ Project.Complaints.deleteComplaint = function () {
     }
 
     if (confirm('¿Esta seguro?')) {
-        System.request('complaints', 'delete', data).done(() => {
+        Project.request('complaints', 'delete', data).done(() => {
             $('#modal-delete-complaint').modal('hide');
-            System.navigate('dashboard');
+            Project.navigate('dashboard');
         });
     }
 };
@@ -185,7 +185,7 @@ function loadComplaint(data) {
     $.get(`templates/queja.html`, function (template) {
         const rendered = Mustache.render(template, data);
 
-        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="System.navigate('dashboard');">$1</a>`);
+        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="Project.navigate('dashboard');">$1</a>`);
 
         $("#quejas").prepend($(rendered).get(0));
         $(`#quejas .mensaje[data-id=${data.id}]`).html(mensaje);
