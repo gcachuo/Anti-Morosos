@@ -2,11 +2,12 @@ Project = {};
 require('./_complaints');
 require('./_products');
 require('./_users');
+require('./_admin');
 
 Project.navigate = function (page, data) {
    //history.pushState({}, null, '/');
     $.get(`pages/${page}.html`, function (template) {
-        const rendered = Mustache.render(template, data);
+        const rendered = Mustache.render(template, data||{});
         $('.app-body').html(rendered);
     });
 };
