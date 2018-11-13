@@ -110,7 +110,12 @@
     $(function () {
         Project.Users.validateSession().then(sessionValid => {
             if (sessionValid)
-                Project.Complaints.init();
+                if (localStorage.getItem('user.validation') === '1') {
+                    Project.Complaints.init();
+                }
+                else {
+                    Project.navigate('pending-validation');
+                }
             else {
                 Project.navigate('sign-in');
             }
