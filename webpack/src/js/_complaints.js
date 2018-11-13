@@ -1,12 +1,14 @@
-$(function () {
+Project.Complaints = {};
+
+Project.Complaints.init = function () {
     var url = new URL(window.location.href);
     var u = url.searchParams.get("u");
-    fetch_complaints({u: u});
-    request('topics', 'fetch').done(result => {
+    Project.Complaints.fetch({u: u});
+    Project.request('topics', 'fetch').done(result => {
         const topics = result.response.topics;
         $.each(topics, function (i, topic) {
             const selected = topic.id == 1 ? 'selected' : '';
-                $("#selectTopic").append(`
+            $("#selectTopic").append(`
             <option ${selected} value="${topic.id}">${topic.name}</option>
             `);
             $("#filterTopic").append(`
@@ -24,15 +26,15 @@ $(function () {
             color: '#dc3545',
             border: 'border'
         }).on('change', function () {
-            fetch_complaints({topics: $(this).val()});
+            Project.Complaints.fetch({topics: $(this).val()});
         });
     });
-    request('complaints', 'trending').done(result => {
+    Project.request('complaints', 'trending').done(result => {
         const trending = result.response.trending;
         let index = 1;
         $.each(trending, function (hashtag, count) {
             $("#trending").append(`
-                    <a href="${hashtag}" onclick="navigate('dashboard');" class="list-group-item d-flex justify-content-between align-items-center">
+                    <a href="${hashtag}" onclick="Project.navigate('dashboard');" class="list-group-item d-flex justify-content-between align-items-center">
                         <span>${index}.</span>
                         <span style="color:#dc3545">${hashtag}</span>
                         <span class="badge badge-dark badge-pill">${count}</span>
@@ -41,7 +43,7 @@ $(function () {
             index++;
         });
     });
-    request('users', 'fetch').done(result => {
+    Project.request('users', 'fetch').done(result => {
         const users = result.response.users;
         let usersCount = 0;
         $.each(users, function (i, user) {
@@ -55,11 +57,11 @@ $(function () {
         });
         $("#countUsers").html(usersCount);
     });
-});
+};
 
-function fetch_complaints(filters) {
+Project.Complaints.fetch = function (filters) {
     $("#quejas").html('');
-    request('complaints', 'fetch', {
+    Project.request('complaints', 'fetch', {
         usuario: {id: localStorage.getItem('user.id')},
         hashtag: window.location.hash.substr(1),
         filters: filters
@@ -97,9 +99,9 @@ function fetch_complaints(filters) {
             $users.parent().show();
         }
     });
-}
+};
 
-function publish() {
+Project.Complaints.publish = function () {
     const data = {
         mensaje: $("#txtQueja").val(),
         tema: {id: $("#selectTopic").val(), name: $("#selectTopic option:selected").text()},
@@ -118,30 +120,14 @@ function publish() {
         return;
     }
 
-    request('complaints', 'publish', data).done(result => {
+    Project.request('complaints', 'publish', data).done(result => {
         data.id = result.response.id;
-        navigate('dashboard');
+        Project.navigate('dashboard');
         //loadComplaint(data);
     });
-}
+};
 
-function loadComplaint(data) {
-    $.get(`templates/queja.html`, function (template) {
-        const rendered = Mustache.render(template, data);
-
-        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="navigate('dashboard');">$1</a>`);
-
-        $("#quejas").prepend($(rendered).get(0));
-        $(`#quejas .mensaje[data-id=${data.id}]`).html(mensaje);
-
-        $("#txtQueja").val('');
-        $("#txtMoroso").val('');
-
-        $("#alertNoPosts").hide();
-    });
-}
-
-function editComplaint() {
+Project.Complaints.editComplaint = function () {
     const data = {
         id: $('#modal-edit-complaint').find('.modal-footer .submit').data('id'),
         mensaje: $("#txtMensajeEditado").val(),
@@ -155,14 +141,14 @@ function editComplaint() {
     }
 
     if (confirm('¿Esta seguro?')) {
-        request('complaints', 'edit', data).done(() => {
+        Project.request('complaints', 'edit', data).done(() => {
             $('#modal-edit-complaint').modal('hide');
-            navigate('dashboard');
+            Project.navigate('dashboard');
         });
     }
-}
+};
 
-function deleteComplaint() {
+Project.Complaints.deleteComplaint = function () {
     const data = {
         id: $('#modal-delete-complaint').find('.modal-footer .submit').data('id'),
         razon: $("#txtRazonEliminar").val(),
@@ -176,21 +162,37 @@ function deleteComplaint() {
     }
 
     if (confirm('¿Esta seguro?')) {
-        request('complaints', 'delete', data).done(() => {
+        System.request('complaints', 'delete', data).done(() => {
             $('#modal-delete-complaint').modal('hide');
-            navigate('dashboard');
+            System.navigate('dashboard');
         });
     }
-}
+};
 
-function markAsRead(id) {
+Project.Complaints.markAsRead = function (id) {
     const data = {
         id: id,
         usuario: {
             id: localStorage.getItem('user.id')
         }
     };
-    request('complaints', 'markasread', data).done(() => {
+    Project.request('complaints', 'markasread', data).done(() => {
         $(`.leido[data-id=${id}]`).hide().parents('.card').slideUp();
+    });
+};
+
+function loadComplaint(data) {
+    $.get(`templates/queja.html`, function (template) {
+        const rendered = Mustache.render(template, data);
+
+        const mensaje = ($(rendered).find('.mensaje').html()).replace(/(#\w+)\b/g, `<a href="$1" class="hashtag" onclick="System.navigate('dashboard');">$1</a>`);
+
+        $("#quejas").prepend($(rendered).get(0));
+        $(`#quejas .mensaje[data-id=${data.id}]`).html(mensaje);
+
+        $("#txtQueja").val('');
+        $("#txtMoroso").val('');
+
+        $("#alertNoPosts").hide();
     });
 }

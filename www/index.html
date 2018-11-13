@@ -27,7 +27,7 @@
             <div class="app-header navbar-md white box-shadow">
                 <nav class="navbar navbar-expand-lg navbar-light bg-light">
                     <span class="navbar-brand">
-                    <a onclick="navigate('dashboard')">
+                    <a onclick="Project.navigate('dashboard')">
                         <img src="assets/images/logo-small.png" alt=".">
                         <span style="color:#b34747" class="hidden-folded inline">AntiMorosos</span>
                     </a>
@@ -40,24 +40,24 @@
                         <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
                         </ul>
                         <form class="noUser form-inline my-2 my-lg-0">
-                            <a onclick="navigate('sign-up')" title="Registrarse" class="my-2 my-sm-0">
+                            <a onclick="Project.navigate('sign-up')" title="Registrarse" class="my-2 my-sm-0">
                                 <span class="avatar w-56 btn btn-sm"><span
                                         class="material-icons">person_add</span></span>
                                 <span class="hidden-lg-up">Registrarse</span>
                             </a>
-                            <a onclick="navigate('sign-in')" title="Iniciar Sesión" class="my-2 my-sm-0">
+                            <a onclick="Project.navigate('sign-in')" title="Iniciar Sesión" class="my-2 my-sm-0">
                                 <span class="avatar w-56 btn btn-sm"><span class="material-icons">person</span></span>
                                 <span class="hidden-lg-up">Iniciar Sesión</span>
                             </a>
                         </form>
                         <form class="logged form-inline my-2 my-lg-0">
-                            <a onclick="sign_out()" title="Cerrar Sesión" class="nav-link">
+                            <a onclick="Project.Users.signOut()" title="Cerrar Sesión" class="nav-link">
                                 <span class="avatar w-56 btn btn-sm">
                                     <span class="material-icons">lock</span>
                                 </span>
                                 <span class="hidden-lg-up">Cerrar Sesión</span>
                             </a>
-                            <a onclick="navigate('profile')" title="Perfil" class="nav-link">
+                            <a onclick="Project.navigate('profile')" title="Perfil" class="nav-link">
                                 <span class="avatar w-56 btn btn-sm">
                                     <span class="material-icons">person_outline</span>
                                 </span>
@@ -84,4 +84,30 @@
 <script src="assets/flatkit/libs/jquery/twitter-bootstrap-wizard/jquery.bootstrap.wizard.min.js"></script>
 <script src="assets/flatkit/libs/jquery/parsleyjs/dist/parsley.min.js"></script>
 <script src="assets/flatkit/libs/jquery/parsleyjs/dist/es.js"></script>
+
+<script>
+    $(function () {
+        Project.Users.validateSession().then(sessionValid => {
+            if (localStorage.getItem('user.id') && sessionValid) {
+                if (localStorage.getItem('user.validation') === '1') {
+                    $(".logged").show();
+                    $(".noUser").hide();
+                    $("#username").html(localStorage.getItem('user.name'));
+                    $("#nick").html(localStorage.getItem('user.usuario'));
+
+                    var params = window.location.pathname.split('/').slice(1);
+                    var p = params[0];
+
+                    Project.navigate(p || 'dashboard');
+                } else {
+                    Project.navigate('pending-validation');
+                }
+            } else {
+                $(".logged").hide();
+                $(".noUser").show();
+                Project.navigate('sign-in');
+            }
+        });
+    })
+</script>
 </html>

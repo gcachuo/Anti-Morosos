@@ -106,3 +106,14 @@
         </div>
     </div>
 </form>
+<script>
+    $(function () {
+        Project.Users.validateSession().then(sessionValid => {
+            if (sessionValid)
+                Project.Complaints.init();
+            else {
+                Project.navigate('sign-in');
+            }
+        });
+    });
+</script>

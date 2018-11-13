@@ -8,3 +8,13 @@
         </a>
     </div>
 </div>
+<script>
+    $(function () {
+        function go_back() {
+            localStorage.clear();
+            $(".logged").hide();
+            $(".noUser").show();
+            System.navigate('sign-in');
+        }
+    })
+</script>
