@@ -4,6 +4,9 @@
 namespace Model;
 
 
+use Exception;
+use HTTPStatusCodes;
+use JsonResponse;
 use System;
 
 class Users
@@ -72,5 +75,85 @@ update users set user_session=? where user_id=?;
 sql;
         $mysql = new MySQL();
         $mysql->prepare($sql, ['si', $session, $user['id']]);
+    }
+
+    public function setReferralCode()
+    {
+        $mysql = new MySQL();
+        do {
+            $user_referral = str_pad(rand(0, 9999), 4, '0');
+            $sql = <<<sql
+select count(1) count from users where user_referral=?;
+sql;
+        } while ($mysql->fetch_single($mysql->prepare($sql, ['s', $user_referral]))['count']);
+        return $user_referral;
+    }
+
+    public function userExists($user_username)
+    {
+        $sql = <<<sql
+select count(1) count from users where user_username=?;
+sql;
+        $mysql = new MySQL();
+        return (bool)$mysql->fetch_single($mysql->prepare($sql, ['s', $user_username]))['count'];
+    }
+
+    public function getUserReferrer($user_referrer)
+    {
+        $user_validation = 0;
+        if ($user_referrer !== 'null') {
+            $sql = <<<sql
+select user_id referrer from users where user_referral=?;
+sql;
+            $mysql = new MySQL();
+            if (!$mysql->fetch_single($mysql->prepare($sql, ['s', $user_referrer]))['referrer']) {
+                JsonResponse::sendResponse(['message' => 'La referencia es inválida.']);
+            }
+
+            $user_validation = 1;
+        }
+        return $user_validation;
+    }
+
+    public function insertUser($user_email, $user_username, $user_password, $user_name, $user_lastname_1, $user_lastname_2, $user_company, $user_business_name, $user_business_position, $user_business_phone, $user_whatsapp, $user_referrer, $user_referral, $user_validation)
+    {
+        $sql = <<<sql
+insert into users (user_email,
+                   user_username,
+                   user_password,
+                   user_name,
+                   user_lastname_1,
+                   user_lastname_2,
+                   user_company,
+                   user_business_name,
+                   user_business_position,
+                   user_business_phone,
+                   user_whatsapp,
+                   user_referrer,
+                   user_referral,
+                   user_validation)
+VALUES ('$user_email',
+        '$user_username',
+        '$user_password',
+        '$user_name',
+        '$user_lastname_1',
+        '$user_lastname_2',
+        '$user_company',
+        '$user_business_name',
+        '$user_business_position',
+        '$user_business_phone',
+        '$user_whatsapp',
+        $user_referrer,
+        '$user_referral',
+        $user_validation)
+sql;
+        $mysql = new MySQL();
+        $mysql->query($sql);
+        $id = $mysql->insertID();
+
+        if (!$id) {
+            JsonResponse::sendResponse(['message' => 'La referencia es inválida.', 'error' => $mysql->last_error()], HTTPStatusCodes::InternalServerError);
+        }
+        return $id;
     }
 }

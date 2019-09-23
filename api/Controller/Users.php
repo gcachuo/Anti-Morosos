@@ -36,121 +36,47 @@ class Users
 
     function signup()
     {
-        $products = isset_get($_REQUEST['productos']);
-        $user_name = isset_get($_REQUEST['nombre']);
-        $user_lastname_1 = isset_get($_REQUEST['ap_paterno']);
-        $user_lastname_2 = isset_get($_REQUEST['ap_materno']);
-        $user_email = trim(isset_get($_REQUEST['correo']));
-        $user_username = trim(isset_get($_REQUEST['usuario']));
-        $user_password = isset_get($_REQUEST['password']);
-        $password_verify = isset_get($_REQUEST['verifyPass']);
-        $user_company = isset_get($_REQUEST['empresa']);
-        $user_business_name = isset_get($_REQUEST['razon_social']);
-        $user_business_position = isset_get($_REQUEST['puesto']);
-        $user_business_phone = isset_get($_REQUEST['telefono']);
-        $user_whatsapp = isset_get($_REQUEST['whatsapp']);
-        $user_referrer = isset_get($_REQUEST['referencia'], 'null');
+        $products = System::isset_get($_POST['productos']);
+        $user_name = System::isset_get($_POST['nombre']);
+        $user_lastname_1 = System::isset_get($_POST['ap_paterno']);
+        $user_lastname_2 = System::isset_get($_POST['ap_materno']);
+        $user_email = trim(System::isset_get($_POST['correo']));
+        $user_username = trim(System::isset_get($_POST['usuario']));
+        $user_password = System::isset_get($_POST['password']);
+        $password_verify = System::isset_get($_POST['verifyPass']);
+        $user_company = System::isset_get($_POST['empresa']);
+        $user_business_name = System::isset_get($_POST['razon_social']);
+        $user_business_position = System::isset_get($_POST['puesto']);
+        $user_business_phone = System::isset_get($_POST['telefono']);
+        $user_whatsapp = System::isset_get($_POST['whatsapp']);
+        $user_referrer = System::isset_get($_POST['referencia'], 'null');
 
-        switch (false) {
-            case $user_name:
-            case $user_lastname_1:
-            case $user_email:
-            case $user_username:
-            case $user_password:
-                set_error('Llene todos los datos');
-                break;
-        }
+        System::check_value_empty(['nombre' => $user_name, 'ap_paterno' => $user_lastname_1, 'correo' => $user_email, 'usuario' => $user_username, 'password' => $user_password, 'verifyPass' => $password_verify], ['nombre', 'ap_paterno', 'correo', 'usuario', 'password', 'verifyPass'], 'Llene todos los datos');
 
         if ($user_password !== $password_verify) {
-            set_error('Las contraseñas no coinciden.');
+            JsonResponse::sendResponse(['message' => 'Las contraseñas no coinciden.']);
         }
 
         $user_password = password_hash($user_password, CRYPT_BLOWFISH);
 
-        do {
-            $user_referral = str_pad(rand(0, 9999), 4, '0');
-            $sql = <<<sql
-select count(1) count from users where user_referral='$user_referral';
-sql;
-        } while (db_result($sql)['count']);
+        $Users = new \Model\Users();
 
-        $sql = <<<sql
-select count(1) count from users where user_username='$user_username';
-sql;
+        $user_referral = $Users->setReferralCode();
 
-        if (db_result($sql)['count']) {
-            set_error('El usuario ya existe.');
+        $exists = $Users->userExists($user_username);
+        if ($exists) {
+            JsonResponse::sendResponse(['message' => 'El usuario ya existe.']);
         }
 
-        $user_validation = 0;
-        if ($user_referrer !== 'null') {
-            $sql = <<<sql
-select user_id referrer from users where user_referral='$user_referrer';
-sql;
+        $user_validation = $Users->getUserReferrer($user_referrer);
 
-            if (!db_result($sql)['referrer']) {
-                set_error('La referencia es inválida.');
-            }
+        $user_id = $Users->insertUser($user_email, $user_username, $user_password, $user_name, $user_lastname_1, $user_lastname_2, $user_company, $user_business_name, $user_business_position, $user_business_phone, $user_whatsapp, $user_referrer, $user_referral, $user_validation);
 
-            $user_referrer = db_result($sql)['referrer'];
-            $user_validation = 1;
-        }
+        $Products = new \Model\Products();
+        $Products->insertProducts($products, $user_id);
 
-        $sql = <<<sql
-insert into users (user_email,
-                   user_username,
-                   user_password,
-                   user_name,
-                   user_lastname_1,
-                   user_lastname_2,
-                   user_company,
-                   user_business_name,
-                   user_business_position,
-                   user_business_phone,
-                   user_whatsapp,
-                   user_referrer,
-                   user_referral,
-                   user_validation)
-VALUES ('$user_email',
-        '$user_username',
-        '$user_password',
-        '$user_name',
-        '$user_lastname_1',
-        '$user_lastname_2',
-        '$user_company',
-        '$user_business_name',
-        '$user_business_position',
-        '$user_business_phone',
-        '$user_whatsapp',
-        $user_referrer,
-        '$user_referral',
-        $user_validation)
-sql;
-        db_query($sql);
-
-        $id = db_last_id();
-
-        if (!$id) {
-            db_error();
-        }
-
-
-        foreach ($products as $product) {
-            if (!is_numeric($product)) {
-                $sql = <<<sql
-replace into products(product_name) values ('$product');
-sql;
-                db_query($sql);
-
-                $product = db_last_id();
-            }
-            $sql = <<<sql
-replace into users_products(product_id, user_id) VALUES ('$product','$id');
-sql;
-            db_query($sql);
-        }
         $user = [
-            "id" => $id,
+            "id" => $user_id,
             "username" => $user_username,
             "fullname" => trim("$user_name $user_lastname_1 $user_lastname_2")
         ];
