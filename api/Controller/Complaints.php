@@ -52,11 +52,9 @@ class Complaints
     function trending()
     {
         $trending = [];
-        $sql = <<<sql
-select lower(complaint_message) from complaints where complaint_message like '%#%' and complaint_status=true;
-sql;
+        $Complaints = new \Model\Complaints();
+        $results = $Complaints->selectComplaintsWithHashtag();
 
-        $results = db_all_results($sql, MYSQLI_NUM);
         if ($results) {
             $results = join(' ', array_merge(...$results));
             preg_match_all('/#.+?\b/m', $results, $matches, PREG_SET_ORDER, 0);
