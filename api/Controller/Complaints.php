@@ -81,24 +81,17 @@ class Complaints
 
     function edit()
     {
-        $complaint_id = isset_get($_REQUEST['id']);
-        $complaint_message = isset_get($_REQUEST['mensaje']);
-        $user_id = isset_get($_REQUEST['usuario']['id']);
+        $complaint_id = System::isset_get($_POST['id']);
+        $complaint_message = System::isset_get($_POST['mensaje']);
+        $user_id = System::isset_get($_POST['usuario']['id']);
 
-        $sql = <<<sql
-insert into complaints_history(complaint_id, complaint_history_message,user_id)
-select complaint_id,complaint_message,'$user_id' from complaints
-where complaint_id='$complaint_id';
-sql;
-        db_query($sql);
+        System::check_value_empty(['id' => $complaint_id, 'mensaje' => $complaint_message, 'usuario' => $user_id], ['id', 'mensaje', 'usuario'], 'Llene todos los datos.');
 
-        $sql = <<<sql
-update complaints c
-inner join users u on u.user_id='$user_id'
- set complaint_message='$complaint_message' 
-where complaint_id='$complaint_id' and (c.user_id='$user_id' or u.user_type=0);
-sql;
-        db_query($sql);
+        $Complaints = new \Model\Complaints();
+        $Complaints->insertHistory($user_id, $complaint_id);
+
+        $Complaints->updateComplaint($user_id, $complaint_id, $complaint_message);
+        return [];
     }
 
     function markasread()

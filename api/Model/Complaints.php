@@ -28,6 +28,13 @@ class Complaints
             new TableColumn('user_id', ColumnTypes::BIGINT, 20, true),
             new TableColumn('complaint_user_read', ColumnTypes::BIT, false, "b'1'")
         ]);
+        $mysql->create_table('complaints_history', [
+            new TableColumn('complaint_history_id', ColumnTypes::BIGINT, 20, true, null, true, true),
+            new TableColumn('complaint_id', ColumnTypes::BIGINT, 20, true),
+            new TableColumn('complaint_history_change_date', ColumnTypes::TIMESTAMP, 0, false, 'current_timestamp'),
+            new TableColumn('complaint_history_message', ColumnTypes::VARCHAR, 255),
+            new TableColumn('user_id', ColumnTypes::BIGINT, 20, true)
+        ]);
 
         new Topics();
     }
@@ -100,5 +107,28 @@ where complaint_id=? and (c.user_id=? or u.user_type=0);
 sql;
         $mysql = new MySQL();
         $mysql->prepare($sql, ['isii', $user_id, $complaint_deleted, $complaint_id, $user_id]);
+    }
+
+    public function insertHistory($user_id, $complaint_id)
+    {
+        $sql = <<<sql
+insert into complaints_history(complaint_id, complaint_history_message,user_id)
+select complaint_id,complaint_message,? from complaints
+where complaint_id=?;
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['ii', $user_id, $complaint_id]);
+    }
+
+    public function updateComplaint($user_id, $complaint_id, $complaint_message)
+    {
+        $sql = <<<sql
+update complaints c
+inner join users u on u.user_id=?
+ set complaint_message=?
+where complaint_id=? and (c.user_id=? or u.user_type=0);
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['isii', $user_id, $complaint_message, $complaint_id, $user_id]);
     }
 }
