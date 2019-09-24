@@ -193,4 +193,14 @@ sql;
         $mysql = new MySQL();
         return $mysql->fetch_all($mysql->query($sql));
     }
+
+    public function getSessionToken($user_id)
+    {
+        $sql = <<<sql
+select user_session token from users where user_id=?
+sql;
+
+        $mysql = new MySQL();
+        return $mysql->fetch_single($mysql->prepare($sql, ['i', $user_id]))['token'];
+    }
 }

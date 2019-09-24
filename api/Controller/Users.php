@@ -117,18 +117,20 @@ class Users
 
     function validatesession()
     {
-        $user_id = isset_get($_REQUEST['id']);
-        $token = isset_get($_REQUEST['time']);
+        $Users = new \Model\Users();
+        $user_id = System::isset_get($_POST['id']);
+        $time = System::isset_get($_POST['time']);
 
-        $sql = <<<sql
-select user_session token from users where user_id='$user_id'
-sql;
+        System::check_value_empty(['id' => $user_id, 'time' => $time], ['id', 'time'], "Llene todos los datos");
 
-        $hash = db_result($sql)['token'];
-        if (!password_verify(SEED . $user_id . $token, $hash)) {
-            return false;
+        $token = date('Y-m-d H:i:s', strtotime($time));
+
+        $hash = $Users->getSessionToken($user_id);
+
+        if (!password_verify(JWT_KEY . $user_id . $token, $hash)) {
+            return ['valid' => 0];
         }
 
-        return true;
+        return ['valid' => 1];
     }
 }
