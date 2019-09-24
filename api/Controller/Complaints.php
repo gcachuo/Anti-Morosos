@@ -28,41 +28,24 @@ class Complaints
 
     function fetch()
     {
-        $user_id = isset_get($_REQUEST['usuario']['id']);
-        $hashtag = isset_get($_REQUEST['hashtag']);
-        $filters = isset_get($_REQUEST['filters']);
-        $topics = join(',', isset_get($filters['topics'], array()));
-        $filters['user'] = isset_get($filters['u']);
+        $user_id = System::isset_get($_POST['usuario']['id']);
+        $hashtag = System::isset_get($_POST['hashtag']);
+        $filters = [
+            'topics' => System::isset_get($_POST['filters']['topics']),
+            'u' => System::isset_get($_POST['filters']['u']),
+        ];
 
-        $sql = <<<sql
-select user_type type from users where user_id='$user_id';
-sql;
-        $type = db_result($sql)['type'];
+        System::check_value_empty(['usuario' => $user_id, 'hashtag' => $hashtag, 'filters' => $filters], ['usuario', 'hashtag', 'filters'], 'Llene todos los campos');
 
-        $sql = <<<sql
-select c.complaint_id                                                  id,
-       topic_name                                                      topic,
-       user_username                                                   username,
-       group_concat(product_name order by p.product_id SEPARATOR ', ') products,
-       complaint_message                                               message,
-       complaint_date                                                  date,
-       coalesce(complaint_user_read, 0)                                messageRead,
-       ('$user_id' = c.user_id or '$type'=0)                                     actions
-from complaints c
-       left join topics t on t.topic_id = c.topic_id
-       inner join users u on u.user_id = c.user_id
-       left join users_products up on up.user_id = u.user_id
-       left join products p on p.product_id = up.product_id
-       left join complaints_users cu on cu.complaint_id = c.complaint_id and cu.user_id='$user_id'
-where if('$hashtag' = '', true, complaint_message like '%#$hashtag%')
-  and if('$topics' = '', true, c.topic_id IN ('$topics'))
-  and if('$filters[user]' = '', true, u.user_username = '$filters[user]')
-  AND complaint_status = true
-group by c.complaint_id
-order by messageRead desc , complaint_date asc;
-sql;
+        $topics = join(',', System::isset_get($filters['topics'], []));
+        $filters['user'] = System::isset_get($filters['u']);
 
-        $complaints = db_all_results($sql);
+        $Users = new \Model\Users();
+        $type = $Users->getUserType($user_id);
+
+        $Complaints = new \Model\Complaints();
+        $complaints = $Complaints->selectComplaints($user_id, $type, $hashtag, $topics, $filters);
+
         return compact('complaints');
     }
 

@@ -203,4 +203,13 @@ sql;
         $mysql = new MySQL();
         return $mysql->fetch_single($mysql->prepare($sql, ['i', $user_id]))['token'];
     }
+
+    public function getUserType($user_id)
+    {
+        $sql = <<<sql
+select user_type type from users where user_id=?;
+sql;
+        $mysql = new MySQL();
+        return $mysql->fetch_single($mysql->prepare($sql, ['i', $user_id]))['type'];
+    }
 }
