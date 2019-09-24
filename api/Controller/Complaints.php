@@ -96,12 +96,13 @@ class Complaints
 
     function markasread()
     {
-        $complaint_id = isset_get($_REQUEST['id']);
-        $user_id = isset_get($_REQUEST['usuario']['id']);
+        $complaint_id = System::isset_get($_POST['id']);
+        $user_id = System::isset_get($_POST['usuario']['id']);
 
-        $sql = <<<sql
-replace into complaints_users(complaint_id, user_id, complaint_user_read) VALUES ('$complaint_id','$user_id',true);
-sql;
-        db_query($sql);
+        System::check_value_empty(['id' => $complaint_id, 'usuario' => $user_id], ['id', 'usuario'], 'Llene todos los campos');
+
+        $Complaints = new \Model\Complaints();
+        $Complaints->updateComplaintReadStatus($user_id, $complaint_id);
+        return [];
     }
 }

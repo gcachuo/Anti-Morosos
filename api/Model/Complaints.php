@@ -131,4 +131,13 @@ sql;
         $mysql = new MySQL();
         $mysql->prepare($sql, ['isii', $user_id, $complaint_message, $complaint_id, $user_id]);
     }
+
+    public function updateComplaintReadStatus($user_id, $complaint_id)
+    {
+        $sql = <<<sql
+replace into complaints_users(complaint_id, user_id, complaint_user_read) VALUES (?,?,true);
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['ii', $complaint_id, $user_id]);
+    }
 }
