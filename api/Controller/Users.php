@@ -86,28 +86,23 @@ class Users
 
     function changepassword()
     {
-        $user_id = isset_get($_REQUEST['id']);
-        $password = isset_get($_REQUEST['password']);
-        $new_pass = password_hash(isset_get($_REQUEST['newpass']), CRYPT_BLOWFISH);
+        $user_id = System::isset_get($_POST['id']);
+        $password = System::isset_get($_POST['password']);
+        $new_pass = System::isset_get($_POST['newpass']);
 
-        if (!$password || !$new_pass) {
-            set_error("Llene todos los datos");
-        }
+        System::check_value_empty(['id' => $user_id, 'password' => $password, 'newpass' => $new_pass], ['id', 'password', 'newpass'], "Llene todos los datos");
 
-        $sql = <<<sql
-select user_password password from users where user_id='$user_id'
-sql;
+        $new_pass = password_hash($new_pass, CRYPT_BLOWFISH);
 
-        $hash = db_result($sql)['password'];
+        $Users = new \Model\Users();
+        $hash = $Users->getPasswordHashFromId($user_id);
+
         if (!password_verify($password, $hash)) {
-            set_error("El usuario o la contraseña son incorrectos.");
+            JsonResponse::sendResponse(['message' => 'El usuario o la contraseña son incorrectos.']);
         }
 
-        $sql = <<<sql
-update users set user_password='$new_pass' where user_id='$user_id';
-sql;
-
-        db_query($sql);
+        $Users->updatePassword($user_id, $new_pass);
+        return [];
     }
 
     function fetch()

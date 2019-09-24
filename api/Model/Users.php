@@ -156,4 +156,25 @@ sql;
         }
         return $id;
     }
+
+    public function getPasswordHashFromId($user_id)
+    {
+        $sql = <<<sql
+select user_password password from users where user_id=?
+sql;
+
+        $mysql = new MySQL();
+        $mysqli_result = $mysql->prepare($sql, ['i', $user_id]);
+        return System::isset_get($mysql->fetch_single($mysqli_result)['password']);
+    }
+
+    public function updatePassword($user_id, $user_password)
+    {
+        $sql = <<<sql
+update users set user_password=? where user_id=?;
+sql;
+
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['si', $user_password, $user_id]);
+    }
 }
