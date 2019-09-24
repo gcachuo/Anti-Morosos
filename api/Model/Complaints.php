@@ -79,4 +79,14 @@ sql;
         $mysql = new MySQL();
         return $mysql->fetch_all($mysql->prepare($sql, ['is', $user_id, $filters['user']]));
     }
+
+    public function selectComplaintsWithHashtag()
+    {
+        $sql = <<<sql
+select lower(complaint_message) from complaints where complaint_message like '%#%' and complaint_status=true;
+sql;
+
+        $mysql = new MySQL();
+        return $mysql->fetch_all($mysql->query($sql), false, MYSQLI_NUM);
+    }
 }
