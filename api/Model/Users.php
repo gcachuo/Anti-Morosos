@@ -3,8 +3,6 @@
 
 namespace Model;
 
-
-use Exception;
 use HTTPStatusCodes;
 use JsonResponse;
 use System;
@@ -40,6 +38,8 @@ create unique index users_user_username_uindex on users (user_username);
 create index users_users_user_id_fk on users (user_referrer);
 sql
         );
+
+        new Complaints();
     }
 
     public function getPasswordHash($username)
@@ -176,5 +176,21 @@ sql;
 
         $mysql = new MySQL();
         $mysql->prepare($sql, ['si', $user_password, $user_id]);
+    }
+
+    public function selectComplaintsFeed()
+    {
+        $sql = <<<sql
+select 
+user_username username ,
+count(c.complaint_id) count
+from users u
+left join complaints c on c.user_id=u.user_id and complaint_status=true
+where user_status=true and u.user_id<>1 and u.user_id<>3
+group by u.user_id
+order by count desc ;
+sql;
+        $mysql = new MySQL();
+        return $mysql->fetch_all($mysql->query($sql));
     }
 }

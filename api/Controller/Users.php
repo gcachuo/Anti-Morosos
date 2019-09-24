@@ -15,12 +15,13 @@ class Users
 {
     function signin()
     {
+        $Users = new \Model\Users();
+
         $username = System::isset_get($_POST['usuario']);
         $password = System::isset_get($_POST['password']);
 
         System::check_value_empty(['usuario' => $username, 'password' => $password], ['usuario', 'password'], 'Llene todos los datos');
 
-        $Users = new \Model\Users();
         $hash = $Users->getPasswordHash($username);
 
         if (!password_verify($password, $hash)) {
@@ -36,6 +37,9 @@ class Users
 
     function signup()
     {
+        $Users = new \Model\Users();
+        $Products = new \Model\Products();
+
         $products = System::isset_get($_POST['productos']);
         $user_name = System::isset_get($_POST['nombre']);
         $user_lastname_1 = System::isset_get($_POST['ap_paterno']);
@@ -59,8 +63,6 @@ class Users
 
         $user_password = password_hash($user_password, CRYPT_BLOWFISH);
 
-        $Users = new \Model\Users();
-
         $user_referral = $Users->setReferralCode();
 
         $exists = $Users->userExists($user_username);
@@ -72,7 +74,6 @@ class Users
 
         $user_id = $Users->insertUser($user_email, $user_username, $user_password, $user_name, $user_lastname_1, $user_lastname_2, $user_company, $user_business_name, $user_business_position, $user_business_phone, $user_whatsapp, $user_referrer, $user_referral, $user_validation);
 
-        $Products = new \Model\Products();
         $Products->insertProducts($products, $user_id);
 
         $user = [
@@ -86,6 +87,8 @@ class Users
 
     function changepassword()
     {
+        $Users = new \Model\Users();
+
         $user_id = System::isset_get($_POST['id']);
         $password = System::isset_get($_POST['password']);
         $new_pass = System::isset_get($_POST['newpass']);
@@ -94,7 +97,6 @@ class Users
 
         $new_pass = password_hash($new_pass, CRYPT_BLOWFISH);
 
-        $Users = new \Model\Users();
         $hash = $Users->getPasswordHashFromId($user_id);
 
         if (!password_verify($password, $hash)) {
@@ -107,17 +109,9 @@ class Users
 
     function fetch()
     {
-        $sql = <<<sql
-select 
-user_username username ,
-count(c.complaint_id) count
-from users u
-left join complaints c on c.user_id=u.user_id and complaint_status=true
-where user_status=true and u.user_id<>1 and u.user_id<>3
-group by u.user_id
-order by count desc ;
-sql;
-        $users = db_all_results($sql);
+        $Users = new \Model\Users();
+        $users = $Users->selectComplaintsFeed();
+
         return compact('users');
     }
 
