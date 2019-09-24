@@ -4,6 +4,9 @@
 namespace Model;
 
 
+use HTTPStatusCodes;
+use JsonResponse;
+
 class Complaints
 {
     public function __construct()
@@ -18,5 +21,25 @@ class Complaints
             new TableColumn('complaint_deleted', ColumnTypes::VARCHAR, 255),
             new TableColumn('complaint_status', ColumnTypes::BIT, 1, false, "b'1'")
         ]);
+    }
+
+    /**
+     * @param $user_id
+     * @param $complaint_message
+     * @param $topic_id
+     */
+    public function insertComplaint($user_id, $complaint_message, $topic_id)
+    {
+        $sql = <<<sql
+insert into complaints(topic_id, user_id, complaint_message) VALUES (?,?,?);
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['iis', $topic_id, $user_id, $complaint_message]);
+        $id = $mysql->insertID();
+
+        if (!$id) {
+            JsonResponse::sendResponse(['message' => 'No se insertó la queja.'], HTTPStatusCodes::InternalServerError);
+        }
+        return $id;
     }
 }

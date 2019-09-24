@@ -8,23 +8,20 @@
 
 namespace Controller;
 
+use System;
+
 class Complaints
 {
     function publish()
     {
-        $message = isset_get($_REQUEST['mensaje']);
-        $topic_id = isset_get($_REQUEST['tema']['id']);
-        $user_id = isset_get($_REQUEST['usuario']['id']);
+        $message = System::isset_get($_POST['mensaje']);
+        $topic_id = System::isset_get($_POST['tema']['id']);
+        $user_id = System::isset_get($_POST['usuario']['id']);
 
-        $sql = <<<sql
-insert into complaints(topic_id, user_id, complaint_message) VALUES ('$topic_id','$user_id','$message');
-sql;
+        System::check_value_empty(['mensaje' => $message, 'tema' => $topic_id, 'usuario' => $user_id], ['mensaje', 'tema', 'usuario'], 'Llene todos los campos');
 
-        db_query($sql);
-        $id = db_last_id();
-        if (!$id) {
-            set_error('No se insertó la queja.', 500);
-        }
+        $Complaints = new \Model\Complaints();
+        $id = $Complaints->insertComplaint($user_id, $message, $topic_id);
 
         return compact('id');
     }
