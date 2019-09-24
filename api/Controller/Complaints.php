@@ -35,7 +35,7 @@ class Complaints
             'u' => System::isset_get($_POST['filters']['u']),
         ];
 
-        System::check_value_empty(['usuario' => $user_id, 'hashtag' => $hashtag, 'filters' => $filters], ['usuario', 'hashtag', 'filters'], 'Llene todos los campos');
+        System::check_value_empty(['usuario' => $user_id, 'hashtag' => $hashtag, 'filters' => $filters], ['usuario', 'filters'], 'Llene todos los campos');
 
         $topics = join(',', System::isset_get($filters['topics'], []));
         $filters['user'] = System::isset_get($filters['u']);
