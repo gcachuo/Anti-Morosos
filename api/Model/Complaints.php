@@ -89,4 +89,16 @@ sql;
         $mysql = new MySQL();
         return $mysql->fetch_all($mysql->query($sql), false, MYSQLI_NUM);
     }
+
+    public function deleteComplaint($user_id, $complaint_id, $complaint_deleted = null)
+    {
+        $sql = <<<sql
+update complaints c
+inner join users u on u.user_id=?
+ set complaint_status=false, complaint_deleted=?
+where complaint_id=? and (c.user_id=? or u.user_type=0);
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['isii', $user_id, $complaint_deleted, $complaint_id, $user_id]);
+    }
 }

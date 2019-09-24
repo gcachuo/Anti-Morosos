@@ -68,17 +68,15 @@ class Complaints
 
     function delete()
     {
-        $complaint_id = isset_get($_REQUEST['id']);
-        $complaint_deleted = isset_get($_REQUEST['razon'], 'null');
-        $user_id = isset_get($_REQUEST['usuario']['id']);
+        $complaint_id = System::isset_get($_POST['id']);
+        $complaint_deleted = System::isset_get($_POST['razon'], 'null');
+        $user_id = System::isset_get($_POST['usuario']['id']);
 
-        $sql = <<<sql
-update complaints c
-inner join users u on u.user_id='$user_id'
- set complaint_status=false, complaint_deleted='$complaint_deleted'
-where complaint_id='$complaint_id' and (c.user_id='$user_id' or u.user_type=0);
-sql;
-        db_query($sql);
+        System::check_value_empty(['id' => $complaint_id, 'razon' => $complaint_deleted, 'usuario' => $user_id], ['id', 'usuario'], 'Llene todos los datos');
+
+        $Complaints = new \Model\Complaints();
+        $Complaints->deleteComplaint($user_id, $complaint_id, $complaint_deleted);
+        return [];
     }
 
     function edit()
