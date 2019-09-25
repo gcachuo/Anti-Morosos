@@ -210,6 +210,24 @@ sql;
 select user_type type from users where user_id=?;
 sql;
         $mysql = new MySQL();
-        return $mysql->fetch_single($mysql->prepare($sql, ['i', $user_id]))['type'];
+        return System::isset_get($mysql->fetch_single($mysql->prepare($sql, ['i', $user_id]))['type']);
+    }
+
+    public function selectUsersWithValidation($user_id)
+    {
+        $sql = <<<sql
+select user_id id,user_name name, user_validation validation from users where user_status=true and user_id<>?;
+sql;
+        $mysql = new MySQL();
+        return $mysql->fetch_all($mysql->prepare($sql, ['i', $user_id]));
+    }
+
+    public function updateUserValidation($user_id, $user_validation)
+    {
+        $sql = <<<sql
+update users set user_validation=? where user_id=?
+sql;
+        $mysql = new MySQL();
+        $mysql->prepare($sql, ['ii', $user_validation, $user_id]);
     }
 }

@@ -8,28 +8,20 @@
 
 namespace Controller;
 
+use JsonResponse;
+use System;
+
 class Admin
 {
-    function validate($user_id)
-    {
-        $sql = <<<sql
-select user_type type from users where user_id='$user_id';
-sql;
-        $type = db_result($sql)['type'];
-        if ($type == 1) {
-            set_error('No Permitido.');
-        }
-    }
-
     function fetchusers()
     {
-        $user_id = isset_get($_GET['id']);
+        System::allowed_methods(['GET']);
+
+        $user_id = System::isset_get($_GET['id']);
         $this->validate($user_id);
 
-        $sql = <<<sql
-select user_id id,user_name name, user_validation validation from users where user_status=true and user_id<>'$user_id';
-sql;
-        $users = db_all_results($sql);
+        $Users = new \Model\Users();
+        $users = $Users->selectUsersWithValidation($user_id);
 
         foreach ($users as $key => $user) {
             $users[$key] = [
@@ -44,14 +36,26 @@ sql;
 
     function validateuser()
     {
-        $user_id = isset_get($_GET['id']);
-        $validate_user_id = isset_get($_GET['user_id']);
-        $validate = isset_get($_GET['validate']);
+        System::allowed_methods(['GET']);
+
+        $user_id = System::isset_get($_GET['id']);
+        $validate_user_id = System::isset_get($_GET['user_id']);
+        $validate = (int)System::isset_get($_GET['validate']);
         $this->validate($user_id);
 
-        $sql = <<<sql
-update users set user_validation=$validate where user_id='$validate_user_id'
-sql;
-        db_query($sql);
+        $Users = new \Model\Users();
+        $Users->updateUserValidation($validate_user_id, $validate);
+        return [];
+    }
+    
+    private function validate($user_id)
+    {
+        $Users = new \Model\Users();
+        $type = $Users->getUserType($user_id);
+
+        if ($type == 1) {
+            JsonResponse::sendResponse(['message' => 'No Permitido.']);
+        }
+        return [];
     }
 }
