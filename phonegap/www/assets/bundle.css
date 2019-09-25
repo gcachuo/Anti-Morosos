@@ -1,8 +1,0 @@
-body {
-  height: 100vh;
-  margin: 0; }
-  body #app {
-    height: 100%; }
-    body #app iframe {
-      width: 100%;
-      height: 100%; }
