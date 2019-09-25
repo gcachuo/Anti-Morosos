@@ -8,16 +8,16 @@
 
 namespace Controller;
 
+use System;
+
 class Products
 {
     function fetch()
     {
-        $sql = <<<sql
-select product_id id, product_name name from products
-where product_status=true
-order by product_name;
-sql;
-        $products = db_all_results($sql);
+        System::allowed_methods(['GET']);
+
+        $Products = new \Model\Products();
+        $products = $Products->selectProducts();
         return compact('products');
     }
 }

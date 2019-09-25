@@ -39,4 +39,15 @@ sql;
         }
     }
 
+    public function selectProducts()
+    {
+        $sql = <<<sql
+select product_id id, product_name name from products
+where product_status=true
+order by product_name;
+sql;
+        $mysql = new MySQL();
+        return $mysql->fetch_all($mysql->query($sql));
+    }
+
 }
