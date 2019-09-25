@@ -1,47 +1,49 @@
 {{^response}}
-    <script>
-        if (localStorage.getItem('user.type') === '1')
-            Project.navigate('dashboard');
-        else {
-            Project.request('admin', 'fetchusers', {id: localStorage.getItem('user.id')}).done(data => {
-                Project.navigate('admin', data);
-            });
-        }
-    </script>
+<script>
+    if (localStorage.getItem('user.type') === '1')
+        Project.navigate('dashboard');
+    else {
+        Project.request('admin', 'fetchusers', {id: localStorage.getItem('user.id')}, 'GET').done(data => {
+            Project.navigate('admin', data);
+        });
+    }
+</script>
 {{/response}}
 {{#response}}
-    <div class="padding">
-        <div class="row">
-            <div class="col-12">
-                <div class="box">
-                    <table class="table table-bordered table-striped">
-                        <thead>
-                        <tr>
-                            <th>Nombre</th>
-                            <th>Validado</th>
-                            <th>Acciones</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        {{#users}}
-                            <tr>
-                                <td>{{name}}</td>
-                                <td>{{#validation}}Si{{/validation}}{{^validation}}No{{/validation}}</td>
-                                <td>{{#validation}}
-                                    <button onclick="Project.Admin.validateUser({{id}},false)" type="button"
-                                            class="btn btn-outline-danger"><i class="fa fa-times"></i>
-                                    </button>
-                                {{/validation}}
-                                {{^validation}}
-                                    <button onclick="Project.Admin.validateUser({{id}},true)" type="button"
-                                            class="btn btn-outline-primary"><i class="fa fa-check"></i>
-                                    </button>{{/validation}}</td>
-                            </tr>
-                        {{/users}}
-                        </tbody>
-                    </table>
-                </div>
+<div class="padding">
+    <div class="row">
+        <div class="col-12">
+            <div class="box">
+                <table class="table table-bordered table-striped">
+                    <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Validado</th>
+                        <th>Acciones</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {{#users}}
+                    <tr>
+                        <td>{{name}}</td>
+                        <td>{{#validation}}Si{{/validation}}{{^validation}}No{{/validation}}</td>
+                        <td>{{#validation}}
+                            <button onclick="Project.Admin.validateUser({{id}},false)" type="button"
+                                    class="btn btn-outline-danger"><i class="fa fa-times"></i>
+                            </button>
+                            {{/validation}}
+                            {{^validation}}
+                            <button onclick="Project.Admin.validateUser({{id}},true)" type="button"
+                                    class="btn btn-outline-primary"><i class="fa fa-check"></i>
+                            </button>
+                            {{/validation}}
+                        </td>
+                    </tr>
+                    {{/users}}
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
+</div>
 {{/response}}
