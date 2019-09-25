@@ -47,7 +47,7 @@ class Admin
         $Users->updateUserValidation($validate_user_id, $validate);
         return [];
     }
-    
+
     private function validate($user_id)
     {
         $Users = new \Model\Users();
