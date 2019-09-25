@@ -15,4 +15,14 @@ class Topics
             new TableColumn('topic_status', ColumnTypes::BIT, 1, false, "b'1'")
         ]);
     }
+
+    public function selectTopics()
+    {
+        $sql = <<<sql
+select topic_id id, topic_name name from topics
+where topic_status=true;
+sql;
+        $mysql = new MySQL();
+        return $mysql->fetch_all($mysql->query($sql));
+    }
 }
