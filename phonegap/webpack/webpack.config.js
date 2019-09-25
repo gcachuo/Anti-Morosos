@@ -10,7 +10,10 @@ module.exports = {
     },
     module: {
         rules: [
-            {test: /\.ts$/, loader: 'ts-loader'},
+            {test: /\.ts$/, loader: 'ts-loader'}, {
+                test: /\.(gif|png|jpg|svg|cur)$/,
+                loader: 'file-loader?name=img/[name].[ext]'
+            },
             {
                 test: /\.scss$/,
                 loader: ExtractTextPlugin.extract({fallback: 'style-loader', use: 'css-loader!sass-loader'})
