@@ -1,0 +1,12 @@
+{
+  "name": "phonegap",
+  "version": "1.0.0",
+  "dependencies": {},
+  "devDependencies": {
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9"
+  },
+  "scripts": {
+    "watch": "rm -rf ../www/assets && webpack -w -d"
+  }
+}
