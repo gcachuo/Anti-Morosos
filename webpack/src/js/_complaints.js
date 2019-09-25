@@ -5,7 +5,7 @@ Project.Complaints.init = function () {
     var u = url.searchParams.get("u");
     Project.Complaints.fetch({u: u});
     Project.request('topics', 'fetch').done(result => {
-        const topics = result.response.topics;
+        const topics = result.response.data.topics;
         $.each(topics, function (i, topic) {
             const selected = topic.id == 1 ? 'selected' : '';
             $("#selectTopic").append(`
@@ -30,7 +30,7 @@ Project.Complaints.init = function () {
         });
     });
     Project.request('complaints', 'trending').done(result => {
-        const trending = result.response.trending;
+        const trending = result.response.data.trending;
         let index = 1;
         $.each(trending, function (hashtag, count) {
             $("#trending").append(`
@@ -44,7 +44,7 @@ Project.Complaints.init = function () {
         });
     });
     Project.request('users', 'fetch').done(result => {
-        const users = result.response.users;
+        const users = result.response.data.users;
         let usersCount = 0;
         $.each(users, function (i, user) {
             $("#users").append(`
@@ -67,7 +67,7 @@ Project.Complaints.fetch = function (filters) {
         filters: filters
     }).done(result => {
         const hashtag = window.location.hash.substr(1);
-        const complaints = result.response.complaints;
+        const complaints = result.response.data.complaints;
         let complaintsCount = 0;
         complaints.forEach(complaint => {
             const data = {
