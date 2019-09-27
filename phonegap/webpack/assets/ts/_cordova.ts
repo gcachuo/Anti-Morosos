@@ -5,11 +5,11 @@ export default class Cordova {
 
     onDeviceReady() {
         console.log('Device Ready');
-        new Plugins.PushNotification();
+        new Plugins.Push();
     }
 }
 namespace Plugins {
-    export class PushNotification {
+    export class Push {
         senderId = 596344214011;
 
         constructor() {
@@ -18,14 +18,23 @@ namespace Plugins {
                 "android": {"senderID": this.senderId},
                 "browser": {"pushServiceURL": "http://push.api.phonegap.com/v1/push"}
             });
-            notifications.push.on('notification', function (data) {
-                console.log(data);
-                alert(data);
-            });
-            notifications.push.on('error', function (e) {
-                console.log(e);
-                alert(e);
-            });
+            if (!!notifications.push) {
+                notifications.push.on('registration', function (data) {
+                    console.log(data);
+                    alert(data);
+                });
+                notifications.push.on('notification', function (data) {
+                    console.log(data);
+                    alert(data);
+                });
+                notifications.push.on('error', function (e) {
+                    console.log(e);
+                    alert(e);
+                });
+                console.info('Push Notification', 'initialized');
+            } else {
+                console.error('Push Notification', 'not initialized');
+            }
         }
     }
 }
