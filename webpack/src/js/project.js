@@ -27,13 +27,13 @@ Project.request = function (controller, action, data, method) {
         data: data,
         dataType: 'json',
         error: response => {
-            console.log(response);
-            const error = response.responseJSON.error || '';
+            console.error('Error', response.responseJSON);
+            const error = response.responseJSON.response.message || '';
             if (response.responseJSON.code === 400) {
-                alert(error.message);
+                toastr.error(error);
             } else if (response.responseJSON.code === 500) {
-                alert('An error ocurred. Contact support.');
-                console.error(error.message);
+                toastr.error('An error ocurred. Contact support.');
+                console.error(error);
             }
         }
     });

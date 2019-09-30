@@ -18,7 +18,7 @@
             </div>
         {{/acciones}}
         <h5 data-id="{{id}}" class="card-title mensaje">{{mensaje}}</h5>
-        <p class="card-text text-muted"><a href="">{{usuario.name}}</a> ({{productos}})<br>
+        <p class="card-text text-muted"><a href="">{{usuario.name}}</a> {{#productos}}({{.}}){{/productos}}<br>
             {{#fecha}}{{.}}{{/fecha}}
             {{^fecha}}Ahora{{/fecha}}
         </p>
