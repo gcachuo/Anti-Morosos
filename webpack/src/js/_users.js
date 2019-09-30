@@ -7,7 +7,7 @@ Project.Users.signIn = function () {
     };
 
     if (!data.usuario || !data.password) {
-        alert('Llene todos los datos');
+        toastr.error('Llene todos los datos');
         return;
     }
 
