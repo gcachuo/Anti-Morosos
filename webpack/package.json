@@ -13,7 +13,8 @@
     "mustache": "^3.0.1",
     "popper.js": "^1.14.5",
     "select2": "^4.0.6-rc.1",
-    "tether": "^1.4.5"
+    "tether": "^1.4.5",
+    "toastr": "^2.1.4"
   },
   "devDependencies": {
     "css-loader": "^1.0.1",
