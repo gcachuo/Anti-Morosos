@@ -1,0 +1,7 @@
+RewriteEngine on
+RewriteCond %{REQUEST_URI} !doc
+RewriteRule ^(.*)$ index.php [QSA]
+
+<IfModule mod_php5.c>
+    php_value always_populate_raw_post_data -1
+</IfModule>

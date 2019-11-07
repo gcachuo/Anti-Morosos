@@ -5,9 +5,9 @@ require('./_users');
 require('./_admin');
 
 Project.navigate = function (page, data) {
-   //history.pushState({}, null, '/');
+    //history.pushState({}, null, '/');
     $.get(`pages/${page}.html`, function (template) {
-        const rendered = Mustache.render(template, data||{});
+        const rendered = Mustache.render(template, data || {});
         $('.app-body').html(rendered);
     });
 };
@@ -16,23 +16,24 @@ Project.navigate = function (page, data) {
  * @param controller
  * @param action
  * @param data
- * @returns {*|{readyState, getResponseHeader, getAllResponseHeaders, setRequestHeader, overrideMimeType, statusCode, abort}}
+ * @param method
+ * @returns {*|{readyState, getResponseHeader, getAllResponseHeaders, setRequestHeader, overrideMimeType, statusCode,
+ *     abort}}
  */
-Project.request = function (controller, action, data) {
+Project.request = function (controller, action, data, method) {
     return $.ajax({
         url: `api/${controller}/${action}`,
-        method: 'GET',
+        method: method || 'POST',
         data: data,
         dataType: 'json',
         error: response => {
-            console.log(response);
-            const error = response.responseJSON.error || '';
+            console.error('Error', response.responseJSON);
+            const error = response.responseJSON.response.message || '';
             if (response.responseJSON.code === 400) {
-                alert(error.message);
-            }
-            else if (response.responseJSON.code === 500) {
-                alert('An error ocurred. Contact support.');
-                console.error(error.message);
+                toastr.error(error);
+            } else if (response.responseJSON.code === 500) {
+                toastr.error('An error ocurred. Contact support.');
+                console.error(error);
             }
         }
     });

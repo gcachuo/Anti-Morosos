@@ -7,12 +7,12 @@ Project.Users.signIn = function () {
     };
 
     if (!data.usuario || !data.password) {
-        alert('Llene todos los datos');
+        toastr.error('Llene todos los datos');
         return;
     }
 
     Project.request('users', 'signin', data).done(function (result) {
-        const user = result.response.user;
+        const user = result.response.data.user;
         localStorage.setItem('user.id', user.id);
         localStorage.setItem('user.usuario', user.username);
         localStorage.setItem('user.name', user.fullname);
