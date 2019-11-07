@@ -8,14 +8,21 @@
 
 namespace Controller;
 
-use System;
+use Controller;
 
-class Products
+class Products extends Controller
 {
+    public function __construct()
+    {
+        parent::__construct([
+            'POST' => [
+                'fetch' => 'fetch'
+            ]
+        ]);
+    }
+
     function fetch()
     {
-        System::allowed_methods(['GET']);
-
         $Products = new \Model\Products();
         $products = $Products->selectProducts();
         return compact('products');
