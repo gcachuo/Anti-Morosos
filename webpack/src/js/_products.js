@@ -2,7 +2,6 @@ Project.Products = {};
 
 Project.Products.fetch = function () {
     Project.request('products', 'fetch').done(result => {
-        console.log(result);
         const products = result.response.data.products;
 
         $.each(products, function (i, product) {
