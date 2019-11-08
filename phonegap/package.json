@@ -5,20 +5,20 @@
   "cordova": {
     "platforms": [
       "browser",
-      "android"
+      "android",
+      "ios"
     ],
     "plugins": {
       "cordova-plugin-inappbrowser": {},
-      "cordova-plugin-whitelist": {},
-      "phonegap-plugin-push": {
-        "ANDROID_SUPPORT_V13_VERSION": "27.+",
-        "FCM_VERSION": "17.0.+"
-      }
+      "phonegap-plugin-push": {},
+      "cordova-support-google-services": {},
+      "cordova-plugin-whitelist": {}
     }
   },
   "dependencies": {
     "cordova-android": "^8.1.0",
     "cordova-browser": "~5.0.4",
+    "cordova-ios": "^5.0.1",
     "cordova-plugin-inappbrowser": "~1.7.1",
     "cordova-plugin-whitelist": "1.3.4",
     "cordova-support-google-services": "1.3.2",
