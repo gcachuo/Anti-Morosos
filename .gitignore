@@ -8,3 +8,4 @@ error_log
 /phonegap/plugins/phonegap-*/
 /phonegap/plugins/*.json
 *.DS_Store
+/phonegap/package-lock.json
