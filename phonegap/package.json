@@ -11,8 +11,8 @@
     "plugins": {
       "cordova-plugin-inappbrowser": {},
       "phonegap-plugin-push": {},
-      "cordova-support-google-services": {},
-      "cordova-plugin-whitelist": {}
+      "cordova-plugin-whitelist": {},
+      "cordova-support-google-services": {}
     }
   },
   "dependencies": {
@@ -23,7 +23,6 @@
     "cordova-plugin-whitelist": "1.3.4",
     "cordova-support-google-services": "1.3.2",
     "device": "0.3.9",
-    "phonegap-plugin-multidex": "1.0.0",
     "phonegap-plugin-push": "2.3.0",
     "release": "6.1.0"
   }
