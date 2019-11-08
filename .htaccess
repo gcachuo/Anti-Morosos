@@ -1,13 +1,10 @@
 RewriteEngine on
 
-RewriteBase /www
-RewriteCond %{REQUEST_URI} !^/api/
-RewriteCond %{REQUEST_URI} !^/www/
+RewriteCond %{REQUEST_URI} !/api/
+RewriteCond %{REQUEST_URI} !/www/
 RewriteCond %{REQUEST_URI} !phonegap
 # Rewrite all those to insert /folder
 RewriteRule ^(.*)$ www/$1 [L]
-
-RewriteBase /
 
 RewriteRule ^(\w+)$ ?p=$1 [NC,L]
 
