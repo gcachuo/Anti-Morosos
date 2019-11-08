@@ -4,3 +4,7 @@
 /api/.idea/
 error_log
 /webpack/node_modules/
+/phonegap/plugins/cordova-*/
+/phonegap/plugins/phonegap-*/
+/phonegap/plugins/*.json
+*.DS_Store
