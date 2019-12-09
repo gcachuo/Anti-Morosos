@@ -1,8 +1,8 @@
 Project.Products = {};
 
-Project.Products.fetch=function () {
+Project.Products.fetch = function () {
     Project.request('products', 'fetch').done(result => {
-        const products = result.response.products;
+        const products = result.response.data.products;
 
         $.each(products, function (i, product) {
             $("#selectProductos").append(`<option value="${product.id}">${product.name}</option>`);

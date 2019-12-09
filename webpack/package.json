@@ -2,6 +2,7 @@
   "name": "antimorosos",
   "version": "1.0.0",
   "scripts": {
+    "clean": "rm -rf ../www/assets/dist/",
     "watch": "webpack --mode development --watch",
     "build": "webpack --mode development",
     "buildp": "webpack --mode production"

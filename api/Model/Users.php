@@ -30,7 +30,7 @@ class Users
             new TableColumn('user_validation', ColumnTypes::BIT, 1, false, "b'1'"),
             new TableColumn('user_status', ColumnTypes::BIT, 1, false, "b'1'"),
             new TableColumn('user_session', ColumnTypes::VARCHAR, 255),
-            new TableColumn('user_type', ColumnTypes::INT, 11),
+            new TableColumn('user_type', ColumnTypes::INTEGER, 11),
         ], <<<sql
 create unique index users_user_email_uindex on users (user_email);
 create unique index users_user_referral_uindex on users (user_referral);
